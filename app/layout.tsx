@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
-  title: "LEVEL7 — Build an Empire. One Level at a Time.",
+  title: "LEVEL7 — The AI System That Replaces Your Marketing Agency",
   description:
-    "An AI-powered business growth platform with 7 floors. Each floor is a different product designed for a specific business stage. The right tool, at the right stage, every time.",
-  keywords: "AI business growth, business coaching, SMB software, startup growth",
+    "LEVEL7 is the AI system that generates leads automatically, runs your campaigns 24/7, and grows your business — without an agency. The right tool, at the right stage, every time.",
+  keywords: "AI marketing, lead generation, marketing automation, SMB growth, replace marketing agency",
 };
 
 export default function RootLayout({
@@ -18,8 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="noise-bg bg-background text-white antialiased">
-        <CustomCursor />
+      <body className="bg-white text-[#1A1A1A] antialiased font-satoshi">
         <Navbar />
         <main>{children}</main>
         <Footer />

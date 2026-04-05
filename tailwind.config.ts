@@ -8,13 +8,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0A0A0A",
+        bg: "#FFFFFF",
+        surface: "#F7F7F7",
+        border: "#E5E5E5",
+        text: "#1A1A1A",
+        muted: "#6B6B6B",
+        subtle: "#AAAAAA",
         accent: "#A3FF00",
-        "text-primary": "#FFFFFF",
-        "text-secondary": "#AAAAAA",
       },
       fontFamily: {
         satoshi: ["Satoshi", "sans-serif"],
+      },
+      fontSize: {
+        hero: ["clamp(3rem,7vw,6rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
+        section: ["clamp(2rem,4vw,3.5rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
       },
     },
   },

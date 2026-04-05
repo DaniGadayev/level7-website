@@ -4,19 +4,17 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.65, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
   }),
 };
 
 export default function ContactPage() {
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true });
-  const formRef = useRef(null);
-  const formInView = useInView(formRef, { once: true, margin: "-60px" });
 
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
@@ -34,48 +32,48 @@ export default function ContactPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="pt-32 pb-16 relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: "radial-gradient(circle at 1px 1px, #A3FF00 1px, transparent 0)",
-            backgroundSize: "50px 50px",
-          }}
-        />
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/[0.04] rounded-full blur-[100px] pointer-events-none" />
-
+      {/* ── HERO ── */}
+      <section className="pt-36 pb-20 border-b border-[#E5E5E5]">
         <motion.div
           ref={headerRef}
           initial="hidden"
           animate={headerInView ? "visible" : "hidden"}
-          className="max-w-7xl mx-auto px-6 relative z-10"
+          className="max-w-7xl mx-auto px-6"
         >
-          <motion.p custom={0} variants={fadeUp} className="text-xs uppercase tracking-widest text-accent mb-4">
-            Get in Touch
-          </motion.p>
-          <motion.h1
-            custom={1}
-            variants={fadeUp}
-            className="text-5xl md:text-7xl font-bold font-satoshi mb-6 leading-tight"
-          >
-            Let's talk<br />
-            <span className="text-accent">about your empire.</span>
-          </motion.h1>
-          <motion.p custom={2} variants={fadeUp} className="text-text-secondary text-xl max-w-xl">
-            Whether you're a potential client, investor, partner, or just curious — we'd love to hear from you.
-          </motion.p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <motion.p custom={0} variants={fadeUp} className="label mb-4">
+                Get in Touch
+              </motion.p>
+              <motion.h1
+                custom={1}
+                variants={fadeUp}
+                className="font-bold font-satoshi text-[#1A1A1A] mb-6"
+                style={{ fontSize: "clamp(3rem,6vw,5rem)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
+              >
+                Let&apos;s talk.
+              </motion.h1>
+              <motion.p custom={2} variants={fadeUp} className="text-[#6B6B6B] text-xl leading-relaxed">
+                Whether you&apos;re a potential client, partner, or just curious — we&apos;d love to hear from you.
+              </motion.p>
+            </div>
+            <motion.div custom={3} variants={fadeUp} className="hidden lg:flex justify-center">
+              <div id="illustration-contact-hero" className="border-2 border-dashed border-[#D8D8D8] rounded-xl" style={{ width: 280, height: 280 }} />
+            </motion.div>
+          </div>
         </motion.div>
       </section>
 
-      {/* Form + Info */}
-      <section className="pb-32 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
+      {/* ── FORM + INFO ── */}
+      <section className="py-20 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
           {/* Form */}
           <motion.div
-            ref={formRef}
-            initial="hidden"
-            animate={formInView ? "visible" : "hidden"}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="lg:col-span-3"
           >
             {submitted ? (
@@ -83,168 +81,161 @@ export default function ContactPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="border border-accent/20 bg-accent/5 p-12 text-center"
+                className="bg-[#F7F7F7] border border-[#E5E5E5] rounded-3xl p-14 text-center"
               >
-                <div className="text-5xl text-accent mb-4">◆</div>
-                <h3 className="text-2xl font-bold font-satoshi mb-3">Message sent.</h3>
-                <p className="text-text-secondary">
-                  We'll get back to you at <span className="text-white">{form.email}</span> within 24 hours.
+                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-[#1A1A1A] text-2xl mx-auto mb-6">
+                  ✓
+                </div>
+                <h3 className="text-2xl font-bold font-satoshi text-[#1A1A1A] mb-3">Message sent.</h3>
+                <p className="text-[#6B6B6B]">
+                  We&apos;ll get back to you at{" "}
+                  <span className="text-[#1A1A1A] font-medium">{form.email}</span> within 24 hours.
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <motion.div custom={0} variants={fadeUp} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="bg-[#F7F7F7] border border-[#E5E5E5] rounded-3xl p-8">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="label mb-2 block">
+                        Name <span className="text-accent">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        className="input-field"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div>
+                      <label className="label mb-2 block">
+                        Email <span className="text-accent">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        className="input-field"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="label mb-2 block">
+                        Phone{" "}
+                        <span className="normal-case tracking-normal text-[11px] text-[#AAAAAA]">(optional)</span>
+                      </label>
+                      <input
+                        type="tel"
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                        className="input-field"
+                        placeholder="+1 (000) 000-0000"
+                      />
+                    </div>
+                    <div>
+                      <label className="label mb-2 block">
+                        Subject <span className="text-accent">*</span>
+                      </label>
+                      <select
+                        required
+                        value={form.subject}
+                        onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                        className="input-field appearance-none cursor-pointer"
+                      >
+                        <option value="">Select subject...</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="partner">Join as Certified Partner</option>
+                        <option value="press">Press</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-text-secondary mb-2">
-                      Name <span className="text-accent">*</span>
+                    <label className="label mb-2 block">
+                      Message <span className="text-accent">*</span>
                     </label>
-                    <input
-                      type="text"
+                    <textarea
                       required
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 transition-colors"
-                      placeholder="Your full name"
+                      rows={6}
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      className="input-field resize-none"
+                      placeholder="Tell us about your business and what you're looking to achieve..."
                     />
                   </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-text-secondary mb-2">
-                      Email <span className="text-accent">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 transition-colors"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                </motion.div>
 
-                <motion.div custom={1} variants={fadeUp} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-text-secondary mb-2">
-                      Phone <span className="text-white/20">(optional)</span>
-                    </label>
-                    <input
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      className="w-full bg-white/[0.03] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 transition-colors"
-                      placeholder="+1 (000) 000-0000"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest text-text-secondary mb-2">
-                      Subject <span className="text-accent">*</span>
-                    </label>
-                    <select
-                      required
-                      value={form.subject}
-                      onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                      className="w-full bg-[#111] border border-white/10 px-4 py-3.5 text-sm text-white focus:outline-none focus:border-accent/40 transition-colors appearance-none cursor-pointer"
-                    >
-                      <option value="" className="text-white/40">Select subject...</option>
-                      <option value="general">General Inquiry</option>
-                      <option value="investor">Investor Inquiry</option>
-                      <option value="partnership">Partnership</option>
-                      <option value="partner">Join as Certified Partner</option>
-                    </select>
-                  </div>
-                </motion.div>
-
-                <motion.div custom={2} variants={fadeUp}>
-                  <label className="block text-xs uppercase tracking-widest text-text-secondary mb-2">
-                    Message <span className="text-accent">*</span>
-                  </label>
-                  <textarea
-                    required
-                    rows={6}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-white/[0.03] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-accent/40 transition-colors resize-none"
-                    placeholder="Tell us about your business and what you're looking to achieve..."
-                  />
-                </motion.div>
-
-                <motion.div custom={3} variants={fadeUp}>
-                  <button
-                    type="submit"
-                    className="w-full bg-accent text-background font-bold py-4 text-sm hover:bg-white transition-colors duration-200 group flex items-center justify-center gap-2"
-                  >
+                  <button type="submit" className="btn-primary w-full py-4 text-sm">
                     Send Message
-                    <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </button>
-                </motion.div>
-              </form>
+                </form>
+              </div>
             )}
           </motion.div>
 
-          {/* Contact info */}
+          {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-2 space-y-8"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-2 space-y-5"
           >
-            <div>
-              <p className="text-xs uppercase tracking-widest text-accent mb-4">Direct Contact</p>
+            {/* Direct Contact */}
+            <div className="card p-6">
+              <p className="label mb-5">Direct Contact</p>
               <div className="space-y-4">
-                <a
-                  href="mailto:Dani@bmf360.co.il"
-                  className="flex items-center gap-3 group"
-                >
-                  <div className="w-10 h-10 border border-white/10 flex items-center justify-center text-accent group-hover:border-accent/40 transition-colors">
+                <a href="mailto:Dani@bmf360.co.il" className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 rounded-xl border border-[#E5E5E5] bg-[#F7F7F7] flex items-center justify-center text-[#6B6B6B] group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
                     @
                   </div>
                   <div>
-                    <div className="text-xs text-text-secondary uppercase tracking-wider mb-0.5">Email</div>
-                    <div className="text-sm text-white group-hover:text-accent transition-colors">
+                    <div className="text-[10px] label mb-0.5">Email</div>
+                    <div className="text-sm text-[#1A1A1A] group-hover:text-accent transition-colors font-medium">
                       Dani@bmf360.co.il
                     </div>
                   </div>
                 </a>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 border border-white/10 flex items-center justify-center text-accent">
-                    ◆
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl border border-[#E5E5E5] bg-[#F7F7F7] flex items-center justify-center text-[#6B6B6B] text-sm font-bold">
+                    ↗
                   </div>
                   <div>
-                    <div className="text-xs text-text-secondary uppercase tracking-wider mb-0.5">Website</div>
-                    <div className="text-sm text-white">thelevel7.ai</div>
+                    <div className="text-[10px] label mb-0.5">Website</div>
+                    <div className="text-sm text-[#1A1A1A] font-medium">thelevel7.ai</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="lime-divider" />
-
-            <div>
-              <p className="text-xs uppercase tracking-widest text-accent mb-4">Response Time</p>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                We respond to all inquiries within <span className="text-white">24 hours</span>. For urgent investor matters, mention it in your subject line.
+            {/* Response Time */}
+            <div className="card p-6">
+              <p className="label mb-3">Response Time</p>
+              <p className="text-sm text-[#6B6B6B] leading-relaxed">
+                We respond to all inquiries within{" "}
+                <span className="text-[#1A1A1A] font-semibold">24 hours</span>.
               </p>
             </div>
 
-            <div className="lime-divider" />
-
-            <div>
-              <p className="text-xs uppercase tracking-widest text-accent mb-4">Looking to Join?</p>
-              <p className="text-sm text-text-secondary leading-relaxed mb-4">
-                We're always looking for certified partners, growth experts, and operators who want to be part of the LEVEL7 network.
-              </p>
-              <p className="text-sm text-text-secondary">
-                Select <span className="text-white">"Join as Certified Partner"</span> in the subject dropdown.
-              </p>
+            {/* Lottie */}
+            <div className="flex justify-center py-4">
+              <div id="illustration-contact-icon" className="border-2 border-dashed border-[#D8D8D8] rounded-xl" style={{ width: 120, height: 120 }} />
             </div>
 
-            <div className="border border-white/5 p-6 bg-white/[0.02]">
-              <div className="text-xs uppercase tracking-widest text-accent mb-3">Legal Entity</div>
-              <p className="text-sm text-text-secondary">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
-              <p className="text-xs text-text-secondary mt-1">Registered in Cyprus</p>
+            {/* Legal */}
+            <div className="card p-6">
+              <p className="label mb-3">Legal Entity</p>
+              <p className="text-sm text-[#1A1A1A] font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
+              <p className="text-xs text-[#6B6B6B] mt-1">Registered in Cyprus</p>
             </div>
           </motion.div>
         </div>
