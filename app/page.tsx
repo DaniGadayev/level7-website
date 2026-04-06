@@ -285,7 +285,7 @@ export default function HomePage() {
                 letterSpacing: "-0.03em",
               }}
             >
-              Forget everything you know about marketing agencies.
+              Build an Empire.<br />One Level at a Time.
             </motion.h1>
           </div>
 
@@ -307,7 +307,7 @@ export default function HomePage() {
             className="font-bold font-satoshi text-[#1A1A1A] text-center"
             style={{ fontSize: "clamp(2.6rem, 9vw, 4rem)", lineHeight: 1.05, letterSpacing: "-0.03em" }}
           >
-            Forget everything you know about marketing agencies.
+            Build an Empire.<br />One Level at a Time.
           </h1>
         </div>
 
