@@ -1,0 +1,20 @@
+<svg viewBox="0 0 152 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon shadow -->
+  <rect x="5" y="7" width="26" height="26" rx="4.5" fill="#1A1A1A" transform="rotate(-9 5 7)"/>
+  <!-- Icon lime square -->
+  <rect x="3" y="4" width="26" height="26" rx="4.5" fill="#A3FF00" transform="rotate(-9 3 4)"/>
+  <!-- Icon 7 numeral -->
+  <text x="16" y="19" text-anchor="middle" dominant-baseline="central"
+        font-family="Arial Black, sans-serif" font-weight="900"
+        font-size="16" fill="#1A1A1A" transform="rotate(-9 16 19)">7</text>
+
+  <!-- LEVEL text -->
+  <text x="42" y="18" dominant-baseline="central"
+        font-family="Arial Black, sans-serif" font-weight="900"
+        font-size="15" fill="#1A1A1A" letter-spacing="-0.3">LEVEL</text>
+
+  <!-- 7 in lime -->
+  <text x="112" y="18" dominant-baseline="central"
+        font-family="Arial Black, sans-serif" font-weight="900"
+        font-size="15" fill="#A3FF00" letter-spacing="-0.3">7</text>
+</svg>

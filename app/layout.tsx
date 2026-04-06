@@ -10,6 +10,11 @@ export const metadata: Metadata = {
   description:
     "LEVEL7 is the AI system that generates leads automatically, runs your campaigns 24/7, and grows your business — without an agency. The right tool, at the right stage, every time.",
   keywords: "AI marketing, lead generation, marketing automation, SMB growth, replace marketing agency",
+  icons: {
+    icon: "/logo-icon.svg",
+    shortcut: "/logo-icon.svg",
+    apple: "/logo-icon.svg",
+  },
 };
 
 export default function RootLayout({

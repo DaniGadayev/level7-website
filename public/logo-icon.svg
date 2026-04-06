@@ -1,0 +1,10 @@
+<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shadow -->
+  <rect x="5" y="7" width="26" height="26" rx="4.5" fill="#1A1A1A" transform="rotate(-9 5 7)"/>
+  <!-- Lime square -->
+  <rect x="3" y="3" width="26" height="26" rx="4.5" fill="#A3FF00" transform="rotate(-9 3 3)"/>
+  <!-- 7 numeral -->
+  <text x="17" y="18" text-anchor="middle" dominant-baseline="central"
+        font-family="Arial Black, sans-serif" font-weight="900"
+        font-size="18" fill="#1A1A1A" transform="rotate(-9 17 18)">7</text>
+</svg>

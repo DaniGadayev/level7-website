@@ -35,8 +35,8 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-8">
         {/* Logo */}
         <Link href="/" className="shrink-0 flex items-center">
-          <span className="text-[22px] font-bold tracking-tight text-[#1A1A1A] font-satoshi">LEVEL</span>
-          <span className="text-[22px] font-bold text-accent font-satoshi">7</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="LEVEL7" width={120} height={30} className="h-[30px] w-auto" />
         </Link>
 
         {/* Desktop Nav Links — centered */}
