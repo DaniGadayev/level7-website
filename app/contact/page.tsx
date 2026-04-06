@@ -3,6 +3,71 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 
+/* ─────────────────────────────────────────────
+   Contact Hero SVG — 280×280
+   Envelope opening + message emerging
+───────────────────────────────────────────── */
+const SVG_CONTACT_HERO = `<style>
+  @keyframes chOpen  { 0%,30%{transform:rotateX(0deg)} 60%,100%{transform:rotateX(-160deg)} }
+  @keyframes chRise  { 0%,40%{transform:translateY(0);opacity:0} 70%,100%{transform:translateY(-40px);opacity:1} }
+  @keyframes chPulse { 0%,100%{opacity:1;r:4} 50%{opacity:0.3;r:6} }
+  @keyframes chDash  { from{stroke-dashoffset:200} to{stroke-dashoffset:0} }
+  .ch-flap   { transform-origin: 140px 118px; animation: chOpen 3s ease-in-out 0.5s infinite; }
+  .ch-letter { animation: chRise 3s ease-out 0.5s infinite; }
+  .ch-d1 { animation: chPulse 1.8s ease-in-out infinite; }
+  .ch-d2 { animation: chPulse 1.8s ease-in-out .7s infinite; }
+  .ch-d3 { animation: chPulse 1.8s ease-in-out 1.4s infinite; }
+  .ch-line { stroke-dasharray:200; animation: chDash 1.2s ease-out 0.3s both; }
+</style>
+<svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Envelope body -->
+  <rect x="40" y="118" width="200" height="130" rx="6" stroke="#1A1A1A" stroke-width="1.8" fill="white"/>
+  <!-- Bottom fold lines -->
+  <line class="ch-line" x1="40" y1="248" x2="140" y2="185" stroke="#E5E5E5" stroke-width="1" stroke-linecap="round"/>
+  <line class="ch-line" x1="240" y1="248" x2="140" y2="185" stroke="#E5E5E5" stroke-width="1" stroke-linecap="round" style="animation-delay:.15s"/>
+  <!-- Envelope flap -->
+  <g class="ch-flap">
+    <path d="M40,118 L140,178 L240,118 Z" fill="#F7F7F7" stroke="#1A1A1A" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+  <!-- Letter emerging -->
+  <g class="ch-letter">
+    <rect x="96" y="60" width="88" height="110" rx="4" fill="white" stroke="#1A1A1A" stroke-width="1.5"/>
+    <line x1="110" y1="84" x2="170" y2="84" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
+    <line x1="110" y1="96" x2="170" y2="96" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
+    <line x1="110" y1="108" x2="155" y2="108" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
+    <!-- Lime accent line -->
+    <rect x="110" y="120" width="60" height="6" rx="2" fill="#A3FF00" opacity="0.85"/>
+    <line x1="110" y1="140" x2="150" y2="140" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
+  </g>
+  <!-- Floating dots -->
+  <circle class="ch-d1" cx="30"  cy="150" r="4" fill="#A3FF00"/>
+  <circle class="ch-d2" cx="252" cy="135" r="3" fill="#A3FF00"/>
+  <circle class="ch-d3" cx="140" cy="32"  r="3" fill="#A3FF00"/>
+</svg>`;
+
+/* ─────────────────────────────────────────────
+   Contact Icon SVG — 120×120
+   Chat bubble with typing dots
+───────────────────────────────────────────── */
+const SVG_CONTACT_ICON = `<style>
+  @keyframes ciDot { 0%,60%,100%{transform:translateY(0);opacity:.3} 30%{transform:translateY(-5px);opacity:1} }
+  @keyframes ciBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+  .ci-bubble { animation: ciBounce 2.5s ease-in-out infinite; transform-origin: 60px 55px; }
+  .ci-t1 { animation: ciDot 1.2s ease-in-out infinite; }
+  .ci-t2 { animation: ciDot 1.2s ease-in-out .2s infinite; }
+  .ci-t3 { animation: ciDot 1.2s ease-in-out .4s infinite; }
+</style>
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g class="ci-bubble">
+    <path d="M15,20 Q15,10 25,10 L95,10 Q105,10 105,20 L105,70 Q105,80 95,80 L45,80 L28,98 L32,80 L25,80 Q15,80 15,70 Z"
+          fill="white" stroke="#1A1A1A" stroke-width="1.8" stroke-linejoin="round"/>
+    <!-- Typing dots -->
+    <circle class="ci-t1" cx="44" cy="45" r="5" fill="#A3FF00"/>
+    <circle class="ci-t2" cx="60" cy="45" r="5" fill="#A3FF00"/>
+    <circle class="ci-t3" cx="76" cy="45" r="5" fill="#A3FF00"/>
+  </g>
+</svg>`;
+
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   visible: (i = 0) => ({
@@ -58,7 +123,11 @@ export default function ContactPage() {
               </motion.p>
             </div>
             <motion.div custom={3} variants={fadeUp} className="hidden lg:flex justify-center">
-              <div id="illustration-contact-hero" className="border-2 border-dashed border-[#D8D8D8] rounded-xl" style={{ width: 280, height: 280 }} />
+              <div
+                id="illustration-contact-hero"
+                style={{ width: 280, height: 280 }}
+                dangerouslySetInnerHTML={{ __html: SVG_CONTACT_HERO }}
+              />
             </motion.div>
           </div>
         </motion.div>
@@ -228,7 +297,11 @@ export default function ContactPage() {
 
             {/* Lottie */}
             <div className="flex justify-center py-4">
-              <div id="illustration-contact-icon" className="border-2 border-dashed border-[#D8D8D8] rounded-xl" style={{ width: 120, height: 120 }} />
+              <div
+                id="illustration-contact-icon"
+                style={{ width: 120, height: 120 }}
+                dangerouslySetInnerHTML={{ __html: SVG_CONTACT_ICON }}
+              />
             </div>
 
             {/* Legal */}
