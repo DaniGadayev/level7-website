@@ -1,46 +1,60 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(-200);
+  const mouseY = useMotionValue(-200);
+
+  const ringX = useSpring(mouseX, { stiffness: 120, damping: 16, mass: 0.5 });
+  const ringY = useSpring(mouseY, { stiffness: 120, damping: 16, mass: 0.5 });
+
+  const [hovering, setHovering] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const follower = followerRef.current;
-    if (!cursor || !follower) return;
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let followerX = 0;
-    let followerY = 0;
-
-    const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = mouseX + "px";
-      cursor.style.top = mouseY + "px";
+    const move = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+      setVisible(true);
     };
 
-    const animate = () => {
-      followerX += (mouseX - followerX) * 0.1;
-      followerY += (mouseY - followerY) * 0.1;
-      follower.style.left = followerX + "px";
-      follower.style.top = followerY + "px";
-      requestAnimationFrame(animate);
+    const over = (e: MouseEvent) => {
+      const t = e.target as Element;
+      setHovering(!!t.closest("a, button, [role='button'], label, select, textarea, input"));
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    animate();
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseover", over);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseover", over);
+    };
+  }, [mouseX, mouseY]);
 
-    return () => window.removeEventListener("mousemove", onMouseMove);
-  }, []);
+  if (!visible) return null;
 
   return (
     <>
-      <div ref={cursorRef} className="cursor" />
-      <div ref={followerRef} className="cursor-follower" />
+      {/* Lime dot */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full bg-accent"
+        style={{ x: mouseX, y: mouseY, translateX: "-50%", translateY: "-50%" }}
+        animate={{ width: hovering ? 10 : 7, height: hovering ? 10 : 7 }}
+        transition={{ duration: 0.15 }}
+      />
+      {/* Ring with spring lag */}
+      <motion.div
+        className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full border border-[#1A1A1A]"
+        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
+        animate={{
+          width: hovering ? 40 : 28,
+          height: hovering ? 40 : 28,
+          opacity: hovering ? 0.35 : 0.18,
+        }}
+        transition={{ duration: 0.2 }}
+      />
     </>
   );
 }

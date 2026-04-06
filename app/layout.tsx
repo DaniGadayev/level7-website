@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
+import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
   title: "LEVEL7 — The AI System That Replaces Your Marketing Agency",
@@ -17,9 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-white text-[#1A1A1A] antialiased font-satoshi">
+      <body className="bg-white text-[#1A1A1A] antialiased font-satoshi [&_*]:md:cursor-none">
+        <CustomCursor />
         <Navbar />
-        <main>{children}</main>
+        <PageTransition>
+          <main>{children}</main>
+        </PageTransition>
         <Footer />
       </body>
     </html>
