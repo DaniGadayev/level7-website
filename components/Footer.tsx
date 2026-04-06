@@ -15,8 +15,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="mb-5">
-              <span className="text-2xl font-bold text-[#1A1A1A] font-satoshi">LEVEL</span>
-              <span className="text-2xl font-bold text-accent font-satoshi">7</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="LEVEL7" className="h-8 w-auto" />
             </div>
             <p className="text-[#6B6B6B] text-sm leading-relaxed max-w-[200px]">
               Build an Empire.<br />One Level at a Time.
