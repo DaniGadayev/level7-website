@@ -82,6 +82,8 @@ export default function ContactPage() {
   const headerInView = useInView(headerRef, { once: true });
 
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -90,9 +92,33 @@ export default function ContactPage() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setErrorMsg(null);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/dani@bmf360.co.il", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: form.subject,
+          message: form.message,
+          _subject: `New lead from thelevel7.ai: ${form.subject} — ${form.name}`,
+          _replyto: form.email,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to send message");
+      setSubmitted(true);
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -240,12 +266,23 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <button type="submit" className="btn-primary w-full py-4 text-sm">
-                    Send Message
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="btn-primary w-full py-4 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {sending ? "Sending..." : "Send Message"}
+                    {!sending && (
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    )}
                   </button>
+                  {errorMsg && (
+                    <p className="text-sm text-red-600 mt-2" role="alert">
+                      {errorMsg}
+                    </p>
+                  )}
                 </form>
               </div>
             )}
