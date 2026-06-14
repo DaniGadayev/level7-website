@@ -16,7 +16,7 @@ export default function Footer() {
           <div>
             <div className="mb-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.svg" alt="LEVEL7" className="h-8 w-auto" />
+              <img src="/logo.png" alt="LEVEL7" className="h-8 w-auto" />
             </div>
             <p className="text-[#6B6B6B] text-sm leading-relaxed max-w-[200px]">
               Build an Empire.<br />One Level at a Time.
