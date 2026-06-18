@@ -53,6 +53,9 @@ export default function Footer() {
                   {link.label}
                 </Link>
               ))}
+              <a href="https://www.bob.thelevel7.ai/" className={linkClass}>
+                Get Your AI Agent
+              </a>
             </div>
           </div>
 
