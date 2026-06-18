@@ -70,12 +70,15 @@ export default function Footer() {
           <div>
             <p className="label mb-5">Contact</p>
             <div className="flex flex-col gap-3">
-              <a href={`mailto:${emails.general}`} className={linkClass}>
-                {emails.general}
-              </a>
-              <a href={`mailto:${emails.privacy}`} className={linkClass}>
-                {emails.privacy}
-              </a>
+              {/* Dedupe so we don't list the same address twice while legal@/
+                  privacy@ still point at dani@; auto-expands once they differ. */}
+              {Array.from(new Set([emails.general, emails.privacy])).map(
+                (addr) => (
+                  <a key={addr} href={`mailto:${addr}`} className={linkClass}>
+                    {addr}
+                  </a>
+                )
+              )}
               <p className="text-sm text-[#6B6B6B]">thelevel7.ai</p>
             </div>
           </div>

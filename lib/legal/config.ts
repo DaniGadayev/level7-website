@@ -24,8 +24,11 @@ export const LEGAL_ENTITY = {
   registeredOffice: "[Registered office address, Cyprus — to be inserted]",
   emails: {
     general: "dani@thelevel7.ai",
-    legal: "legal@thelevel7.ai",
-    privacy: "privacy@thelevel7.ai",
+    // legal@ / privacy@ are not yet provisioned as mailboxes. Point them at the
+    // working dani@ inbox for now; when dedicated Google Workspace aliases are
+    // created, switch these two values back and everything updates from here.
+    legal: "dani@thelevel7.ai",
+    privacy: "dani@thelevel7.ai",
   },
   siteUrl: "https://www.thelevel7.ai",
   /** Cyprus supervisory authority for GDPR complaints. */
