@@ -97,7 +97,7 @@ export default function ContactPage() {
     setSending(true);
     setErrorMsg(null);
     try {
-      const res = await fetch("https://formsubmit.co/ajax/dani@bmf360.co.il", {
+      const res = await fetch("https://formsubmit.co/ajax/dani@thelevel7.ai", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -300,14 +300,14 @@ export default function ContactPage() {
             <div className="card p-6">
               <p className="label mb-5">Direct Contact</p>
               <div className="space-y-4">
-                <a href="mailto:Dani@bmf360.co.il" className="flex items-center gap-4 group">
+                <a href="mailto:dani@thelevel7.ai" className="flex items-center gap-4 group">
                   <div className="w-10 h-10 rounded-xl border border-[#E5E5E5] bg-[#F7F7F7] flex items-center justify-center text-[#6B6B6B] group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
                     @
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Email</div>
                     <div className="text-sm text-[#1A1A1A] group-hover:text-accent transition-colors font-medium">
-                      Dani@bmf360.co.il
+                      dani@thelevel7.ai
                     </div>
                   </div>
                 </a>

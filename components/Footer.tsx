@@ -44,10 +44,10 @@ export default function Footer() {
             <p className="label mb-5">Contact</p>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:Dani@bmf360.co.il"
+                href="mailto:dani@thelevel7.ai"
                 className="text-sm text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors"
               >
-                Dani@bmf360.co.il
+                dani@thelevel7.ai
               </a>
               <p className="text-sm text-[#6B6B6B]">thelevel7.ai</p>
             </div>
