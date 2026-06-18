@@ -340,12 +340,12 @@ export default function HomePage() {
             initial="hidden"
             animate="visible"
           >
-            <Link href="/contact" className="btn-primary text-base px-8 py-4">
-              Start Free — No Agency Needed
+            <a href="https://www.bob.thelevel7.ai/" className="btn-primary text-base px-8 py-4">
+              Get Your AI Agent
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>
