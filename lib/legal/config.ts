@@ -19,9 +19,12 @@ export const LEGAL_ENTITY = {
   /** Public brand. */
   brand: "LEVEL7",
   jurisdiction: "Cyprus",
-  /** Cyprus registrar number — fill before publishing (do NOT invent). */
-  registrationNumber: "[Cyprus company reg. no. — to be inserted]",
-  registeredOffice: "[Registered office address, Cyprus — to be inserted]",
+  /** Cyprus Registrar of Companies number (HE######) — optional; add when
+      available. Left empty until provided so it isn't shown half-filled. */
+  registrationNumber: "",
+  /** Cyprus Tax Identification Number (TIN). */
+  taxId: "60367705G",
+  registeredOffice: "17 Megalou Alexandrou Street, Aglantzia 2121, Nicosia, Cyprus",
   emails: {
     general: "dani@thelevel7.ai",
     // legal@ / privacy@ are not yet provisioned as mailboxes. Point them at the
