@@ -7,9 +7,24 @@ const {
   legalName,
   jurisdiction,
   registrationNumber,
+  taxId,
   registeredOffice,
   emails,
 } = LEGAL_ENTITY;
+
+// Build the company-identification rows, showing only identifiers we actually
+// have and listing each distinct contact address once.
+const contactAddrs = Array.from(
+  new Set([emails.general, emails.legal, emails.privacy])
+);
+const companyRows: string[][] = [
+  ["Company", legalName],
+  ["Jurisdiction", `${jurisdiction} (EU member state)`],
+  ...(registrationNumber ? [["Registration number (HE)", registrationNumber]] : []),
+  ...(taxId ? [["Tax identification number", taxId]] : []),
+  ["Registered office", registeredOffice],
+  ...contactAddrs.map((addr, i) => [i === 0 ? "Contact" : "", addr]),
+];
 
 export const metadata: Metadata = {
   title: `${doc.title} — LEVEL7`,
@@ -33,15 +48,7 @@ const sections: LegalSection[] = [
     p: ["This Site is provided by:"],
     table: {
       head: ["Detail", "Information"],
-      rows: [
-        ["Company", legalName],
-        ["Jurisdiction", `${jurisdiction} (EU member state)`],
-        ["Registration number", registrationNumber],
-        ["Registered office", registeredOffice],
-        ["General contact", emails.general],
-        ["Legal contact", emails.legal],
-        ["Privacy contact", emails.privacy],
-      ],
+      rows: companyRows,
     },
   },
   {

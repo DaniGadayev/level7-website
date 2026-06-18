@@ -20,9 +20,12 @@ const linkClass =
   "text-sm text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors text-left";
 
 export default function Footer() {
-  const { legalName, jurisdiction, registrationNumber, emails } = LEGAL_ENTITY;
-  // Only show the reg number once a real value replaces the placeholder.
-  const hasRegNo = !registrationNumber.startsWith("[");
+  const { legalName, jurisdiction, registrationNumber, taxId, emails } =
+    LEGAL_ENTITY;
+  const idBits = [
+    registrationNumber ? `Reg. no. ${registrationNumber}` : "",
+    taxId ? `Tax ID ${taxId}` : "",
+  ].filter(Boolean);
 
   return (
     <footer className="border-t border-[#E5E5E5] bg-[#F7F7F7]">
@@ -92,7 +95,7 @@ export default function Footer() {
           </p>
           <p className="text-xs text-[#AAAAAA]">
             Registered in {jurisdiction}
-            {hasRegNo ? ` · Reg. no. ${registrationNumber}` : ""}
+            {idBits.length ? ` · ${idBits.join(" · ")}` : ""}
           </p>
         </div>
       </div>
