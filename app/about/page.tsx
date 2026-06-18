@@ -420,9 +420,9 @@ export default function AboutPage() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link href="/contact" className="btn-primary text-sm px-8 py-4">
-              Start Free Diagnostic
-            </Link>
+            <a href="https://www.bob.thelevel7.ai/" className="btn-primary text-sm px-8 py-4">
+              Get Your AI Agent
+            </a>
             <Link href="/services" className="btn-ghost text-sm px-8 py-4">
               Explore the Floors
             </Link>

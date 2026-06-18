@@ -50,9 +50,12 @@ export default function Navbar() {
 
         {/* CTA Button */}
         <div className="hidden md:block shrink-0">
-          <Link href="/contact" className="btn-primary text-sm px-5 py-2.5">
-            Start Free
-          </Link>
+          <a
+            href="https://www.bob.thelevel7.ai/"
+            className="btn-primary text-sm px-5 py-2.5"
+          >
+            Get Your AI Agent
+          </a>
         </div>
 
         {/* Mobile Toggle */}
@@ -94,13 +97,13 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/contact"
+              <a
+                href="https://www.bob.thelevel7.ai/"
                 onClick={() => setMobileOpen(false)}
                 className="btn-primary mt-3 text-center"
               >
-                Start Free
-              </Link>
+                Get Your AI Agent
+              </a>
             </div>
           </motion.div>
         )}
