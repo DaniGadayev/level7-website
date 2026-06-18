@@ -341,6 +341,30 @@ export default function InvestorsPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── LEGAL DISCLAIMER ── */}
+      <section className="border-t border-[#E5E5E5] bg-[#F7F7F7]">
+        <div className="max-w-3xl mx-auto px-6 py-12">
+          <p className="label mb-3">Important notice</p>
+          <p className="text-xs leading-relaxed text-[#888]">
+            The figures, projections and targets on this page are
+            forward-looking statements based on current assumptions; they are
+            inherently uncertain and actual results may differ materially.
+            Nothing on this page constitutes an offer to sell, a solicitation
+            of an offer to buy, or a recommendation regarding any security or
+            investment in any jurisdiction. Any investment discussion would
+            take place separately under appropriate documentation and
+            applicable law. See our{" "}
+            <Link
+              href="/terms#forward-looking"
+              className="text-[#1A1A1A] underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+            >
+              Terms of Use
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
     </>
   );
 }

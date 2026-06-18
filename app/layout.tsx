@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import CustomCursor from "@/components/CustomCursor";
+import CookieConsent from "@/components/CookieConsent";
+import ConsentScripts from "@/components/ConsentScripts";
 
 export const metadata: Metadata = {
   title: "LEVEL7 — The AI System That Replaces Your Marketing Agency",
@@ -31,6 +33,8 @@ export default function RootLayout({
           <main>{children}</main>
         </PageTransition>
         <Footer />
+        <CookieConsent />
+        <ConsentScripts />
       </body>
     </html>
   );
