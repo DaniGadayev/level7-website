@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import Link from "next/link";
 
 /* ─────────────────────────────────────────────
    Contact Hero SVG — 280×280
@@ -84,6 +85,8 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
+  const [company, setCompany] = useState(""); // honeypot — must stay empty
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -94,28 +97,27 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent) {
+      setErrorMsg("Please agree to the Privacy Policy to continue.");
+      return;
+    }
     setSending(true);
     setErrorMsg(null);
     try {
-      const res = await fetch("https://formsubmit.co/ajax/dani@thelevel7.ai", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          subject: form.subject,
-          message: form.message,
-          _subject: `New lead from thelevel7.ai: ${form.subject} — ${form.name}`,
-          _replyto: form.email,
-          _template: "table",
-          _captcha: "false",
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, consent, company }),
       });
-      if (!res.ok) throw new Error("Failed to send message");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
       setSubmitted(true);
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+      setErrorMsg(
+        err instanceof Error ? err.message : "Something went wrong"
+      );
     } finally {
       setSending(false);
     }
@@ -265,6 +267,41 @@ export default function ContactPage() {
                       placeholder="Tell us about your business and what you're looking to achieve..."
                     />
                   </div>
+
+                  {/* Honeypot — hidden from humans, bots tend to fill it */}
+                  <div className="hidden" aria-hidden="true">
+                    <label>
+                      Company
+                      <input
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={company}
+                        onChange={(e) => setCompany(e.target.value)}
+                      />
+                    </label>
+                  </div>
+
+                  <label className="flex items-start gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={consent}
+                      onChange={(e) => setConsent(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#A3FF00] cursor-pointer"
+                    />
+                    <span className="text-xs leading-relaxed text-[#6B6B6B]">
+                      I agree that my details may be used to respond to my
+                      enquiry, in line with the{" "}
+                      <Link
+                        href="/privacy"
+                        className="text-[#1A1A1A] underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+                      >
+                        Privacy Policy
+                      </Link>
+                      . <span className="text-accent">*</span>
+                    </span>
+                  </label>
 
                   <button
                     type="submit"
