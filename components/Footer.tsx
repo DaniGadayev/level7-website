@@ -53,8 +53,22 @@ export default function Footer() {
                   {link.label}
                 </Link>
               ))}
-              <a href="https://www.bob.thelevel7.ai/" className={linkClass}>
-                Get Your AI Agent
+              <a
+                href="https://www.bob.thelevel7.ai/"
+                className={`${linkClass} group inline-flex items-center gap-2`}
+              >
+                <span className="rounded-full bg-accent px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-[#1A1A1A] leading-none">
+                  New
+                </span>
+                <span className="group-hover:text-[#1A1A1A] transition-colors">
+                  Get Your AI Agent
+                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/bob-icon.png"
+                  alt="BOB"
+                  className="h-6 w-6 -my-1 object-contain"
+                />
               </a>
             </div>
           </div>
