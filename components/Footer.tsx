@@ -17,7 +17,7 @@ const legalLinks = [
 ];
 
 const linkClass =
-  "text-sm text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors text-left";
+  "text-sm text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors text-left py-1.5 block";
 
 export default function Footer() {
   const { legalName, jurisdiction, registrationNumber, taxId, emails } =
@@ -47,7 +47,7 @@ export default function Footer() {
           {/* Navigation */}
           <div>
             <p className="label mb-5">Navigation</p>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-0">
               {navLinks.map((link) => (
                 <Link key={link.href} href={link.href} className={linkClass}>
                   {link.label}
@@ -76,7 +76,7 @@ export default function Footer() {
           {/* Legal */}
           <div>
             <p className="label mb-5">Legal</p>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-0">
               {legalLinks.map((link) => (
                 <Link key={link.href} href={link.href} className={linkClass}>
                   {link.label}
@@ -89,7 +89,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <p className="label mb-5">Contact</p>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-0">
               {/* Dedupe so we don't list the same address twice while legal@/
                   privacy@ still point at dani@; auto-expands once they differ. */}
               {Array.from(new Set([emails.general, emails.privacy])).map(
