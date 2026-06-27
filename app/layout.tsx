@@ -8,7 +8,7 @@ import CookieConsent from "@/components/CookieConsent";
 import ConsentScripts from "@/components/ConsentScripts";
 
 export const metadata: Metadata = {
-  title: "LEVEL7 — The AI System That Replaces Your Marketing Agency",
+  title: "LEVEL7: The AI System That Replaces Your Marketing Agency",
   description:
     "LEVEL7 is the AI system that generates leads automatically, runs your campaigns 24/7, and grows your business. No agency needed. The right tool, at the right stage, every time.",
   keywords: "AI marketing, lead generation, marketing automation, SMB growth, replace marketing agency",

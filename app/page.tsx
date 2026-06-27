@@ -29,7 +29,7 @@ const floors = [
   { num: "2", label: "Paid Marketing", sub: "Lead Machine", tagline: "A lead machine that works while you sleep", price: "Subscription + media %" },
   { num: "3", label: "Sales", sub: "Conversion Engine", tagline: "Leads without a sales process is a leaky bucket", price: "Subscription + setup" },
   { num: "4", label: "Team & Staff", sub: "Operations Layer", tagline: "Built around you is the bottleneck", price: "Subscription + coaching" },
-  { num: "5", label: "Finance", sub: "Financial Control", tagline: "You're not poor in money — you're poor in information", price: "Software + course" },
+  { num: "5", label: "Finance", sub: "Financial Control", tagline: "You're not poor in money. You're poor in information.", price: "Software + course" },
   { num: "6", label: "Scale", sub: "Growth System", tagline: "Your next growth won't come from you", price: "High subscription" },
   { num: "7", label: "Empire", sub: "Full Autonomy", tagline: "A real business is one that works without you", price: "Partner + software" },
 ];

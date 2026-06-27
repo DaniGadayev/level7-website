@@ -6,7 +6,7 @@ const doc = LEGAL_DOCS.privacy;
 const { emails, legalName, jurisdiction, supervisoryAuthority } = LEGAL_ENTITY;
 
 export const metadata: Metadata = {
-  title: `${doc.title} — LEVEL7`,
+  title: `${doc.title} | LEVEL7`,
   description:
     "How D.T LEVEL 7 TECHNOLOGY LIMITED collects, uses, shares and protects personal data on the LEVEL7 website, and how to exercise your GDPR rights.",
   alternates: { canonical: doc.href },
@@ -18,7 +18,7 @@ const sections: LegalSection[] = [
     h: "1. Who is responsible for your data",
     p: [
       `${legalName} (“LEVEL7”, “we”, “us”) is the data controller for personal data processed through this website (www.thelevel7.ai). We are a company registered in ${jurisdiction}.`,
-      `For any privacy matter — including the requests described below — contact our privacy team at ${emails.privacy}. Our full company identification and registered office are set out in our Terms of Use & Legal Notice.`,
+      `For any privacy matter (including the requests described below), contact our privacy team at ${emails.privacy}. Our full company identification and registered office are set out in our Terms of Use & Legal Notice.`,
     ],
   },
   {
@@ -28,10 +28,10 @@ const sections: LegalSection[] = [
       "We keep data collection to the minimum needed to run this website and respond to you. We collect:",
     ],
     list: [
-      "Contact details you provide — when you submit our contact form: your name, email address, phone number (optional), the subject you select and the message you write.",
-      "Technical and usage data — when you visit, our servers and infrastructure automatically process limited technical data such as your IP address, browser type and operating system, the pages you view and the date/time of access. This is standard server-log information used to keep the site secure and working.",
-      "Consent and preference data — your cookie choices and the timestamp/version of the consent you give, stored so we can honour and evidence your preferences.",
-      "Analytics data — only if you consent to analytics cookies, we (and our analytics provider) process aggregated information about how the site is used. No analytics or marketing tracking runs before you opt in.",
+      "Contact details you provide: when you submit our contact form, your name, email address, phone number (optional), the subject you select and the message you write.",
+      "Technical and usage data: when you visit, our servers and infrastructure automatically process limited technical data such as your IP address, browser type and operating system, the pages you view and the date/time of access. This is standard server-log information used to keep the site secure and working.",
+      "Consent and preference data: your cookie choices and the timestamp/version of the consent you give, stored so we can honour and evidence your preferences.",
+      "Analytics data: only if you consent to analytics cookies, we (and our analytics provider) process aggregated information about how the site is used. No analytics or marketing tracking runs before you opt in.",
     ],
   },
   {
@@ -46,22 +46,22 @@ const sections: LegalSection[] = [
         [
           "Respond to your enquiry and follow up on it",
           "Contact-form details",
-          "Taking steps at your request prior to a possible contract — Art. 6(1)(b); and our legitimate interest in responding to enquiries — Art. 6(1)(f)",
+          "Taking steps at your request prior to a possible contract (Art. 6(1)(b)); and our legitimate interest in responding to enquiries (Art. 6(1)(f))",
         ],
         [
           "Operate, secure and troubleshoot the website",
           "Technical / server-log data",
-          "Our legitimate interest in a secure, reliable site — Art. 6(1)(f)",
+          "Our legitimate interest in a secure, reliable site (Art. 6(1)(f))",
         ],
         [
           "Remember your cookie preferences",
           "Consent / preference data",
-          "Compliance with our legal obligations and your consent — Art. 6(1)(c)/(a)",
+          "Compliance with our legal obligations and your consent (Art. 6(1)(c)/(a))",
         ],
         [
           "Measure and improve the website (analytics)",
           "Analytics data",
-          "Your consent — Art. 6(1)(a) — withdrawable at any time",
+          "Your consent (Art. 6(1)(a)), withdrawable at any time",
         ],
       ],
     },
@@ -84,7 +84,7 @@ const sections: LegalSection[] = [
         ],
         [
           "Analytics cookies (e.g. Google Analytics _ga)",
-          "Analytics — consent required",
+          "Analytics: consent required",
           "Set only if you accept analytics. Measure aggregated, de-identified usage to improve the site.",
           "Up to 14 months (only if enabled)",
         ],
@@ -111,7 +111,7 @@ const sections: LegalSection[] = [
           "EU / United States (under appropriate safeguards)",
         ],
         [
-          "Analytics provider (e.g. Google) — only if you consent",
+          "Analytics provider (e.g. Google), only if you consent",
           "Aggregated website analytics",
           "United States (under appropriate safeguards)",
         ],
@@ -142,13 +142,13 @@ const sections: LegalSection[] = [
       "Wherever GDPR applies, you have the right to:",
     ],
     list: [
-      "Access — obtain a copy of the personal data we hold about you.",
-      "Rectification — have inaccurate or incomplete data corrected.",
-      "Erasure — ask us to delete your data (“right to be forgotten”).",
-      "Restriction — ask us to limit how we use your data.",
-      "Portability — receive your data in a structured, machine-readable format.",
-      "Objection — object to processing based on our legitimate interests.",
-      "Withdraw consent — at any time, where we rely on consent (e.g. analytics), without affecting prior processing.",
+      “Access: obtain a copy of the personal data we hold about you.”,
+      “Rectification: have inaccurate or incomplete data corrected.”,
+      “Erasure: ask us to delete your data (“right to be forgotten”).”,
+      “Restriction: ask us to limit how we use your data.”,
+      “Portability: receive your data in a structured, machine-readable format.”,
+      “Objection: object to processing based on our legitimate interests.”,
+      “Withdraw consent: at any time, where we rely on consent (e.g. analytics), without affecting prior processing.”,
     ],
   },
   {
@@ -188,7 +188,7 @@ export default function PrivacyPage() {
       title={doc.title}
       updated={doc.updated}
       version={doc.version}
-      intro="This policy explains what personal data we collect through the LEVEL7 website, why we collect it, who we share it with, how long we keep it, and the rights you have under the GDPR. It covers this website only — the BOB product has its own privacy documentation."
+      intro="This policy explains what personal data we collect through the LEVEL7 website, why we collect it, who we share it with, how long we keep it, and the rights you have under the GDPR. It covers this website only. The BOB product has its own privacy documentation."
       sections={sections}
       related={relatedLinks("privacy")}
     />

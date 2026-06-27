@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
         from: FROM_EMAIL,
         to: [TO_EMAIL],
         reply_to: email,
-        subject: `New lead: ${subject} — ${name}`,
+        subject: `New lead: ${subject} (${name})`,
         html,
       }),
     });

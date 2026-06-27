@@ -27,7 +27,7 @@ const companyRows: string[][] = [
 ];
 
 export const metadata: Metadata = {
-  title: `${doc.title} — LEVEL7`,
+  title: `${doc.title} | LEVEL7`,
   description:
     "The terms governing use of the LEVEL7 website, plus the legal notice and company identification for D.T LEVEL 7 TECHNOLOGY LIMITED (Cyprus).",
   alternates: { canonical: doc.href },
@@ -67,7 +67,7 @@ const sections: LegalSection[] = [
     id: "ip",
     h: "4. Intellectual property",
     p: [
-      `All content on the Site — including text, graphics, logos, the “LEVEL7” brand, layout and code — is owned by or licensed to ${legalName} and is protected by intellectual-property laws. You may view and print pages for your own informational use. You may not copy, reproduce, republish or exploit any part of the Site for commercial purposes without our prior written consent.`,
+      `All content on the Site (including text, graphics, logos, the “LEVEL7” brand, layout and code) is owned by or licensed to ${legalName} and is protected by intellectual-property laws. You may view and print pages for your own informational use. You may not copy, reproduce, republish or exploit any part of the Site for commercial purposes without our prior written consent.`,
     ],
   },
   {
@@ -81,7 +81,7 @@ const sections: LegalSection[] = [
     id: "forward-looking",
     h: "6. Forward-looking statements; no offer of securities",
     p: [
-      "Parts of the Site — including any investor-facing or roadmap content — may contain forward-looking statements, projections, targets and illustrative figures (for example revenue, ROI, growth or market estimates). These are based on current assumptions, are inherently uncertain, and actual results may differ materially. They are provided for information only.",
+      "Parts of the Site (including any investor-facing or roadmap content) may contain forward-looking statements, projections, targets and illustrative figures (for example revenue, ROI, growth or market estimates). These are based on current assumptions, are inherently uncertain, and actual results may differ materially. They are provided for information only.",
       "Nothing on the Site constitutes an offer to sell, a solicitation of an offer to buy, or a recommendation regarding any security, investment or financial instrument, in any jurisdiction. Any actual investment discussion would take place separately under appropriate documentation and applicable law.",
     ],
   },

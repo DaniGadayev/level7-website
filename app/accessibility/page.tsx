@@ -6,7 +6,7 @@ const doc = LEGAL_DOCS.accessibility;
 const { emails, legalName } = LEGAL_ENTITY;
 
 export const metadata: Metadata = {
-  title: `${doc.title} — LEVEL7`,
+  title: `${doc.title} | LEVEL7`,
   description:
     "Our commitment to making the LEVEL7 website accessible, the standard we target, known limitations, and how to report accessibility issues.",
   alternates: { canonical: doc.href },
@@ -42,7 +42,7 @@ const sections: LegalSection[] = [
     id: "limitations",
     h: "4. Known limitations",
     p: [
-      "Despite our efforts, some content may not yet be fully accessible — for example, certain rich animations or third-party embedded components. We are working to identify and address these. If you encounter a barrier, please let us know so we can help and prioritise a fix.",
+      "Despite our efforts, some content may not yet be fully accessible. For example, certain rich animations or third-party embedded components may have gaps. We are working to identify and address these. If you encounter a barrier, please let us know so we can help and prioritise a fix.",
     ],
   },
   {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LEGAL_DOCS, LEGAL_ENTITY } from "@/lib/legal/config";
 
 export const metadata: Metadata = {
-  title: "Legal — LEVEL7",
+  title: "Legal | LEVEL7",
   description:
     "Legal documents for the LEVEL7 website: Privacy & Cookie Policy, Terms of Use & Legal Notice, and Accessibility Statement.",
   alternates: { canonical: "/legal" },
