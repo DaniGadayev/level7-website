@@ -147,7 +147,7 @@ export default function ContactPage() {
                 Let&apos;s talk.
               </motion.h1>
               <motion.p custom={2} variants={fadeUp} className="text-[#6B6B6B] text-xl leading-relaxed">
-                Whether you&apos;re a potential client, partner, or just curious — we&apos;d love to hear from you.
+                Whether you&apos;re a potential client, partner, or just curious, we&apos;d love to hear from you.
               </motion.p>
             </div>
             <motion.div custom={3} variants={fadeUp} className="hidden lg:flex justify-center">

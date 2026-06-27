@@ -176,7 +176,7 @@ const VALUE_SVGS = [SVG_VALUE_1, SVG_VALUE_2, SVG_VALUE_3, SVG_VALUE_4];
 const values = [
   {
     title: "Constant & Structured Growth",
-    desc: "Growth isn't a moment — it's a system. We build processes that compound over time.",
+    desc: "Growth isn't a moment. It's a system. We build processes that compound over time.",
   },
   {
     title: "Smart Technology, 24/7",
@@ -248,7 +248,7 @@ export default function AboutPage() {
                 <span className="text-accent">For operators.</span>
               </motion.h1>
               <motion.p custom={2} variants={fadeUp} className="text-[#6B6B6B] text-xl leading-relaxed">
-                LEVEL7 wasn&apos;t built in a boardroom. It was built in the trenches — working with hundreds of businesses across 26+ niches, watching the same patterns of failure and success repeat themselves.
+                LEVEL7 wasn&apos;t built in a boardroom. It was built in the trenches, working with hundreds of businesses across 26+ niches, watching the same patterns of failure and success repeat themselves.
               </motion.p>
             </div>
             <motion.div custom={3} variants={fadeUp} className="flex justify-center">
@@ -267,13 +267,13 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
             <motion.p custom={0} variants={fadeUp} className="text-[#1A1A1A] leading-relaxed text-lg mb-6">
-              The BMF360 methodology — developed over more than 10 years — revealed something fundamental: businesses don&apos;t fail because they&apos;re bad. They fail because they&apos;re using the right tool at the wrong stage.
+              The BMF360 methodology, developed over more than 10 years, revealed something fundamental: businesses don&apos;t fail because they&apos;re bad. They fail because they&apos;re using the right tool at the wrong stage.
             </motion.p>
             <motion.p custom={1} variants={fadeUp} className="text-[#6B6B6B] leading-relaxed mb-6">
-              A Floor 4 solution applied to a Floor 1 problem destroys momentum. A Floor 1 solution at Floor 6 wastes time. Most businesses are stuck not because of lack of effort — but lack of precision.
+              A Floor 4 solution applied to a Floor 1 problem destroys momentum. A Floor 1 solution at Floor 6 wastes time. Most businesses are stuck not because of lack of effort, but lack of precision.
             </motion.p>
             <motion.p custom={2} variants={fadeUp} className="text-[#6B6B6B] leading-relaxed">
-              LEVEL7 is that methodology, now powered by AI. It knows exactly where you are. It gives you exactly what you need. And it scales with you — all the way from your first offer to a fully autonomous empire.
+              LEVEL7 is that methodology, now powered by AI. It knows exactly where you are. It gives you exactly what you need. And it scales with you, all the way from your first offer to a fully autonomous empire.
             </motion.p>
           </div>
 

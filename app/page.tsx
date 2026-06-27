@@ -38,7 +38,7 @@ const promises = [
   {
     title: "No agency fees",
     sub: "Keep the budget, fire the agency",
-    desc: "Stop paying retainers for mediocre results. LEVEL7 does everything an agency does — automatically, for a fraction of the cost.",
+    desc: "Stop paying retainers for mediocre results. LEVEL7 does everything an agency does. Automatically, at a fraction of the cost.",
     icon: (
       <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
         <rect width="40" height="40" rx="12" fill="#A3FF00" fillOpacity="0.12"/>
@@ -61,7 +61,7 @@ const promises = [
   {
     title: "Leads on autopilot",
     sub: "Your pipeline fills itself",
-    desc: "From content creation to paid ads to follow-up sequences — the entire lead generation engine runs without your daily involvement.",
+    desc: "From content creation to paid ads to follow-up sequences: the entire lead generation engine runs without your daily involvement.",
     icon: (
       <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
         <rect width="40" height="40" rx="12" fill="#A3FF00" fillOpacity="0.12"/>
@@ -74,7 +74,7 @@ const promises = [
 
 const steps = [
   { n: "01", title: "Tell us about your business", desc: "Answer a short AI diagnostic. 5 minutes. No fluff. We identify exactly where you are and what you need." },
-  { n: "02", title: "AI builds your growth system", desc: "Campaigns, content, sales sequences — all built and deployed automatically based on your business profile." },
+  { n: "02", title: "AI builds your growth system", desc: "Campaigns, content, sales sequences: all built and deployed automatically based on your business profile." },
   { n: "03", title: "Leads come in. You close them.", desc: "Your pipeline fills itself. You stay focused on what only you can do: closing deals and delivering results." },
 ];
 
@@ -331,7 +331,7 @@ export default function HomePage() {
             animate="visible"
             className="text-lg md:text-xl text-[#6B6B6B] max-w-xl mx-auto mb-10 leading-relaxed"
           >
-            LEVEL7 is the AI system that generates leads automatically, runs your campaigns 24/7, and grows your business — without an agency.
+            LEVEL7 is the AI system that generates leads automatically, runs your campaigns 24/7, and grows your business. No agency needed.
           </motion.p>
 
           <motion.div
@@ -513,7 +513,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border border-white/10 text-[11px] font-bold uppercase tracking-[0.1em] text-white/50"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            Free diagnostic — no commitment
+            Free diagnostic, no commitment
           </motion.div>
           <motion.h2
             custom={1}
@@ -524,7 +524,7 @@ export default function HomePage() {
             Ready to replace<br />your agency?
           </motion.h2>
           <motion.p custom={2} variants={fadeUp} className="text-white/60 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-            Take the free AI diagnostic. 5 minutes. Get your personalized growth system — no agency required.
+            Take the free AI diagnostic. 5 minutes. Get your personalized growth system. No agency required.
           </motion.p>
           <motion.div custom={3} variants={fadeUp}>
             <Link href="/contact" className="btn-primary text-base px-10 py-5">

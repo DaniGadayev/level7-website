@@ -376,7 +376,7 @@ const floors = [
     name: "Paid Marketing",
     tagline: "A lead machine that works while you sleep.",
     who: "Organic is working but volume is too small. Needs leads without the time dependency.",
-    ai: "Automatic campaign optimization, performance alerts, audience expansion — around the clock.",
+    ai: "Automatic campaign optimization, performance alerts, audience expansion. All around the clock.",
     pricing: "Monthly subscription + % of media budget",
     free: false,
   },
@@ -406,7 +406,7 @@ const floors = [
     name: "Finance",
     tagline: "You're not poor in money. You're poor in financial information.",
     who: "Has stable revenue but no visibility on where money goes. Discovers problems too late.",
-    ai: "Real-time financial dashboard — profit, cash flow, money leak alerts, forecasting.",
+    ai: "Real-time financial dashboard: profit, cash flow, money leak alerts, forecasting.",
     pricing: "Software subscription + one-time course + partner",
     free: false,
   },
@@ -414,7 +414,7 @@ const floors = [
     num: "6",
     label: "Floor 6",
     name: "Scale",
-    tagline: "Your next growth won't come from you — it'll come from the system you build.",
+    tagline: "Your next growth won't come from you. It'll come from the system you build.",
     who: "Profitable business with a small team. Growth is stuck. Wants to become a brand.",
     ai: "Automatic KPI tracking, ambassador identification, community management, media monitoring.",
     pricing: "High subscription + intensive partner coaching",
@@ -549,7 +549,7 @@ export default function ServicesPage() {
             <span className="text-accent">Every time.</span>
           </motion.h1>
           <motion.p custom={2} variants={fadeUp} className="text-[#6B6B6B] text-xl max-w-2xl leading-relaxed">
-            Businesses don&apos;t fail because they&apos;re bad — they fail because they&apos;re using the wrong tools at the wrong stage. Eight floors. Each one precision-built for exactly where you are.
+            Businesses don&apos;t fail because they&apos;re bad. They fail because they&apos;re using the wrong tools at the wrong stage. Eight floors. Each one precision-built for exactly where you are.
           </motion.p>
         </motion.div>
       </section>
@@ -582,7 +582,7 @@ export default function ServicesPage() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-white/60 text-lg mb-10 leading-relaxed"
           >
-            Take the free AI diagnostic — 5 minutes, and you&apos;ll know exactly where to start.
+            Take the free AI diagnostic. 5 minutes and you&apos;ll know exactly where to start.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

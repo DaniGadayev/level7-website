@@ -104,7 +104,7 @@ export default function InvestorsPage() {
             className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border border-accent/20 bg-accent/[0.06]"
           >
             <span className="w-1.5 h-1.5 bg-accent animate-pulse rounded-full" />
-            <span className="text-[11px] text-accent font-bold uppercase tracking-[0.1em]">Seed Round — Open</span>
+            <span className="text-[11px] text-accent font-bold uppercase tracking-[0.1em]">Seed Round · Open</span>
           </motion.div>
 
           <motion.h1
