@@ -169,3 +169,197 @@ body {
   letter-spacing: 0.1em;
   margin-top: 8px;
 }
+
+/* ============================================================
+   Resources blog additions (focus-visible + article prose)
+   ============================================================ */
+/* Keyboard focus — visible lime ring on every interactive element */
+a:focus-visible,
+button:focus-visible,
+.card:focus-visible,
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #1A1A1A;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.btn-primary:focus-visible,
+.card:focus-visible {
+  outline-color: #1A1A1A;
+  box-shadow: 0 0 0 4px rgba(163,255,0,0.45);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #F7F7F7; }
+
+
+/* ─────────────────────────────────────────────
+   Article prose — rendered Markdown on /resources/[slug]
+   Reading column ~68ch, generous line-height.
+───────────────────────────────────────────── */
+.article-content {
+  font-size: 18px;
+  line-height: 1.75;
+  color: #2A2A2A;
+  overflow-wrap: anywhere;
+}
+/* Wide tables scroll horizontally instead of overflowing the viewport on mobile */
+.article-content .table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.article-content .table-scroll table { margin: 0; }
+.article-content > * + * { margin-top: 1.5em; }
+.article-content h2 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  margin-top: 2.2em;
+  margin-bottom: 0.2em;
+}
+.article-content h3 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: #1A1A1A;
+  margin-top: 1.8em;
+}
+.article-content h4 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-top: 1.6em;
+}
+.article-content h5,
+.article-content h6 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6B6B6B;
+  margin-top: 1.5em;
+}
+.article-content p { color: #2A2A2A; }
+.article-content a {
+  color: #1A1A1A;
+  text-decoration: underline;
+  text-decoration-color: #A3FF00;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+.article-content a:hover { text-decoration-color: #1A1A1A; }
+.article-content strong { font-weight: 700; color: #1A1A1A; }
+.article-content ul,
+.article-content ol { padding-left: 1.5em; }
+.article-content ul { list-style: disc; }
+.article-content ol { list-style: decimal; }
+.article-content li { margin-top: 0.5em; padding-left: 0.25em; }
+.article-content li::marker { color: #A3FF00; }
+.article-content blockquote {
+  border-left: 3px solid #A3FF00;
+  padding-left: 1.25em;
+  font-size: 1.15em;
+  color: #4A4A4A;
+  font-style: italic;
+}
+.article-content code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.875em;
+  background: #F2F2F0;
+  border: 1px solid #E5E5E5;
+  border-radius: 5px;
+  padding: 0.15em 0.4em;
+  color: #1A1A1A;
+}
+.article-content pre {
+  background: #1A1A1A;
+  color: #F5F5F5;
+  border-radius: 14px;
+  padding: 1.25em 1.5em;
+  overflow-x: auto;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+.article-content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+.article-content img {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #E5E5E5;
+}
+.article-content hr {
+  border: none;
+  border-top: 1px solid #E5E5E5;
+  margin: 2.5em 0;
+}
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+.article-content th,
+.article-content td {
+  border: 1px solid #E5E5E5;
+  padding: 0.6em 0.9em;
+  text-align: left;
+}
+.article-content th {
+  background: #F7F7F7;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+/* GFM task lists */
+.article-content li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -1.25em;
+}
+.article-content input[type="checkbox"] {
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: 0.5em;
+  accent-color: #A3FF00;
+  vertical-align: -0.15em;
+}
+/* Footnote references */
+.article-content sup a {
+  text-decoration: none;
+  font-size: 0.75em;
+  font-weight: 700;
+  color: #1A1A1A;
+  background: rgba(163,255,0,0.25);
+  padding: 0.05em 0.4em;
+  border-radius: 4px;
+}
+.article-content sup a:hover { background: #A3FF00; }
+/* Footnotes section */
+.article-content .footnotes {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid #E5E5E5;
+  font-size: 0.9rem;
+  color: #6B6B6B;
+}
+.article-content .footnotes h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6B6B6B;
+  margin: 0 0 0.75em;
+}
+.article-content .footnotes li { margin-top: 0.4em; }

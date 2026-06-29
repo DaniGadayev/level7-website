@@ -12,14 +12,20 @@
     "@lottiefiles/react-lottie-player": "^3.6.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.8",
+    "marked": "^12.0.2",
+    "marked-footnote": "^1.4.0",
     "next": "^14.2.35",
+    "pg": "^8.13.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sanitize-html": "^2.13.1"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/sanitize-html": "^2.13.0",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",

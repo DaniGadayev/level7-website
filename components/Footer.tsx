@@ -5,6 +5,7 @@ import CookieSettingsButton from "@/components/CookieSettingsButton";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
+  { href: "/resources", label: "Resources" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

@@ -8,9 +8,16 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
+  { href: "/resources", label: "Resources" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
+
+// Active on exact match or sub-page (e.g. /resources/my-article highlights Resources).
+function isActive(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/");
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -42,7 +49,7 @@ export default function Navbar() {
         {/* Desktop Nav Links — centered */}
         <div className="hidden md:flex items-center gap-2 flex-1 justify-center">
           {links.map((link) => (
-            <NavLink key={link.href} href={link.href} active={pathname === link.href}>
+            <NavLink key={link.href} href={link.href} active={isActive(pathname, link.href)}>
               {link.label}
             </NavLink>
           ))}
@@ -89,7 +96,7 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={`text-base font-medium px-4 py-3 rounded-xl transition-colors ${
-                    pathname === link.href
+                    isActive(pathname, link.href)
                       ? "text-[#1A1A1A] bg-[#F7F7F7]"
                       : "text-[#6B6B6B] hover:text-[#1A1A1A] hover:bg-[#F7F7F7]"
                   }`}
