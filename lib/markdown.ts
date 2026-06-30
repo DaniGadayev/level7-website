@@ -17,26 +17,57 @@ export function renderMarkdown(md: string): string {
       "table", "thead", "tbody", "tr", "th", "td",
       "img", "figure", "figcaption", "span",
       "sup", "sub", "section", "input", // sup/section: footnotes; input: task-list checkboxes
+      // Layout & embeds (pipeline-generated content — admin-only writes)
+      "div",
+      "iframe",
+      // SVG for pipeline-generated infographics
+      "svg", "rect", "text", "line", "path", "polyline", "circle",
+      "g", "defs", "linearGradient", "stop",
     ],
     allowedAttributes: {
       a: ["href", "title", "target", "rel", "id", "class", "name"],
       img: ["src", "alt", "title", "width", "height"],
       code: ["class"],
-      span: ["class"],
+      span: ["class", "style"],
       th: ["align"],
       td: ["align"],
-      ol: ["start"],            // preserve numbered-list start (e.g. 3. 4. 5.)
+      ol: ["start"],
       li: ["value", "id", "class"],
       sup: ["id", "class"],
       section: ["class", "id"],
-      input: ["type", "checked", "disabled"], // GFM task lists (rendered read-only)
+      input: ["type", "checked", "disabled"],
+      div: ["class", "style"],
+      // iframe: src restricted to YouTube via exclusiveFilter below
+      iframe: ["src", "width", "height", "title", "frameborder", "allow", "allowfullscreen", "style"],
+      // SVG attributes
+      svg: ["viewBox", "xmlns", "width", "height", "style", "fill", "stroke"],
+      rect: ["x", "y", "width", "height", "fill", "rx", "ry", "stroke", "stroke-width", "opacity"],
+      text: ["x", "y", "text-anchor", "fill", "font-size", "font-weight", "letter-spacing", "font-family"],
+      line: ["x1", "y1", "x2", "y2", "stroke", "stroke-width"],
+      path: ["d", "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin"],
+      polyline: ["points", "fill", "stroke", "stroke-width"],
+      circle: ["cx", "cy", "r", "fill", "stroke", "stroke-width"],
+      g: ["transform", "fill", "stroke"],
+      defs: [],
+      linearGradient: ["id", "x1", "y1", "x2", "y2"],
+      stop: ["offset", "stop-color", "stop-opacity"],
     },
     allowedSchemes: ["http", "https", "mailto"],
-    // "#fn1" footnote anchors are relative (no scheme) and pass by default.
+    allowedSchemesByTag: {
+      // Only allow YouTube and youtube-nocookie iframes
+      iframe: ["https"],
+    },
+    exclusiveFilter(frame) {
+      // Strip iframes that aren't YouTube embeds
+      if (frame.tag === "iframe") {
+        const src = frame.attribs?.src ?? "";
+        return !src.startsWith("https://www.youtube.com/embed/") &&
+               !src.startsWith("https://www.youtube-nocookie.com/embed/");
+      }
+      return false;
+    },
     transformTags: {
-      // A body "# Heading" would create a second <h1> (the page title is the h1).
       h1: "h2",
-      // Force external links to open safely.
       a: (tagName, attribs) => ({
         tagName,
         attribs: {
@@ -47,7 +78,6 @@ export function renderMarkdown(md: string): string {
         },
       }),
     },
-    // Allow read-only checkbox inputs to survive (they have no name/value to submit).
     allowVulnerableTags: false,
   });
 

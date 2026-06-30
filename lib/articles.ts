@@ -76,6 +76,15 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   return rows[0] ?? null;
 }
 
+/** One article by ID regardless of status — used for preview only. */
+export async function getArticleByIdAny(id: number): Promise<Article | null> {
+  const rows = await safeQuery<Article>(
+    `SELECT * FROM articles WHERE id = $1 LIMIT 1`,
+    [id]
+  );
+  return rows[0] ?? null;
+}
+
 /** Related articles in the same category (excludes the current slug). */
 export async function getRelatedArticles(
   slug: string,
