@@ -1,25 +1,4 @@
-/* Satoshi — self-hosted (no third-party font CDN / IP transfer) */
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-display: swap;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
-  font-style: normal;
-}
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -53,6 +32,25 @@ body {
 ::selection {
   background: #A3FF00;
   color: #1A1A1A;
+}
+
+/* Keyboard focus — visible lime ring on every interactive element */
+a:focus-visible,
+button:focus-visible,
+.card:focus-visible,
+.btn-primary:focus-visible,
+.btn-ghost:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #1A1A1A;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.btn-primary:focus-visible,
+.card:focus-visible {
+  outline-color: #1A1A1A;
+  box-shadow: 0 0 0 4px rgba(163,255,0,0.45);
 }
 
 ::-webkit-scrollbar { width: 4px; }
@@ -170,32 +168,6 @@ body {
   margin-top: 8px;
 }
 
-/* ============================================================
-   Resources blog additions (focus-visible + article prose)
-   ============================================================ */
-/* Keyboard focus — visible lime ring on every interactive element */
-a:focus-visible,
-button:focus-visible,
-.card:focus-visible,
-.btn-primary:focus-visible,
-.btn-ghost:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #1A1A1A;
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-.btn-primary:focus-visible,
-.card:focus-visible {
-  outline-color: #1A1A1A;
-  box-shadow: 0 0 0 4px rgba(163,255,0,0.45);
-}
-
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #F7F7F7; }
-
-
 /* ─────────────────────────────────────────────
    Article prose — rendered Markdown on /resources/[slug]
    Reading column ~68ch, generous line-height.
@@ -302,6 +274,25 @@ textarea:focus-visible {
   width: 100%;
   border-radius: 16px;
   border: 1px solid #E5E5E5;
+}
+/* Responsive video embeds — 16:9 regardless of the iframe's width/height attrs.
+   Applies to pipeline-generated and hand-added <div class="video-embed">. */
+.article-content .video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 2em 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #E5E5E5;
+  background: #000;
+}
+.article-content .video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 .article-content hr {
   border: none;

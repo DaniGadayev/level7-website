@@ -205,7 +205,7 @@ export default async function PreviewPage({
             Ready to grow without an agency?
           </h2>
           <p className="text-[#AAAAAA] mb-8 max-w-lg mx-auto">
-            LEVEL7 builds and runs your entire marketing system — automatically.
+            LEVEL7 builds and runs your entire marketing system, automatically.
           </p>
           <Link href="/contact" className="btn-primary">
             Start Free

@@ -17,13 +17,13 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const article = await getArticleBySlug(params.slug);
   if (!article) {
-    return { title: "Not found — LEVEL7" };
+    return { title: "Not found | LEVEL7" };
   }
   const title = article.seo_title || article.title;
   const description = article.seo_description || article.excerpt;
   const url = `https://thelevel7.ai/resources/${article.slug}`;
   return {
-    title: `${title} — LEVEL7`,
+    title: `${title} | LEVEL7`,
     description,
     alternates: { canonical: url },
     openGraph: {
@@ -188,7 +188,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             Ready to grow without an agency?
           </h2>
           <p className="text-[#AAAAAA] mb-8 max-w-lg mx-auto">
-            LEVEL7 builds and runs your entire marketing system — automatically.
+            LEVEL7 builds and runs your entire marketing system, automatically.
           </p>
           <Link href="/contact" className="btn-primary">
             Start Free
