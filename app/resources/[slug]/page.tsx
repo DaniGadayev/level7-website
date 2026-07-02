@@ -83,7 +83,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     description: article.excerpt,
     datePublished: toISO(article.published_at),
     dateModified: toISO(article.updated_at),
-    author: { "@type": "Organization", name: article.author },
+    author: { "@type": "Person", name: article.author },
     publisher: {
       "@type": "Organization",
       name: "LEVEL7",
