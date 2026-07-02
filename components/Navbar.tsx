@@ -44,19 +44,19 @@ export default function Navbar() {
         href="https://www.bob.thelevel7.ai/"
         className="group block bg-accent text-[#0A0A0A]"
       >
-        <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-center gap-x-2 gap-y-1 flex-wrap text-center text-[12px] sm:text-[13px] font-medium leading-snug">
-          <span className="shrink-0 font-extrabold uppercase tracking-wider bg-[#0A0A0A] text-accent px-1.5 py-0.5 rounded text-[10px] leading-none">
+        <div className="max-w-3xl mx-auto px-6 py-2 text-center text-[12px] sm:text-[13px] font-medium leading-snug">
+          <span className="align-middle inline-block font-extrabold uppercase tracking-wider bg-[#0A0A0A] text-accent px-1.5 py-0.5 rounded text-[10px] mr-1.5">
             NEW
           </span>
-          <span>
-            Meet <strong className="font-bold">BOB</strong>, your AI agent that runs the busywork 24/7.
-          </span>
-          <span className="font-semibold underline underline-offset-2 decoration-2 group-hover:no-underline whitespace-nowrap">
+          <span className="align-middle">
+            Meet <strong className="font-bold">BOB</strong>, your AI agent for the daily busywork.
+          </span>{" "}
+          <span className="align-middle font-semibold whitespace-nowrap underline underline-offset-2 decoration-2 group-hover:no-underline">
             Try it free
+            <svg className="inline-block align-middle ml-1 w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </span>
-          <svg className="shrink-0 w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
         </div>
       </a>
 
