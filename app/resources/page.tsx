@@ -7,12 +7,12 @@ import ResourcesGrid from "./ResourcesGrid";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Resources — LEVEL7",
+  title: "Resources | LEVEL7",
   description:
     "Insights, guides, and playbooks on AI marketing, lead generation, and growing your business without an agency.",
   alternates: { canonical: "https://thelevel7.ai/resources" },
   openGraph: {
-    title: "Resources — LEVEL7",
+    title: "Resources | LEVEL7",
     description:
       "Insights, guides, and playbooks on AI marketing, lead generation, and growth.",
     url: "https://thelevel7.ai/resources",

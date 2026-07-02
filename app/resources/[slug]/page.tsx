@@ -168,12 +168,29 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             <p className="label mb-8">More in {article.category}</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((r) => (
-                <Link key={r.slug} href={`/resources/${r.slug}`} className="card block h-full p-6 group bg-white">
-                  <p className="label mb-3 text-[10px]">{r.category}</p>
-                  <h3 className="text-base font-bold font-satoshi text-[#1A1A1A] leading-snug mb-2 group-hover:text-black transition-colors">
-                    {r.title}
-                  </h3>
-                  <p className="text-sm text-[#6B6B6B] line-clamp-2">{r.excerpt}</p>
+                <Link key={r.slug} href={`/resources/${r.slug}`} className="card block h-full overflow-hidden group bg-white">
+                  <div className="relative aspect-[16/9] bg-[#F7F7F7] overflow-hidden">
+                    {r.cover_image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={r.cover_image} alt={r.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-4xl font-bold font-satoshi text-[#E5E5E5] select-none">L7</span>
+                      </div>
+                    )}
+                    <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-accent text-[#1A1A1A] px-2 py-0.5 rounded-full">{r.category}</span>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-base font-bold font-satoshi text-[#1A1A1A] leading-snug mb-2 group-hover:text-black transition-colors line-clamp-2">
+                      {r.title}
+                    </h3>
+                    <p className="text-sm text-[#6B6B6B] line-clamp-2 mb-4">{r.excerpt}</p>
+                    <div className="flex items-center gap-2 text-xs text-[#767676]">
+                      <span className="font-medium text-[#1A1A1A]">{r.author}</span>
+                      {r.published_at && <span>·</span>}
+                      {r.published_at && <span>{formatDate(r.published_at)}</span>}
+                    </div>
+                  </div>
                 </Link>
               ))}
             </div>

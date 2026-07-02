@@ -102,8 +102,10 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
                       {a.excerpt}
                     </p>
                     <div className="flex items-center gap-2 text-xs text-[#767676]">
-                      {a.published_at && <span>{formatDate(a.published_at)}</span>}
+                      <span className="font-medium text-[#1A1A1A]">{a.author}</span>
                       {a.published_at && <span>·</span>}
+                      {a.published_at && <span>{formatDate(a.published_at)}</span>}
+                      <span>·</span>
                       <span>{a.reading_time} min read</span>
                     </div>
                   </div>
