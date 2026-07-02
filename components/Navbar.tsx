@@ -44,14 +44,14 @@ export default function Navbar() {
         href="https://www.bob.thelevel7.ai/"
         className="group block bg-accent text-[#0A0A0A]"
       >
-        <div className="max-w-7xl mx-auto px-6 h-9 flex items-center justify-center gap-2 text-[12px] sm:text-[13px] font-medium">
+        <div className="max-w-7xl mx-auto px-6 py-2 flex items-center justify-center gap-x-2 gap-y-1 flex-wrap text-center text-[12px] sm:text-[13px] font-medium leading-snug">
           <span className="shrink-0 font-extrabold uppercase tracking-wider bg-[#0A0A0A] text-accent px-1.5 py-0.5 rounded text-[10px] leading-none">
             NEW
           </span>
-          <span className="truncate">
+          <span>
             Meet <strong className="font-bold">BOB</strong>, your AI agent that runs the busywork 24/7.
           </span>
-          <span className="hidden sm:inline font-semibold underline underline-offset-2 decoration-2 group-hover:no-underline">
+          <span className="font-semibold underline underline-offset-2 decoration-2 group-hover:no-underline whitespace-nowrap">
             Try it free
           </span>
           <svg className="shrink-0 w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
