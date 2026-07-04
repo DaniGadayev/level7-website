@@ -14,6 +14,7 @@ const anim = `
   @keyframes il-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.12); } }
   @keyframes il-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
   @keyframes il-drift { 0% { transform: translateX(0); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateX(130px); opacity: 0; } }
+  @keyframes il-driftL { 0% { transform: translateX(0); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateX(-130px); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 `;
 
@@ -87,11 +88,262 @@ function Bush({ x, y, s = 1, fill = PLANE }: { x: number; y: number; s?: number;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   HERO — daylight street scene. Foreground left: a person on a
-   bench, laptop on their knees, dog beside. Midground: seven
-   buildings stepping upward; the tallest wears the tilted lime 7.
-   Background: faint city. Leads flow along the street into the
-   tower's door. Composed to crop safely at mobile widths.
+   HERO LEFT — "filtered leads walk in". Business owners with
+   briefcases, each wearing a lime qualified-badge, queue into the
+   LEVEL7 storefront that bleeds off the left edge. A gray dot
+   that did not pass rolls away.
+────────────────────────────────────────────────────────────── */
+export function LeadsInScene() {
+  return (
+    <svg
+      viewBox="0 0 440 560"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Qualified business owners queue into the LEVEL7 storefront"
+      className="w-full h-auto"
+    >
+      <style>{anim}</style>
+
+      {/* background */}
+      <g fill={BACK}>
+        <rect x="-10" y="180" width="70" height="340" rx="3" />
+        <rect x="310" y="230" width="66" height="290" rx="3" />
+        <path d="M250 112 Q256 92 276 96 Q284 82 302 88 Q320 84 324 102 Q338 106 334 118 Z" />
+      </g>
+      <ellipse cx="220" cy="524" rx="210" ry="13" fill={SHADOW} />
+
+      {/* storefront, cut by the left edge */}
+      <g>
+        <rect x="-24" y="140" width="164" height="380" rx="3" fill={PAPER} stroke={INK} strokeWidth="3" />
+        <line x1="-24" y1="140" x2="146" y2="140" stroke={INK} strokeWidth="3" strokeLinecap="round" />
+        <Win x={6} y={168} />
+        <Win x={58} y={168} />
+        <Win x={6} y={226} />
+        <Win x={58} y={226} />
+        <Win x={6} y={284} />
+        <g>
+          <rect x="58" y="284" width="26" height="32" rx="2" fill={LIME} stroke={INK} strokeWidth="2" />
+          <line x1="71" y1="284" x2="71" y2="316" stroke={INK} strokeWidth="1.5" />
+          <line x1="58" y1="300" x2="84" y2="300" stroke={INK} strokeWidth="1.5" />
+        </g>
+        {/* brick hints */}
+        <g stroke={LINE_IN} strokeWidth="1.6" strokeLinecap="round" opacity="0.5">
+          <path d="M100 190 h10 M110 196 h10 M100 202 h10" />
+          <path d="M10 344 h10 M20 350 h10" />
+        </g>
+        {/* tilted lime chip on the facade */}
+        <g>
+          <rect x="96" y="336" width="40" height="22" rx="3" fill={PLANE2} transform="rotate(-5 116 347)" />
+          <rect x="100" y="332" width="40" height="22" rx="3" fill={LIME} stroke={INK} strokeWidth="2.4" transform="rotate(-5 120 343)" />
+          <text x="115" y="350" fill={INK} fontSize="17" fontFamily="var(--font-display), sans-serif" transform="rotate(-5 120 343)">7</text>
+        </g>
+        {/* door with awning */}
+        <rect x="42" y="404" width="58" height="116" fill={PAPER} stroke={INK} strokeWidth="3" />
+        <line x1="71" y1="404" x2="71" y2="520" stroke={INK} strokeWidth="2" />
+        <circle cx="64" cy="462" r="2.2" fill={INK} />
+        <circle cx="78" cy="462" r="2.2" fill={INK} />
+        <path d="M34 404 L108 404 L100 384 L42 384 Z" fill={LIME} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <line x1="52" y1="384" x2="56" y2="404" stroke={INK} strokeWidth="2" />
+        <line x1="71" y1="384" x2="71" y2="404" stroke={INK} strokeWidth="2" />
+        <line x1="90" y1="384" x2="86" y2="404" stroke={INK} strokeWidth="2" />
+      </g>
+
+      {/* dashed lead path into the door */}
+      <path
+        d="M440 508 C 380 508, 300 507, 240 506 C 190 505, 140 498, 106 484"
+        stroke={LIME}
+        strokeWidth="2.5"
+        strokeDasharray="1 11"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <circle cx="392" cy="507" r="4.5" fill={LIME} stroke={INK} strokeWidth="2" style={{ animation: "il-driftL 4s ease-in-out 1s infinite" }} />
+
+      {/* one that did not pass, rolling away */}
+      <circle cx="404" cy="474" r="8" fill={MID} stroke={INK} strokeWidth="2.4" />
+      <path d="M400 456 l8 8 M408 456 l-8 8" stroke={MID} strokeWidth="2.2" strokeLinecap="round" />
+
+      {/* walking lead #1 — briefcase, about to enter */}
+      <g>
+        {/* qualified badge */}
+        <g style={{ animation: "il-float 3.4s ease-in-out infinite" }}>
+          <circle cx="200" cy="262" r="11" fill={LIME} stroke={INK} strokeWidth="2.4" />
+          <path d="M195 262 l4 4 l7 -8" stroke={INK} strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+        {/* trailing arm behind torso */}
+        <Tube d="M200 358 Q210 380 208 400" w={10} />
+        {/* legs mid-stride */}
+        <Tube d="M188 428 Q180 462 168 496" w={12} />
+        <Tube d="M196 428 Q206 460 210 496" w={12} />
+        <rect x="150" y="494" width="32" height="12" rx="6" fill={INK} />
+        <rect x="202" y="494" width="32" height="12" rx="6" fill={INK} />
+        {/* torso */}
+        <path d="M178 348 Q182 338 196 338 Q210 338 214 350 L216 412 Q216 428 200 428 L192 428 Q176 428 176 412 Z" fill={PAPER} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <path d="M188 344 q7 5 14 0" stroke={LINE_IN} strokeWidth="1.8" fill="none" />
+        <path d="M186 364 Q187 390 184 418" stroke={LINE_IN} strokeWidth="1.8" fill="none" />
+        {/* briefcase arm, leading */}
+        <Tube d="M180 356 Q168 380 164 402" w={10} />
+        <circle cx="163" cy="406" r="5" fill={PAPER} stroke={INK} strokeWidth="2.4" />
+        <rect x="142" y="410" width="40" height="28" rx="5" fill={INK} />
+        <path d="M156 410 q6 -8 12 0" stroke={INK} strokeWidth="3" fill="none" />
+        <rect x="158" y="420" width="8" height="6" rx="2" fill={LIME} />
+        {/* head, facing the door */}
+        <g style={{ animation: "il-float 4.6s ease-in-out infinite" }}>
+          <path d="M190 330 L192 340 L204 340 L202 328 Z" fill={PAPER} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
+          <Head x={196} y={314} s={0.9} flip={-1} />
+        </g>
+      </g>
+
+      {/* walking lead #2 — a step behind */}
+      <g>
+        <g style={{ animation: "il-float 3.4s ease-in-out 0.6s infinite" }}>
+          <circle cx="318" cy="272" r="11" fill={LIME} stroke={INK} strokeWidth="2.4" />
+          <path d="M313 272 l4 4 l7 -8" stroke={INK} strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+        <Tube d="M318 366 Q326 386 324 406" w={10} fill={PLANE} />
+        <Tube d="M306 434 Q298 464 288 498" w={12} fill={PLANE} />
+        <Tube d="M314 434 Q322 464 326 498" w={12} fill={PLANE} />
+        <rect x="270" y="496" width="32" height="12" rx="6" fill={INK} />
+        <rect x="318" y="496" width="32" height="12" rx="6" fill={INK} />
+        {/* torso, tonal variation */}
+        <path d="M296 356 Q300 346 314 346 Q328 346 332 358 L334 420 Q334 434 318 434 L310 434 Q294 434 294 420 Z" fill={PLANE} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <path d="M304 372 Q305 398 302 426" stroke={LINE_IN} strokeWidth="1.8" fill="none" opacity="0.6" />
+        {/* phone in the leading hand, checking the invite */}
+        <Tube d="M298 364 Q288 384 284 400" w={10} fill={PLANE} />
+        <circle cx="283" cy="404" r="5" fill={PAPER} stroke={INK} strokeWidth="2.4" />
+        <rect x="272" y="404" width="18" height="30" rx="4" fill={PAPER} stroke={INK} strokeWidth="2.4" transform="rotate(-8 281 419)" />
+        <rect x="276" y="410" width="10" height="5" rx="2.5" fill={LIME} transform="rotate(-8 281 419)" />
+        {/* head with a bun */}
+        <g style={{ animation: "il-float 4.6s ease-in-out 0.5s infinite" }}>
+          <circle cx="326" cy="316" r="7" fill={INK} />
+          <path d="M308 338 L310 348 L322 348 L320 336 Z" fill={PAPER} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
+          <Head x={314} y={322} s={0.9} flip={-1} />
+        </g>
+      </g>
+
+      <Bush x={112} y={498} s={0.9} />
+      <Bush x={356} y={500} s={0.75} fill={PLANE2} />
+      <line x1="-20" y1="520" x2="440" y2="520" stroke={INK} strokeWidth="2.5" strokeLinecap="round" opacity="0.85" />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO RIGHT — "the busy business". The owner takes a call behind
+   the counter, the sales bell rings, a teammate carries out an
+   order, and the chart on the wall only goes up. Bleeds off the
+   right edge.
+────────────────────────────────────────────────────────────── */
+export function BusyScene({ viewBox = "0 0 440 560" }: { viewBox?: string }) {
+  return (
+    <svg
+      viewBox={viewBox}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="A business owner takes a call behind a busy counter while a teammate carries an order and the sales chart rises"
+      className="w-full h-auto"
+    >
+      <style>{anim}</style>
+
+      {/* background */}
+      <g fill={BACK}>
+        <rect x="386" y="170" width="80" height="350" rx="3" />
+        <rect x="30" y="230" width="60" height="290" rx="3" />
+        <path d="M84 104 Q90 84 110 88 Q118 74 136 80 Q154 76 158 94 Q172 98 168 110 Z" />
+      </g>
+      <ellipse cx="250" cy="524" rx="210" ry="13" fill={SHADOW} />
+
+      {/* rising chart, floating in the office air */}
+      <g style={{ animation: "il-float 5.4s ease-in-out infinite" }}>
+        <rect x="150" y="112" width="180" height="118" rx="10" fill={PAPER} stroke={INK} strokeWidth="3" />
+        <path d="M166 140 h148 M166 168 h148 M166 196 h148" stroke={PLANE2} strokeWidth="2" />
+        <polyline points="168,206 208,186 236,194 268,158 296,166 312,136" stroke={INK} strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M296 166 L312 136" stroke={LIME} strokeWidth="4" strokeLinecap="round" />
+        <circle cx="312" cy="136" r="5" fill={LIME} stroke={INK} strokeWidth="2.2" />
+      </g>
+
+      {/* the counter, bleeding right */}
+      <g>
+        <rect x="150" y="352" width="320" height="16" rx="7" fill={PAPER} stroke={INK} strokeWidth="3.5" />
+        <rect x="162" y="368" width="300" height="152" fill={PAPER} stroke={INK} strokeWidth="3" />
+        <line x1="162" y1="392" x2="462" y2="392" stroke={LINE_IN} strokeWidth="1.8" />
+        {/* lime chip on the counter front */}
+        <rect x="188" y="428" width="40" height="22" rx="3" fill={LIME} stroke={INK} strokeWidth="2.4" transform="rotate(-4 208 439)" />
+        <text x="203" y="445" fill={INK} fontSize="17" fontFamily="var(--font-display), sans-serif" transform="rotate(-4 208 439)">7</text>
+      </g>
+
+      {/* sales bell on the counter, ringing */}
+      <g>
+        <path d="M262 336 Q262 320 280 320 Q298 320 298 336 Z" fill={PAPER} stroke={INK} strokeWidth="2.8" strokeLinejoin="round" />
+        <rect x="256" y="336" width="48" height="8" rx="4" fill={INK} />
+        <circle cx="280" cy="318" r="3" fill={INK} />
+        <path d="M252 310 L244 302 M280 304 L280 293 M308 310 L316 302" stroke={LIME} strokeWidth="3.5" strokeLinecap="round" style={{ animation: "il-pulse 2.2s ease-in-out infinite" }} />
+      </g>
+
+      {/* the owner behind the counter, on the phone */}
+      <g>
+        {/* resting arm on the counter */}
+        <Tube d="M330 286 Q318 316 306 340" w={11} />
+        <circle cx="303" cy="344" r="5.5" fill={PAPER} stroke={INK} strokeWidth="2.4" />
+        {/* torso above the counter */}
+        <path d="M334 268 Q338 256 356 256 Q374 256 378 270 L382 352 L330 352 Q328 352 328 340 Z" fill={PAPER} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <path d="M348 262 q8 6 16 0" stroke={LINE_IN} strokeWidth="1.8" fill="none" />
+        <path d="M344 286 Q345 316 342 344" stroke={LINE_IN} strokeWidth="1.8" fill="none" />
+        {/* phone arm up to the ear */}
+        <Tube d="M376 278 Q390 270 386 254" w={10.5} />
+        <circle cx="384" cy="250" r="5.5" fill={PAPER} stroke={INK} strokeWidth="2.4" />
+        <rect x="374" y="222" width="13" height="26" rx="4" fill={INK} transform="rotate(10 380 235)" />
+        {/* speech: tiny lime talk marks */}
+        <path d="M396 214 q6 -2 8 -8 M400 226 q8 0 12 -4" stroke={LIME} strokeWidth="2.6" strokeLinecap="round" fill="none" style={{ animation: "il-pulse 2.6s ease-in-out infinite" }} />
+        {/* head, facing the room */}
+        <g style={{ animation: "il-float 4.3s ease-in-out infinite" }}>
+          <path d="M350 250 L352 260 L366 260 L364 248 Z" fill={PAPER} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
+          <Head x={358} y={232} s={1} flip={-1} />
+        </g>
+      </g>
+
+      {/* teammate carrying an order out */}
+      <g>
+        {/* legs mid-stride */}
+        <Tube d="M96 428 Q88 462 76 496" w={12} />
+        <Tube d="M104 428 Q114 460 118 496" w={12} />
+        <rect x="58" y="494" width="32" height="12" rx="6" fill={INK} />
+        <rect x="110" y="494" width="32" height="12" rx="6" fill={INK} />
+        {/* torso */}
+        <path d="M86 348 Q90 338 104 338 Q118 338 122 350 L124 412 Q124 428 108 428 L100 428 Q84 428 84 412 Z" fill={PLANE} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        {/* both arms to the box */}
+        <Tube d="M90 358 Q80 376 82 392" w={10} fill={PLANE} />
+        <Tube d="M118 358 Q126 376 124 392" w={10} fill={PLANE} />
+        {/* the box with lime tape */}
+        <rect x="72" y="388" width="60" height="42" rx="5" fill={PAPER} stroke={INK} strokeWidth="3" />
+        <line x1="102" y1="388" x2="102" y2="430" stroke={LIME} strokeWidth="5" />
+        <line x1="72" y1="404" x2="132" y2="404" stroke={LINE_IN} strokeWidth="1.8" />
+        {/* head with a bun, focused ahead */}
+        <g style={{ animation: "il-float 4.6s ease-in-out 0.4s infinite" }}>
+          <circle cx="90" cy="308" r="7" fill={INK} />
+          <path d="M98 330 L100 340 L112 340 L110 328 Z" fill={PAPER} stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />
+          <Head x={104} y={314} s={0.9} />
+        </g>
+      </g>
+
+      {/* fulfilled orders waiting */}
+      <g>
+        <rect x="20" y="474" width="52" height="38" rx="5" fill={PAPER} stroke={INK} strokeWidth="2.8" />
+        <line x1="46" y1="474" x2="46" y2="512" stroke={LIME} strokeWidth="4" />
+        <rect x="28" y="442" width="44" height="32" rx="5" fill={PLANE} stroke={INK} strokeWidth="2.8" />
+        <line x1="50" y1="442" x2="50" y2="474" stroke={LIME} strokeWidth="4" />
+      </g>
+
+      <Bush x={392} y={498} s={0.85} />
+      <line x1="0" y1="520" x2="460" y2="520" stroke={INK} strokeWidth="2.5" strokeLinecap="round" opacity="0.85" />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO (legacy full-street scene, kept for reuse elsewhere)
 ────────────────────────────────────────────────────────────── */
 export function HeroIllustration({ viewBox = "0 0 1200 560" }: { viewBox?: string }) {
   return (

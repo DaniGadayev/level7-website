@@ -5,7 +5,8 @@ import { useRef } from "react";
 import Link from "next/link";
 import { services } from "@/lib/services";
 import {
-  HeroIllustration,
+  LeadsInScene,
+  BusyScene,
   FilterIllustration,
   WarmingIllustration,
   RoiIllustration,
@@ -95,69 +96,94 @@ const stats = [
 export default function HomePage() {
   return (
     <>
-      {/* HERO — light, Lemonade-style: copy centered, scene bleeding full width below */}
+      {/* HERO — Lemonade structure: copy centered between two scenes that
+          bleed off the page edges and share one ground line */}
       <section className="bg-white overflow-hidden">
-        <div className="max-w-4xl mx-auto px-6 pt-32 md:pt-40 text-center">
-          <motion.p custom={0} variants={fadeUp} initial="hidden" animate="visible" className="label justify-center mb-6">
-            Growth marketing, plus the software behind it
-          </motion.p>
-          <motion.h1
-            custom={1}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="display text-hero mb-7"
-          >
-            Marketing that{" "}
-            <span className="tilt-chip">pays</span>
-            <br />
-            for itself.
-          </motion.h1>
-          <motion.p
-            custom={2}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-9 leading-relaxed"
-          >
-            LEVEL7 runs your marketing end to end. We generate the leads, filter out the noise, and warm up
-            the rest before your team ever picks up the phone. Then we measure the only thing that matters:
-            how much came back.
-          </motion.p>
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,660px)_minmax(0,1fr)] lg:items-end lg:gap-2 pt-28 md:pt-36">
+          {/* left scene: filtered leads walking in */}
           <motion.div
-            custom={3}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-wrap gap-4 justify-center"
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:block self-end -ml-6"
+            aria-hidden="true"
           >
-            <Link href="/contact" className="btn-primary">
-              Get my growth plan
-              <ArrowIcon />
-            </Link>
-            <Link href="/services" className="btn-ghost">
-              Explore our services
-            </Link>
+            <LeadsInScene />
+          </motion.div>
+
+          {/* centered copy */}
+          <div className="text-center px-6 lg:pb-24">
+            <motion.p custom={0} variants={fadeUp} initial="hidden" animate="visible" className="label justify-center mb-5">
+              Growth marketing, plus the software behind it
+            </motion.p>
+            <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible" className="display text-hero mb-6">
+              Marketing that{" "}
+              <span className="tilt-chip">pays</span>
+              <br />
+              for itself.
+            </motion.h1>
+
+            {/* mobile: one short line, then the scene, then the buttons */}
+            <motion.p
+              custom={2}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              className="lg:hidden text-lg text-muted max-w-md mx-auto mb-2 leading-relaxed"
+            >
+              We run your marketing, filter your leads, and measure one thing: how much came back.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:hidden -mx-6"
+              aria-hidden="true"
+            >
+              <BusyScene viewBox="0 88 460 444" />
+            </motion.div>
+
+            {/* desktop: the full paragraph */}
+            <motion.p
+              custom={2}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              className="hidden lg:block text-xl text-muted max-w-xl mx-auto mb-9 leading-relaxed"
+            >
+              LEVEL7 runs your marketing end to end. We generate the leads, filter out the noise, and warm up
+              the rest before your team ever picks up the phone. Then we measure the only thing that matters:
+              how much came back.
+            </motion.p>
+
+            <motion.div
+              custom={3}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-wrap gap-4 justify-center mt-6 lg:mt-0"
+            >
+              <Link href="/contact" className="btn-primary">
+                Get my growth plan
+                <ArrowIcon />
+              </Link>
+              <Link href="/services" className="btn-ghost">
+                Explore our services
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* right scene: the busy business */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:block self-end -mr-6"
+            aria-hidden="true"
+          >
+            <BusyScene />
           </motion.div>
         </div>
-
-        {/* the street scene, full-bleed under the copy — visible on every screen size */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-6 md:mt-2"
-          aria-hidden="true"
-        >
-          {/* mobile gets a dedicated crop of the scene (the person + the start of
-              the climb); desktop gets the full street */}
-          <div className="sm:hidden">
-            <HeroIllustration viewBox="20 120 680 430" />
-          </div>
-          <div className="hidden sm:block">
-            <HeroIllustration />
-          </div>
-        </motion.div>
 
         {/* services marquee */}
         <div className="bg-[#0A0A0A] py-5 overflow-hidden" aria-hidden="true">
