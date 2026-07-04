@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublishedArticlesStrict } from "@/lib/articles";
+import { services } from "@/lib/services";
 
 const BASE = "https://thelevel7.ai";
 
@@ -10,6 +11,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${BASE}/services`, changeFrequency: "monthly", priority: 0.8 },
+    ...services.map((s) => ({
+      url: `${BASE}/services/${s.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     { url: `${BASE}/resources`, changeFrequency: "daily", priority: 0.8 },
     { url: `${BASE}/about`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/contact`, changeFrequency: "yearly", priority: 0.5 },
