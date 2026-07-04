@@ -95,65 +95,77 @@ const stats = [
 export default function HomePage() {
   return (
     <>
-      {/* HERO */}
-      <section className="bg-[#0A0A0A] text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 pt-32 pb-16 md:pt-40 md:pb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <div>
-            <motion.p custom={0} variants={fadeUp} initial="hidden" animate="visible" className="label on-dark mb-6">
-              Growth marketing, plus the software behind it
-            </motion.p>
-            <motion.h1
-              custom={1}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="display text-hero mb-8"
-            >
-              Marketing that{" "}
-              <span className="tilt-chip">pays</span>
-              <br />
-              for itself.
-            </motion.h1>
-            <motion.p
-              custom={2}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="text-lg md:text-xl text-white/65 max-w-xl mb-10 leading-relaxed"
-            >
-              LEVEL7 runs your marketing end to end. We generate the leads, filter out the noise, and warm up
-              the rest before your team ever picks up the phone. Then we measure the only thing that matters:
-              how much came back.
-            </motion.p>
-            <motion.div custom={3} variants={fadeUp} initial="hidden" animate="visible" className="flex flex-wrap gap-4">
-              <Link href="/contact" className="btn-primary on-dark">
-                Get my growth plan
-                <ArrowIcon />
-              </Link>
-              <Link href="/services" className="btn-ghost on-dark">
-                Explore our services
-              </Link>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden sm:block"
-            aria-hidden="true"
+      {/* HERO — light, Lemonade-style: copy centered, scene bleeding full width below */}
+      <section className="bg-white overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 pt-32 md:pt-40 text-center">
+          <motion.p custom={0} variants={fadeUp} initial="hidden" animate="visible" className="label justify-center mb-6">
+            Growth marketing, plus the software behind it
+          </motion.p>
+          <motion.h1
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="display text-hero mb-7"
           >
-            <HeroIllustration />
+            Marketing that{" "}
+            <span className="tilt-chip">pays</span>
+            <br />
+            for itself.
+          </motion.h1>
+          <motion.p
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-9 leading-relaxed"
+          >
+            LEVEL7 runs your marketing end to end. We generate the leads, filter out the noise, and warm up
+            the rest before your team ever picks up the phone. Then we measure the only thing that matters:
+            how much came back.
+          </motion.p>
+          <motion.div
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-wrap gap-4 justify-center"
+          >
+            <Link href="/contact" className="btn-primary">
+              Get my growth plan
+              <ArrowIcon />
+            </Link>
+            <Link href="/services" className="btn-ghost">
+              Explore our services
+            </Link>
           </motion.div>
         </div>
 
+        {/* the street scene, full-bleed under the copy — visible on every screen size */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-6 md:mt-2"
+          aria-hidden="true"
+        >
+          {/* mobile gets a dedicated crop of the scene (the person + the start of
+              the climb); desktop gets the full street */}
+          <div className="sm:hidden">
+            <HeroIllustration viewBox="20 120 680 430" />
+          </div>
+          <div className="hidden sm:block">
+            <HeroIllustration />
+          </div>
+        </motion.div>
+
         {/* services marquee */}
-        <div className="border-t border-white/10 py-5 overflow-hidden" aria-hidden="true">
+        <div className="bg-[#0A0A0A] py-5 overflow-hidden" aria-hidden="true">
           <div className="marquee-track">
             {[0, 1].map((half) => (
               <div key={half} className="flex items-center shrink-0">
                 {services.map((s) => (
-                  <span key={`${half}-${s.slug}`} className="flex items-center text-white/50 text-sm font-medium whitespace-nowrap">
+                  <span key={`${half}-${s.slug}`} className="flex items-center text-white/60 text-sm font-medium whitespace-nowrap">
                     <span className="mx-6">{s.shortName}</span>
                     <span className="w-2.5 h-2.5 bg-accent inline-block" style={{ transform: "rotate(-8deg)" }} />
                   </span>
