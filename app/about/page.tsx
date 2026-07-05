@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { differentiators, processSteps } from "@/lib/social-proof";
 import { Ticks, SectionHead, LogoStrip, TestimonialGrid } from "@/components/Hud";
+import { HudOverlay, Tilt, Magnetic, ImageFrame, TextBand, Scramble } from "@/components/Scrolly";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
@@ -52,6 +53,7 @@ const timeline = [
 export default function AboutPage() {
   return (
     <>
+      <HudOverlay />
       {/* HERO */}
       <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
@@ -77,6 +79,21 @@ export default function AboutPage() {
 
       <div className="scan-rule" aria-hidden="true" />
 
+      {/* TEAM BAND */}
+      <section className="py-14 overflow-hidden" aria-hidden="true">
+        <TextBand text="ACCOUNTABLE MARKETING" dir={1} />
+      </section>
+      <section className="pb-6">
+        <div className="max-w-7xl mx-auto px-6">
+          <ImageFrame
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1800&auto=format&fit=crop"
+            alt="The team at work"
+            caption="One team / eleven services"
+            ratio="aspect-[16/8] md:aspect-[16/6]"
+          />
+        </div>
+      </section>
+
       {/* STORY */}
       <Section className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6">
@@ -86,6 +103,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {timeline.map((t, i) => (
               <motion.div key={t.title} custom={i + 1} variants={fadeUp}>
+                <Tilt className="h-full">
                 <Ticks className="panel hot p-8 h-full">
                   <p className="mono mb-5">
                     <span className="text-accent">T{i + 1}</span> {t.year}
@@ -93,6 +111,7 @@ export default function AboutPage() {
                   <h3 className="display text-3xl mb-3">{t.title}</h3>
                   <p className="text-muted leading-relaxed text-[15px]">{t.desc}</p>
                 </Ticks>
+                </Tilt>
               </motion.div>
             ))}
           </div>
@@ -113,6 +132,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {differentiators.map((d, i) => (
               <motion.div key={d.num} custom={i + 1} variants={fadeUp}>
+                <Tilt className="h-full">
                 <Ticks className="panel hot p-8 h-full">
                   <div className="flex items-baseline justify-between mb-6">
                     <p className="mono">
@@ -126,6 +146,7 @@ export default function AboutPage() {
                   <h3 className="display text-3xl mb-3">{d.title}</h3>
                   <p className="text-muted leading-relaxed text-[15px]">{d.desc}</p>
                 </Ticks>
+                </Tilt>
               </motion.div>
             ))}
           </div>
@@ -182,10 +203,12 @@ export default function AboutPage() {
             the way up.
           </motion.p>
           <motion.div custom={3} variants={fadeUp}>
-            <Link href="/contact" className="btn-primary">
-              Get my growth plan
-              <ArrowIcon />
-            </Link>
+            <Magnetic>
+              <Link href="/contact" className="btn-primary">
+                Get my growth plan
+                <ArrowIcon />
+              </Link>
+            </Magnetic>
           </motion.div>
         </div>
       </Section>

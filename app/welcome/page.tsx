@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { differentiators } from "@/lib/social-proof";
 import { Ticks, SectionHead, TestimonialGrid, LogoStrip } from "@/components/Hud";
+import { HudOverlay, Tilt, Magnetic } from "@/components/Scrolly";
 
 /*
  * The after-lead page. Sent to leads right after they leave their details,
@@ -57,6 +58,7 @@ const together = [
 export default function WelcomePage() {
   return (
     <>
+      <HudOverlay />
       {/* HERO — mobile-first: short, warm, expectation-setting */}
       <section className="relative pt-36 pb-14 md:pt-44 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
@@ -118,6 +120,7 @@ export default function WelcomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {differentiators.map((d, i) => (
               <motion.div key={d.num} custom={i + 1} variants={fadeUp}>
+                <Tilt className="h-full">
                 <Ticks className="panel hot p-8 h-full">
                   <div className="flex items-baseline justify-between mb-6">
                     <p className="mono">
@@ -131,6 +134,7 @@ export default function WelcomePage() {
                   <h3 className="display text-3xl mb-3">{d.title}</h3>
                   <p className="text-muted leading-relaxed text-[15px]">{d.desc}</p>
                 </Ticks>
+                </Tilt>
               </motion.div>
             ))}
           </div>
@@ -146,6 +150,7 @@ export default function WelcomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
             {together.map((t, i) => (
               <motion.div key={t.num} custom={i + 1} variants={fadeUp}>
+                <Tilt className="h-full">
                 <Ticks className="panel hot p-8 h-full">
                   <p className="mono mb-6">
                     <span className="text-accent">{t.num}</span> / 03
@@ -153,14 +158,17 @@ export default function WelcomePage() {
                   <h3 className="display text-3xl mb-3">{t.title}</h3>
                   <p className="text-muted leading-relaxed text-[15px]">{t.desc}</p>
                 </Ticks>
+                </Tilt>
               </motion.div>
             ))}
           </div>
           <motion.div custom={4} variants={fadeUp} className="text-center">
-            <Link href="/contact" className="btn-primary text-lg px-10 py-5">
-              Book your call now
-              <ArrowIcon className="w-5 h-5" />
-            </Link>
+            <Magnetic>
+              <Link href="/contact" className="btn-primary text-lg px-10 py-5">
+                Book your call now
+                <ArrowIcon className="w-5 h-5" />
+              </Link>
+            </Magnetic>
             <p className="mono mt-4">Or just wait, we are already on it.</p>
           </motion.div>
         </div>

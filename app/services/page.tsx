@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { services } from "@/lib/services";
+import { HudOverlay, SlideIn, Magnetic, Scramble } from "@/components/Scrolly";
 
 export const metadata: Metadata = {
   title: "Services | LEVEL7",
@@ -17,6 +18,7 @@ const ArrowIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 export default function ServicesPage() {
   return (
     <>
+      <HudOverlay />
       {/* Hero */}
       <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
@@ -43,7 +45,8 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {services.map((s, i) => (
-              <Link key={s.slug} href={`/services/${s.slug}`} className="panel hot group flex flex-col p-7">
+              <SlideIn key={s.slug} dir={i % 3 === 0 ? -1 : 1} distance={40 + (i % 3) * 20}>
+              <Link href={`/services/${s.slug}`} className="panel hot group flex flex-col p-7 h-full">
                 <div className="flex items-start justify-between mb-6">
                   <span className="mono !text-faint group-hover:!text-accent transition-colors">
                     {String(i + 1).padStart(2, "0")} / 11
@@ -56,6 +59,7 @@ export default function ServicesPage() {
                 <p className="text-sm font-medium text-accent/90 mb-3">{s.tagline}</p>
                 <p className="text-sm text-muted leading-relaxed">{s.blurb}</p>
               </Link>
+              </SlideIn>
             ))}
           </div>
         </div>
@@ -72,10 +76,12 @@ export default function ServicesPage() {
                 You should not have to be. Tell us about your business and we will map the mix of channels
                 that fits your market, your margins and your goals.
               </p>
-              <Link href="/contact" className="btn-primary">
-                Get my growth plan
-                <ArrowIcon />
-              </Link>
+              <Magnetic>
+                <Link href="/contact" className="btn-primary">
+                  Get my growth plan
+                  <ArrowIcon />
+                </Link>
+              </Magnetic>
             </div>
           </div>
         </div>

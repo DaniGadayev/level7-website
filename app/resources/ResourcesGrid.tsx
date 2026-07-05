@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { ArticleCard } from "@/lib/articles";
+import { HudOverlay } from "@/components/Scrolly";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -23,6 +24,7 @@ function formatDate(iso: string | null): string {
 export default function ResourcesGrid({ articles }: { articles: ArticleCard[] }) {
   return (
     <>
+      <HudOverlay />
       {/* ── HERO ── */}
       <section className="pt-36 pb-16 border-b border-line">
         <div className="max-w-7xl mx-auto px-6">

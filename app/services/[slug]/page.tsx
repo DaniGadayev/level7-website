@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { services, getService } from "@/lib/services";
+import { HudOverlay, SlideIn, Magnetic } from "@/components/Scrolly";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -31,6 +32,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
   return (
     <>
+      <HudOverlay />
       {/* Hero */}
       <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
@@ -67,7 +69,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             </p>
             <div className="space-y-4">
               {service.points.map((p, i) => (
-                <div key={p.title} className="panel p-6 flex gap-6">
+                <SlideIn key={p.title} dir={-1} distance={50 + i * 25}>
+                <div className="panel hot p-6 flex gap-6">
                   <span className="display text-3xl text-accent shrink-0 w-12">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -76,6 +79,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                     <p className="text-muted leading-relaxed">{p.desc}</p>
                   </div>
                 </div>
+                </SlideIn>
               ))}
             </div>
 

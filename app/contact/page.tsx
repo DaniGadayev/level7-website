@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { HudOverlay } from "@/components/Scrolly";
 
 /* ─────────────────────────────────────────────
    Contact Hero SVG — 280×280
@@ -113,6 +114,7 @@ export default function ContactPage() {
 
   return (
     <>
+      <HudOverlay />
       {/* ── HERO ── */}
       <section className="pt-36 pb-20 border-b border-border">
         <motion.div
