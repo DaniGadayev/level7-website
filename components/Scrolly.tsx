@@ -15,6 +15,8 @@ import {
   useReducedMotion,
   useMotionValueEvent,
   useInView,
+  useVelocity,
+  useMotionValue,
   type MotionValue,
 } from "framer-motion";
 
@@ -242,6 +244,207 @@ export function ScrollMarquee({ children, base = -10 }: { children: React.ReactN
     <div className="overflow-hidden">
       <motion.div style={reduce ? undefined : { x }} className="flex w-max">
         {children}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ───────────────────────── GAME LAYER ───────────────────────── */
+
+/** Magnetic wrapper: the child leans toward the cursor like a game button. */
+export function Magnetic({ children, strength = 0.35 }: { children: React.ReactNode; strength?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  if (reduce) return <>{children}</>;
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={(e) => {
+        const r = ref.current?.getBoundingClientRect();
+        if (!r) return;
+        setPos({ x: (e.clientX - r.left - r.width / 2) * strength, y: (e.clientY - r.top - r.height / 2) * strength });
+      }}
+      onMouseLeave={() => setPos({ x: 0, y: 0 })}
+      animate={{ x: pos.x, y: pos.y }}
+      transition={{ type: "spring", stiffness: 220, damping: 16, mass: 0.4 }}
+      className="inline-block"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** 3D tilt card: rotates toward the cursor like a game asset. */
+export function Tilt({ children, max = 8, className = "" }: { children: React.ReactNode; max?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const [rot, setRot] = useState({ x: 0, y: 0 });
+
+  if (reduce) return <div className={className}>{children}</div>;
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ transformStyle: "preserve-3d", perspective: 900 }}
+      onMouseMove={(e) => {
+        const r = ref.current?.getBoundingClientRect();
+        if (!r) return;
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        setRot({ x: -py * max, y: px * max });
+      }}
+      onMouseLeave={() => setRot({ x: 0, y: 0 })}
+      animate={{ rotateX: rot.x, rotateY: rot.y }}
+      transition={{ type: "spring", stiffness: 260, damping: 18, mass: 0.5 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Skews content by scroll velocity — motion you can feel, like game camera lag. */
+export function VelocitySkew({ children, factor = 0.06, className = "" }: { children: React.ReactNode; factor?: number; className?: string }) {
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+  const velocity = useVelocity(scrollY);
+  const smooth = useSpring(velocity, { stiffness: 300, damping: 50, mass: 0.6 });
+  const skew = useTransform(smooth, [-1600, 1600], [-factor * 100, factor * 100]);
+  return (
+    <motion.div style={reduce ? undefined : { skewY: skew }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+/** Mouse-parallax stage: layered children drift with the cursor (game camera). */
+export function MouseStage({
+  children,
+  className = "",
+}: {
+  children: (mx: MotionValue<number>, my: MotionValue<number>) => React.ReactNode;
+  className?: string;
+}) {
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 60, damping: 18, mass: 0.6 });
+  const sy = useSpring(my, { stiffness: 60, damping: 18, mass: 0.6 });
+  return (
+    <div
+      className={className}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        mx.set((e.clientX - r.left) / r.width - 0.5);
+        my.set((e.clientY - r.top) / r.height - 0.5);
+      }}
+      onMouseLeave={() => {
+        mx.set(0);
+        my.set(0);
+      }}
+    >
+      {children(sx, sy)}
+    </div>
+  );
+}
+
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&/=+*";
+
+/** Text decodes into place when it enters the viewport. */
+export function Scramble({ text, className = "" }: { text: string; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduce = useReducedMotion();
+  const [out, setOut] = useState(text);
+
+  useEffect(() => {
+    if (!inView || reduce) {
+      setOut(text);
+      return;
+    }
+    let frame = 0;
+    let raf: number;
+    const total = 26;
+    const tick = () => {
+      frame++;
+      const reveal = Math.floor((frame / total) * text.length);
+      setOut(
+        text
+          .split("")
+          .map((ch, i) => {
+            if (ch === " ") return " ";
+            if (i < reveal) return ch;
+            return SCRAMBLE_CHARS[Math.floor((i * 7 + frame * 13) % SCRAMBLE_CHARS.length)];
+          })
+          .join("")
+      );
+      if (frame < total) raf = requestAnimationFrame(tick);
+      else setOut(text);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, text, reduce]);
+
+  return (
+    <span ref={ref} className={className}>
+      {out}
+    </span>
+  );
+}
+
+/** Fixed HUD: viewport corner brackets, scroll %, and a live progress bar. */
+export function HudOverlay() {
+  const { scrollYProgress } = useScroll();
+  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  const [pct, setPct] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => setPct(Math.round(v * 100)));
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-40 hidden md:block" aria-hidden="true">
+      {/* progress bar */}
+      <motion.div style={{ scaleX: smooth }} className="absolute top-0 left-0 right-0 h-[3px] origin-left bg-accent" />
+      {/* corner brackets */}
+      <div className="absolute bottom-5 left-5 w-6 h-6 border-l-2 border-b-2 border-ink/25" />
+      <div className="absolute bottom-5 right-5 w-6 h-6 border-r-2 border-b-2 border-ink/25" />
+      {/* telemetry readout */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4">
+        <span className="mono !text-[10px]">LVL7.SYS</span>
+        <span className="w-24 h-px bg-ink/15 relative overflow-hidden">
+          <motion.span style={{ scaleX: smooth }} className="absolute inset-0 origin-left bg-accent" />
+        </span>
+        <span className="mono !text-[10px] tabular-nums">{String(pct).padStart(3, "0")}%</span>
+      </div>
+    </div>
+  );
+}
+
+/** Giant outlined text band that slides with scroll; two of these in opposite
+    directions make the "conveyor" moment. */
+export function TextBand({
+  text,
+  dir = 1,
+  className = "",
+}: {
+  text: string;
+  dir?: 1 | -1;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], [dir * 6 + "%", dir * -14 + "%"]);
+  const items = Array.from({ length: 4 }, () => text);
+  return (
+    <div ref={ref} className={`overflow-hidden ${className}`}>
+      <motion.div style={reduce ? undefined : { x }} className="flex w-max whitespace-nowrap items-center gap-8">
+        {items.map((t, i) => (
+          <span key={i} className="flex items-center gap-8">
+            <span className={`display text-[clamp(3.5rem,9vw,9rem)] ${i % 2 ? "outline-type" : ""}`}>{t}</span>
+            <span className="w-4 h-4 bg-accent inline-block shrink-0" style={{ transform: "rotate(-8deg)" }} />
+          </span>
+        ))}
       </motion.div>
     </div>
   );

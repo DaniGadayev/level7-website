@@ -49,7 +49,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${bebas.variable} ${poppins.variable} ${plexMono.variable}`}>
-      <body className="bg-[#0A0A0A] text-[#F4F4F0] antialiased font-body">
+      <body className="bg-[#FBFBF8] text-[#0A0A0A] antialiased font-body">
         <Navbar />
         <PageTransition>
           <main>{children}</main>

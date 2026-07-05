@@ -20,6 +20,13 @@ import {
   PinnedScene,
   useSceneStep,
   HorizontalRail,
+  Magnetic,
+  Tilt,
+  VelocitySkew,
+  MouseStage,
+  Scramble,
+  HudOverlay,
+  TextBand,
 } from "@/components/Scrolly";
 
 const BOB_URL = "https://www.bob.thelevel7.ai/";
@@ -68,79 +75,183 @@ const method = [
   },
 ];
 
-/* ── HERO: headline halves shear apart as you scroll ── */
+const heroChips = [
+  { label: "GOOGLE ADS", x: "9%", y: "13%", depth: 40, rot: -6 },
+  { label: "FILTERED LEADS", x: "78%", y: "20%", depth: 60, rot: 4 },
+  { label: "3X-12X ROAS", x: "84%", y: "62%", depth: 30, rot: -3 },
+  { label: "AFTER-LEAD", x: "66%", y: "80%", depth: 55, rot: 5 },
+  { label: "AI SEARCH", x: "64%", y: "8%", depth: 45, rot: -4 },
+  { label: "24/7", x: "26%", y: "10%", depth: 70, rot: 6 },
+];
+
+/* hook-safe cursor-parallax pieces (hooks must live at component top level) */
+function ChipFloat({ c, mx, my }: { c: (typeof heroChips)[number]; mx: any; my: any }) {
+  const x = useTransform(mx, (v: number) => v * -c.depth);
+  const y = useTransform(my, (v: number) => v * -c.depth);
+  return (
+    <motion.span
+      style={{ left: c.x, top: c.y, rotate: c.rot, x, y }}
+      className="absolute hidden lg:inline-block font-mono text-[11px] tracking-[0.14em] bg-white border-2 border-ink rounded px-3 py-1.5 shadow-[3px_3px_0_#0A0A0A] select-none"
+      aria-hidden="true"
+    >
+      <span className="text-accent mr-1.5">▮</span>
+      {c.label}
+    </motion.span>
+  );
+}
+
+function GlowFloat({ mx, my }: { mx: any; my: any }) {
+  const x = useTransform(mx, (v: number) => v * -40);
+  const y = useTransform(my, (v: number) => v * -30);
+  return <motion.div style={{ x, y }} className="absolute inset-x-0 top-1/4 h-[480px] glow pointer-events-none" aria-hidden="true" />;
+}
+
+function HeadlineShear({
+  children,
+  scrollX,
+  mx,
+  factor,
+  className,
+}: {
+  children: React.ReactNode;
+  scrollX: any;
+  mx: any;
+  factor: number;
+  className: string;
+}) {
+  const tx = useTransform(mx, (v: number) => v * factor);
+  return (
+    <motion.h1 style={{ x: scrollX, translateX: tx }} className={className}>
+      {children}
+    </motion.h1>
+  );
+}
+
+/* ── HERO: game camera — cursor parallax + scroll shear ── */
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
 
-  const xLeft = useTransform(smooth, [0, 1], ["0%", "-16%"]);
-  const xRight = useTransform(smooth, [0, 1], ["0%", "16%"]);
-  const fade = useTransform(smooth, [0, 0.7], [1, 0]);
-  const gridScale = useTransform(smooth, [0, 1], [1, 1.25]);
-  const glowY = useTransform(smooth, [0, 1], ["0%", "40%"]);
+  const xLeft = useTransform(smooth, [0, 1], ["0%", "-18%"]);
+  const xRight = useTransform(smooth, [0, 1], ["0%", "18%"]);
+  const fade = useTransform(smooth, [0, 0.75], [1, 0]);
+  const gridScale = useTransform(smooth, [0, 1], [1, 1.3]);
 
   return (
-    <section ref={ref} className="relative min-h-[108vh] overflow-hidden flex flex-col justify-center">
-      <motion.div style={reduce ? undefined : { scale: gridScale }} className="absolute inset-0 grid-bg" aria-hidden="true" />
-      <motion.div style={reduce ? undefined : { y: glowY }} className="absolute inset-x-0 top-1/4 h-[480px] glow pointer-events-none" aria-hidden="true" />
+    <section ref={ref} className="relative min-h-[106vh] overflow-hidden">
+      <MouseStage className="relative min-h-[106vh] flex flex-col justify-center">
+        {(mx, my) => (
+          <>
+            <motion.div style={reduce ? undefined : { scale: gridScale }} className="absolute inset-0 grid-bg" aria-hidden="true" />
+            {reduce ? (
+              <div className="absolute inset-x-0 top-1/4 h-[480px] glow pointer-events-none" aria-hidden="true" />
+            ) : (
+              <GlowFloat mx={mx} my={my} />
+            )}
 
-      <motion.div style={reduce ? undefined : { opacity: fade }} className="relative max-w-[92rem] mx-auto w-full px-6 pt-28">
-        {/* telemetry topline */}
-        <div className="flex items-center justify-between mb-10 md:mb-16">
-          <p className="mono">
-            <span className="text-accent">●</span> Growth marketing + software
-          </p>
-          <p className="mono hidden sm:block">For service businesses / worldwide</p>
-          <p className="mono hidden md:block">EST. return 3x-12x</p>
-        </div>
+            {/* floating service chips, each on its own depth plane */}
+            {!reduce && heroChips.map((c) => <ChipFloat key={c.label} c={c} mx={mx} my={my} />)}
 
-        <motion.h1 style={reduce ? undefined : { x: xLeft }} className="display text-hero whitespace-nowrap">
-          Marketing that
-        </motion.h1>
-        <motion.h1 style={reduce ? undefined : { x: xRight }} className="display text-hero text-right whitespace-nowrap">
-          <span className="tilt-chip">pays</span> for itself.
-        </motion.h1>
+            {/* rotating starburst badge */}
+            <div className="absolute right-[8%] top-[30%] hidden xl:block" aria-hidden="true">
+              <div className="relative w-28 h-28 spin-slow">
+                <svg viewBox="0 0 112 112" className="w-full h-full">
+                  <path
+                    id="circ"
+                    d="M56,56 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"
+                    fill="none"
+                  />
+                  <text className="font-mono" fontSize="10.5" letterSpacing="2.5" fill="#0A0A0A">
+                    <textPath href="#circ">START WITH $0 • START WITH $0 • START WITH $0 •</textPath>
+                  </text>
+                </svg>
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <span className="w-10 h-10 bg-accent border-2 border-ink rounded-sm flex items-center justify-center display text-xl" style={{ transform: "rotate(-6deg)" }}>
+                    7
+                  </span>
+                </span>
+              </div>
+            </div>
 
-        <div className="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
-          <p className="text-lg text-muted leading-relaxed max-w-xl">
-            LEVEL7 runs your marketing end to end. We generate the leads, filter out the noise, and warm up
-            the rest before your team ever picks up the phone. Then we measure the only thing that matters:
-            how much came back.
-          </p>
-          <div className="flex flex-wrap gap-4 md:justify-end">
-            <a href={BOB_URL} className="btn-primary">
-              START WITH $0
-              <ArrowIcon />
-            </a>
-            <Link href="/services" className="btn-ghost">
-              Explore our services
-            </Link>
-          </div>
-        </div>
+            <motion.div style={reduce ? undefined : { opacity: fade }} className="relative max-w-[92rem] mx-auto w-full px-6 pt-32">
+              <div className="flex items-center justify-between mb-10 md:mb-14">
+                <p className="mono">
+                  <span className="text-accent">●</span> <Scramble text="GROWTH MARKETING + SOFTWARE" />
+                </p>
+                <p className="mono hidden sm:block">
+                  <Scramble text="FOR SERVICE BUSINESSES / WORLDWIDE" />
+                </p>
+                <p className="mono hidden md:block">
+                  <Scramble text="EST. RETURN 3X-12X" />
+                </p>
+              </div>
 
-        {/* scroll cue */}
-        <div className="mt-16 md:mt-20 flex items-center gap-4">
-          <motion.span
-            aria-hidden="true"
-            animate={reduce ? undefined : { y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="text-accent"
-          >
-            ↓
-          </motion.span>
-          <p className="mono">Scroll / the page plays itself</p>
-        </div>
-      </motion.div>
+              {reduce ? (
+                <>
+                  <h1 className="display text-hero whitespace-nowrap">Marketing that</h1>
+                  <h1 className="display text-hero text-right whitespace-nowrap">
+                    <span className="tilt-chip">pays</span> for itself.
+                  </h1>
+                </>
+              ) : (
+                <>
+                  <HeadlineShear scrollX={xLeft} mx={mx} factor={-14} className="display text-hero whitespace-nowrap">
+                    Marketing that
+                  </HeadlineShear>
+                  <HeadlineShear scrollX={xRight} mx={mx} factor={14} className="display text-hero text-right whitespace-nowrap">
+                    <span className="tilt-chip">pays</span> for itself.
+                  </HeadlineShear>
+                </>
+              )}
+
+              <div className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                <p className="text-lg text-muted leading-relaxed max-w-xl">
+                  LEVEL7 runs your marketing end to end. We generate the leads, filter out the noise, and warm
+                  up the rest before your team ever picks up the phone. Then we measure the only thing that
+                  matters: how much came back.
+                </p>
+                <div className="flex flex-wrap gap-4 md:justify-end">
+                  <Magnetic>
+                    <a href={BOB_URL} className="btn-primary">
+                      START WITH $0
+                      <ArrowIcon />
+                    </a>
+                  </Magnetic>
+                  <Magnetic strength={0.25}>
+                    <Link href="/services" className="btn-ghost">
+                      Explore our services
+                    </Link>
+                  </Magnetic>
+                </div>
+              </div>
+
+              <div className="mt-14 md:mt-16 flex items-center gap-4">
+                <motion.span
+                  aria-hidden="true"
+                  animate={reduce ? undefined : { y: [0, 8, 0] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-ink font-bold"
+                >
+                  ↓
+                </motion.span>
+                <p className="mono">
+                  <Scramble text="SCROLL / THE PAGE PLAYS ITSELF" />
+                </p>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </MouseStage>
     </section>
   );
 }
 
-/* ── STATS: numbers count up, band drifts on scroll ── */
+/* ── STATS ── */
 function StatsBand() {
   return (
-    <section className="relative border-y border-line overflow-hidden">
+    <section className="relative border-y-2 border-ink bg-white overflow-hidden">
       <div className="scan-rule absolute top-0 inset-x-0" aria-hidden="true" />
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
@@ -175,13 +286,9 @@ function StatsBand() {
   );
 }
 
-/* ── METHOD: pinned scrollytelling scene ── */
+/* ── METHOD: pinned scrollytelling ── */
 function MethodScene() {
-  return (
-    <PinnedScene height="340vh">
-      {(progress) => <MethodFrames progress={progress} />}
-    </PinnedScene>
-  );
+  return <PinnedScene height="340vh">{(progress) => <MethodFrames progress={progress} />}</PinnedScene>;
 }
 
 function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) {
@@ -189,7 +296,7 @@ function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) 
   const railScale = useTransform(progress, [0, 1], [0, 1]);
 
   return (
-    <div className="relative h-full flex flex-col justify-center overflow-hidden">
+    <div className="relative h-full flex flex-col justify-center overflow-hidden bg-panel2">
       <div className="absolute inset-0 grid-bg" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto w-full px-6">
@@ -198,7 +305,6 @@ function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) 
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* text side */}
           <div className="relative min-h-[520px] sm:min-h-[420px]">
             {method.map((m, i) => (
               <motion.div
@@ -212,18 +318,17 @@ function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) 
                 className="absolute inset-0"
                 style={{ pointerEvents: step === i ? "auto" : "none" }}
               >
-                <p className="display text-7xl md:text-8xl text-white/10 mb-4">{m.num}</p>
+                <p className="display text-7xl md:text-8xl text-ink/10 mb-4">{m.num}</p>
                 <p className="mono mb-3">
                   <span className="text-accent">{"//"}</span> {m.kicker}
                 </p>
                 <h3 className="display text-4xl md:text-5xl mb-5">{m.title}</h3>
                 <p className="text-muted leading-relaxed mb-5 max-w-xl">{m.body}</p>
-                <p className="font-semibold text-white border-l-2 border-accent pl-4">{m.proof}</p>
+                <p className="font-semibold text-ink border-l-4 border-accent pl-4">{m.proof}</p>
               </motion.div>
             ))}
           </div>
 
-          {/* image side */}
           <div className="relative aspect-[4/3] hidden lg:block">
             {method.map((m, i) => (
               <motion.div
@@ -232,23 +337,23 @@ function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) 
                 animate={{
                   opacity: step === i ? 1 : 0,
                   scale: step === i ? 1 : 1.06,
-                  rotate: step === i ? 0 : i % 2 ? 1.5 : -1.5,
+                  rotate: step === i ? 0 : i % 2 ? 2 : -2,
                 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0"
               >
-                <div className="ticks relative h-full overflow-hidden rounded-md border border-line">
+                <div className="ticks relative h-full overflow-hidden rounded-md border-2 border-ink shadow-[8px_8px_0_#A3FF00]">
                   <span className="tick-b absolute inset-0 pointer-events-none z-20" aria-hidden="true" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={m.img}
                     alt=""
                     loading={i === 0 ? "eager" : "lazy"}
-                    className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 brightness-[0.7]"
+                    className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 brightness-[0.85]"
                   />
-                  <div className="absolute inset-0 bg-accent/10 mix-blend-overlay" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
-                  <p className="mono absolute bottom-4 left-5 z-20">
+                  <div className="absolute inset-0 bg-accent/15 mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/70 via-transparent to-transparent" />
+                  <p className="mono absolute bottom-4 left-5 z-20 !text-white">
                     <span className="text-accent">▮</span> {m.cap}
                   </p>
                 </div>
@@ -257,9 +362,8 @@ function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) 
           </div>
         </div>
 
-        {/* progress rail */}
         <div className="mt-12 flex items-center gap-4">
-          <div className="relative h-px bg-line flex-1 overflow-hidden">
+          <div className="relative h-1 bg-line flex-1 overflow-hidden rounded-full">
             <motion.div style={{ scaleX: railScale }} className="absolute inset-0 origin-left bg-accent" />
           </div>
           <p className="mono tabular-nums">
@@ -271,7 +375,7 @@ function MethodFrames({ progress }: { progress: ReturnType<typeof useSpring> }) 
   );
 }
 
-/* ── SERVICES: horizontal filmstrip driven by vertical scroll ── */
+/* ── SERVICES: horizontal filmstrip ── */
 function ServicesRail() {
   return (
     <HorizontalRail
@@ -290,23 +394,23 @@ function ServicesRail() {
           className="panel hot group block w-[300px] md:w-[360px] shrink-0 p-7"
         >
           <div className="flex items-start justify-between mb-8">
-            <span className="mono !text-faint group-hover:!text-accent transition-colors">
+            <span className="mono !text-faint group-hover:!text-ink transition-colors">
               {String(i + 1).padStart(2, "0")} / 11
             </span>
-            <span className="w-8 h-8 rounded border border-line flex items-center justify-center text-muted group-hover:bg-accent group-hover:border-accent group-hover:text-void transition-colors">
+            <span className="w-8 h-8 rounded border-2 border-ink flex items-center justify-center text-ink group-hover:bg-accent transition-colors">
               <ArrowIcon className="w-3.5 h-3.5" />
             </span>
           </div>
           <h3 className="display text-3xl mb-3">{s.shortName}</h3>
-          <p className="text-sm font-medium text-accent/90 mb-3">{s.tagline}</p>
+          <p className="text-sm font-semibold text-ink mb-3">{s.tagline}</p>
           <p className="text-sm text-muted leading-relaxed">{s.blurb}</p>
         </Link>
       ))}
       <Link
         href="/services"
-        className="panel hot group flex w-[300px] md:w-[360px] shrink-0 items-center justify-center p-7 border-dashed"
+        className="panel hot group flex w-[300px] md:w-[360px] shrink-0 items-center justify-center p-7 border-dashed border-2 border-ink"
       >
-        <span className="inline-flex items-center gap-2 font-semibold text-accent text-lg">
+        <span className="inline-flex items-center gap-2 font-semibold text-ink text-lg">
           All services
           <ArrowIcon />
         </span>
@@ -318,121 +422,139 @@ function ServicesRail() {
 export default function HomePage() {
   return (
     <>
+      <HudOverlay />
       <Hero />
       <StatsBand />
 
-      {/* CITY BAND: full-bleed parallax window */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <ImageFrame
-            src={IMG.towers}
-            alt="Skyscrapers shot from below"
-            caption="Build an empire / one level at a time"
-            ratio="aspect-[16/8] md:aspect-[16/6]"
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 items-start">
-            <SlideIn dir={-1}>
-              <h2 className="display text-section">
-                One company. <span className="tilt-chip">Two engines</span>.
-              </h2>
-            </SlideIn>
-            <SlideIn dir={1}>
-              <p className="text-muted text-lg leading-relaxed">
-                We started as marketers. Then we got tired of the tools, so we built our own. Today those two
-                sides feed each other: the agency work sharpens the software, and the software gives our
-                clients an edge nobody can buy off the shelf.
-              </p>
-            </SlideIn>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
-            <SlideIn dir={-1}>
-              <Ticks className="panel hot p-8 md:p-10 h-full">
-                <p className="mono mb-6">
-                  <span className="text-accent">A/</span> The growth agency
-                </p>
-                <h3 className="display text-4xl mb-4">Marketing, run for you</h3>
-                <p className="text-muted leading-relaxed mb-8">
-                  Full-service digital marketing for service businesses that want results they can count.
-                  Paid media on every platform, social, search, automation and websites. Eleven services, one
-                  team, one goal: a return you can read in your bank account.
-                </p>
-                <Link href="/services" className="inline-flex items-center gap-2 font-semibold text-accent hover:underline underline-offset-4">
-                  See all 11 services
-                  <ArrowIcon />
-                </Link>
-              </Ticks>
-            </SlideIn>
-            <SlideIn dir={1}>
-              <Ticks className="panel hot p-8 md:p-10 h-full">
-                <p className="mono mb-6">
-                  <span className="text-accent">B/</span> The software we build
-                </p>
-                <h3 className="display text-4xl mb-4">The tools behind it</h3>
-                <p className="text-muted leading-relaxed mb-8">
-                  The same systems that run our campaigns are products in their own right. BOB, our AI
-                  employee, answers, qualifies and follows up with your leads around the clock, exactly the
-                  way our own team does it.
-                </p>
-                <a href={BOB_URL} className="inline-flex items-center gap-2 font-semibold text-accent hover:underline underline-offset-4">
-                  Meet BOB
-                  <ArrowIcon />
-                </a>
-              </Ticks>
-            </SlideIn>
-          </div>
-        </div>
+      {/* conveyor of giant type */}
+      <section className="py-14 border-b border-line overflow-hidden" aria-hidden="true">
+        <TextBand text="PAYS FOR ITSELF" dir={1} />
+        <TextBand text="FILTER • WARM • RETURN" dir={-1} className="mt-2" />
       </section>
 
-      {/* METHOD: pinned cinematic scene */}
-      <MethodScene />
+      {/* CITY BAND */}
+      <VelocitySkew>
+        <section className="relative py-20 md:py-28 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6">
+            <ImageFrame
+              src={IMG.towers}
+              alt="Skyscrapers shot from below"
+              caption="Build an empire / one level at a time"
+              ratio="aspect-[16/8] md:aspect-[16/6]"
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 items-start">
+              <SlideIn dir={-1}>
+                <h2 className="display text-section">
+                  One company. <span className="tilt-chip">Two engines</span>.
+                </h2>
+              </SlideIn>
+              <SlideIn dir={1}>
+                <p className="text-muted text-lg leading-relaxed">
+                  We started as marketers. Then we got tired of the tools, so we built our own. Today those two
+                  sides feed each other: the agency work sharpens the software, and the software gives our
+                  clients an edge nobody can buy off the shelf.
+                </p>
+              </SlideIn>
+            </div>
 
-      {/* SERVICES: horizontal rail */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-12">
+              <SlideIn dir={-1}>
+                <Tilt>
+                  <Ticks className="panel hot p-8 md:p-10 h-full">
+                    <p className="mono mb-6">
+                      <span className="text-accent">A/</span> The growth agency
+                    </p>
+                    <h3 className="display text-4xl mb-4">Marketing, run for you</h3>
+                    <p className="text-muted leading-relaxed mb-8">
+                      Full-service digital marketing for service businesses that want results they can count.
+                      Paid media on every platform, social, search, automation and websites. Eleven services,
+                      one team, one goal: a return you can read in your bank account.
+                    </p>
+                    <Link href="/services" className="inline-flex items-center gap-2 font-semibold text-ink underline decoration-accent decoration-[3px] underline-offset-4">
+                      See all 11 services
+                      <ArrowIcon />
+                    </Link>
+                  </Ticks>
+                </Tilt>
+              </SlideIn>
+              <SlideIn dir={1}>
+                <Tilt>
+                  <Ticks className="panel hot p-8 md:p-10 h-full">
+                    <p className="mono mb-6">
+                      <span className="text-accent">B/</span> The software we build
+                    </p>
+                    <h3 className="display text-4xl mb-4">The tools behind it</h3>
+                    <p className="text-muted leading-relaxed mb-8">
+                      The same systems that run our campaigns are products in their own right. BOB, our AI
+                      employee, answers, qualifies and follows up with your leads around the clock, exactly
+                      the way our own team does it.
+                    </p>
+                    <a href={BOB_URL} className="inline-flex items-center gap-2 font-semibold text-ink underline decoration-accent decoration-[3px] underline-offset-4">
+                      Meet BOB
+                      <ArrowIcon />
+                    </a>
+                  </Ticks>
+                </Tilt>
+              </SlideIn>
+            </div>
+          </div>
+        </section>
+      </VelocitySkew>
+
+      <MethodScene />
       <ServicesRail />
 
       {/* DIFFERENTIATION */}
-      <section className="py-24 md:py-32 border-t border-line">
-        <div className="max-w-7xl mx-auto px-6">
-          <SlideIn dir={-1}>
-            <SectionHead index="04" label="The difference" title="Why we win where others burn budgets." className="mb-14" />
-          </SlideIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {differentiators.map((d, i) => (
-              <SlideIn key={d.num} dir={i % 2 ? 1 : -1}>
-                <Ticks className="panel hot p-8 h-full">
-                  <div className="flex items-baseline justify-between mb-6">
-                    <p className="mono">
-                      <span className="text-accent">{d.num}</span>
-                    </p>
-                    <div className="text-right">
-                      <span className="display text-4xl text-accent">{d.stat}</span>
-                      <p className="mono mt-1">{d.statLabel}</p>
-                    </div>
-                  </div>
-                  <h3 className="display text-3xl mb-3">{d.title}</h3>
-                  <p className="text-muted leading-relaxed text-[15px]">{d.desc}</p>
-                </Ticks>
-              </SlideIn>
-            ))}
+      <VelocitySkew>
+        <section className="py-24 md:py-32 border-t border-line">
+          <div className="max-w-7xl mx-auto px-6">
+            <SlideIn dir={-1}>
+              <SectionHead index="04" label="The difference" title="Why we win where others burn budgets." className="mb-14" />
+            </SlideIn>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {differentiators.map((d, i) => (
+                <SlideIn key={d.num} dir={i % 2 ? 1 : -1}>
+                  <Tilt>
+                    <Ticks className="panel hot p-8 h-full">
+                      <div className="flex items-baseline justify-between mb-6">
+                        <p className="mono">
+                          <span className="text-accent">{d.num}</span>
+                        </p>
+                        <div className="text-right">
+                          <span className="display text-4xl bg-accent px-2 rounded-sm" style={{ boxShadow: "3px 3px 0 #0A0A0A" }}>
+                            {d.stat}
+                          </span>
+                          <p className="mono mt-2">{d.statLabel}</p>
+                        </div>
+                      </div>
+                      <h3 className="display text-3xl mb-3">{d.title}</h3>
+                      <p className="text-muted leading-relaxed text-[15px]">{d.desc}</p>
+                    </Ticks>
+                  </Tilt>
+                </SlideIn>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </VelocitySkew>
 
-      {/* PROCESS with drifting image */}
-      <section className="py-24 md:py-32 border-t border-line overflow-hidden">
+      {/* PROCESS */}
+      <section className="py-24 md:py-32 border-t border-line overflow-hidden bg-panel2">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
             <div className="lg:col-span-3">
               <SlideIn dir={-1}>
                 <SectionHead index="05" label="How an engagement runs" title="From first call to scaled budgets." className="mb-12" />
               </SlideIn>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {processSteps.map((step, i) => (
                   <SlideIn key={step.num} dir={-1} distance={50 + i * 25}>
-                    <div className="panel p-6 flex gap-6 items-start">
-                      <span className="display text-4xl text-accent shrink-0 w-14">{step.num}</span>
+                    <div className="panel hot p-6 flex gap-6 items-start">
+                      <span className="display text-4xl bg-accent border-2 border-ink rounded px-2 shrink-0" style={{ transform: "rotate(-3deg)" }}>
+                        {step.num}
+                      </span>
                       <div>
-                        <h3 className="font-semibold text-lg text-white mb-1">{step.title}</h3>
+                        <h3 className="font-semibold text-lg text-ink mb-1">{step.title}</h3>
                         <p className="text-sm text-muted leading-relaxed">{step.desc}</p>
                       </div>
                     </div>
@@ -467,14 +589,14 @@ export default function HomePage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-28 md:py-40 border-t border-line overflow-hidden">
+      <section className="relative py-28 md:py-40 border-t-2 border-ink overflow-hidden bg-white">
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
         <ParallaxY from={40} to={-40} className="absolute inset-x-0 bottom-0 h-[420px] glow pointer-events-none">
           <span />
         </ParallaxY>
         <div className="relative max-w-4xl mx-auto px-6 text-center">
           <p className="mono mb-8">
-            <span className="text-accent">●</span> Free growth plan / no strings
+            <span className="text-accent">●</span> <Scramble text="FREE GROWTH PLAN / NO STRINGS" />
           </p>
           <SlideIn dir={-1}>
             <h2 className="display text-hero mb-8">
@@ -486,13 +608,17 @@ export default function HomePage() {
             and the return we would aim for. If it is not a fit, we will tell you that too.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <a href={BOB_URL} className="btn-primary text-lg px-12 py-5">
-              START WITH $0
-              <ArrowIcon className="w-5 h-5" />
-            </a>
-            <Link href="/contact" className="btn-ghost text-lg px-10 py-5">
-              Get my growth plan
-            </Link>
+            <Magnetic>
+              <a href={BOB_URL} className="btn-primary text-lg px-12 py-5">
+                START WITH $0
+                <ArrowIcon className="w-5 h-5" />
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.25}>
+              <Link href="/contact" className="btn-ghost text-lg px-10 py-5">
+                Get my growth plan
+              </Link>
+            </Magnetic>
           </div>
         </div>
       </section>

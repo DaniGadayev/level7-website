@@ -164,13 +164,13 @@ export default function ContactPage() {
                 transition={{ duration: 0.5 }}
                 className="panel p-14 text-center"
               >
-                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-white text-2xl mx-auto mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-ink text-2xl mx-auto mb-6">
                   ✓
                 </div>
-                <h3 className="text-2xl font-bold font-satoshi text-white mb-3">Message sent.</h3>
+                <h3 className="text-2xl font-bold font-satoshi text-ink mb-3">Message sent.</h3>
                 <p className="text-muted">
                   We&apos;ll get back to you at{" "}
-                  <span className="text-white font-medium">{form.email}</span> within 24 hours.
+                  <span className="text-ink font-medium">{form.email}</span> within 24 hours.
                 </p>
               </motion.div>
             ) : (
@@ -279,7 +279,7 @@ export default function ContactPage() {
                       enquiry, in line with the{" "}
                       <Link
                         href="/privacy"
-                        className="text-white underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+                        className="text-ink underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
                       >
                         Privacy Policy
                       </Link>
@@ -327,7 +327,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Email</div>
-                    <div className="text-sm text-white group-hover:text-accent transition-colors font-medium">
+                    <div className="text-sm text-ink group-hover:text-accent transition-colors font-medium">
                       dani@thelevel7.ai
                     </div>
                   </div>
@@ -338,7 +338,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Website</div>
-                    <div className="text-sm text-white font-medium">thelevel7.ai</div>
+                    <div className="text-sm text-ink font-medium">thelevel7.ai</div>
                   </div>
                 </div>
               </div>
@@ -349,7 +349,7 @@ export default function ContactPage() {
               <p className="label mb-3">Response Time</p>
               <p className="text-sm text-muted leading-relaxed">
                 We respond to all inquiries within{" "}
-                <span className="text-white font-semibold">24 hours</span>.
+                <span className="text-ink font-semibold">24 hours</span>.
               </p>
             </div>
 
@@ -365,7 +365,7 @@ export default function ContactPage() {
             {/* Legal */}
             <div className="panel p-6">
               <p className="label mb-3">Legal Entity</p>
-              <p className="text-sm text-white font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
+              <p className="text-sm text-ink font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
               <p className="text-xs text-muted mt-1">Registered in Cyprus</p>
             </div>
           </motion.div>

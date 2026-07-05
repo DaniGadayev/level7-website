@@ -36,11 +36,11 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
         <div className="relative max-w-7xl mx-auto px-6">
           <nav aria-label="Breadcrumb" className="mono mb-8">
-            <Link href="/services" className="hover:text-white transition-colors">
+            <Link href="/services" className="hover:text-ink transition-colors">
               Services
             </Link>
             <span className="mx-2 text-faint">/</span>
-            <span className="text-white/70">{service.shortName}</span>
+            <span className="text-ink/70">{service.shortName}</span>
           </nav>
           <p className="label mb-6">
             <span className="text-accent">{String(index + 1).padStart(2, "0")}</span> of 11
@@ -60,7 +60,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             <p className="label mb-5">
               <span className="text-accent">A</span> The story
             </p>
-            <p className="text-lg text-white/85 leading-relaxed mb-14">{service.intro}</p>
+            <p className="text-lg text-ink/85 leading-relaxed mb-14">{service.intro}</p>
 
             <p className="label mb-8">
               <span className="text-accent">B</span> What we actually do
@@ -72,7 +72,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h2 className="font-semibold text-lg text-white mb-2">{p.title}</h2>
+                    <h2 className="font-semibold text-lg text-ink mb-2">{p.title}</h2>
                     <p className="text-muted leading-relaxed">{p.desc}</p>
                   </div>
                 </div>
@@ -81,7 +81,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
             <div className="mt-12 border-l-2 border-accent pl-6 py-2">
               <p className="mono mb-2">The outcome</p>
-              <p className="text-xl font-semibold text-white leading-snug">{service.outcome}</p>
+              <p className="text-xl font-semibold text-ink leading-snug">{service.outcome}</p>
             </div>
           </div>
 
@@ -103,7 +103,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               <div className="mt-8 pt-6 border-t border-line">
                 <p className="mono mb-3">Up next</p>
                 <Link href={`/services/${next.slug}`} className="group flex items-center justify-between gap-4">
-                  <span className="font-semibold text-white group-hover:text-accent transition-colors">
+                  <span className="font-semibold text-ink group-hover:text-accent transition-colors">
                     {next.name}
                   </span>
                   <span className="w-8 h-8 rounded border border-line flex items-center justify-center text-muted group-hover:bg-accent group-hover:border-accent group-hover:text-void transition-colors shrink-0">

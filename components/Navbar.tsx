@@ -57,7 +57,7 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/90 backdrop-blur-md transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#FBFBF8]/90 backdrop-blur-md transition-all duration-300 ${
         scrolled ? "border-b border-line" : ""
       }`}
     >
@@ -85,7 +85,7 @@ export default function Navbar() {
               <span className="display text-[#0A0A0A] text-lg leading-none">7</span>
             </span>
           </span>
-          <span className="text-white font-semibold tracking-[0.35em] text-sm">LEVEL7</span>
+          <span className="text-ink font-semibold tracking-[0.35em] text-sm">LEVEL7</span>
         </Link>
 
         {/* Desktop nav */}
@@ -106,7 +106,7 @@ export default function Navbar() {
                 >
                   <span
                     className={`transition-colors duration-200 ${
-                      isActive(pathname, link.href) || servicesOpen ? "text-white" : "text-muted group-hover:text-white"
+                      isActive(pathname, link.href) || servicesOpen ? "text-ink" : "text-muted group-hover:text-ink"
                     }`}
                   >
                     {link.label}
@@ -138,18 +138,18 @@ export default function Navbar() {
                       transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[680px]"
                     >
-                      <div className="bg-[#101010] border border-lineStrong rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.7)] p-6">
+                      <div className="bg-white border-2 border-ink rounded-lg shadow-[8px_8px_0_rgba(163,255,0,0.9)] p-6">
                         <div className="grid grid-cols-3 gap-1">
                           {services.map((s, i) => (
                             <Link
                               key={s.slug}
                               href={`/services/${s.slug}`}
-                              className="group/item px-3 py-2.5 rounded-md hover:bg-[#161616] transition-colors"
+                              className="group/item px-3 py-2.5 rounded-md hover:bg-panel2 transition-colors"
                             >
                               <span className="block font-mono text-[10px] tracking-[0.15em] text-faint mb-1">
                                 {String(i + 1).padStart(2, "0")}
                               </span>
-                              <span className="block text-sm font-semibold text-white group-hover/item:text-accent transition-colors">
+                              <span className="block text-sm font-semibold text-ink group-hover/item:underline decoration-accent decoration-2 underline-offset-2 transition-colors">
                                 {s.shortName}
                               </span>
                               <span className="block text-xs text-muted mt-0.5 leading-snug">{s.tagline}</span>
@@ -158,7 +158,7 @@ export default function Navbar() {
                         </div>
                         <div className="mt-4 pt-4 border-t border-line flex items-center justify-between">
                           <span className="mono">11 services / one team / one number</span>
-                          <Link href="/services" className="text-sm font-semibold text-accent hover:underline underline-offset-4">
+                          <Link href="/services" className="text-sm font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4">
                             All services
                           </Link>
                         </div>
@@ -179,7 +179,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3 shrink-0">
           <a
             href="https://getbob.thelevel7.ai/login"
-            className="text-sm font-medium text-muted hover:text-white px-4 py-2.5 rounded border border-line hover:border-lineStrong transition-colors"
+            className="text-sm font-medium text-muted hover:text-ink px-4 py-2.5 rounded border border-line hover:border-ink transition-colors"
           >
             Log In
           </a>
@@ -190,15 +190,15 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-white p-2 -mr-2"
+          className="md:hidden text-ink p-2 -mr-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
           <div className="w-6 flex flex-col gap-[5px]">
-            <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-            <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+            <span className={`block h-0.5 bg-ink rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+            <span className={`block h-0.5 bg-ink rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 bg-ink rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
           </div>
         </button>
       </nav>
@@ -211,14 +211,14 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-[#0A0A0A] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
+            className="md:hidden overflow-hidden bg-[#FBFBF8] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
           >
             <div className="px-6 py-5 flex flex-col gap-1">
               <Link
                 href="/"
                 onClick={() => setMobileOpen(false)}
                 className={`text-base font-medium px-4 py-3 rounded transition-colors ${
-                  pathname === "/" ? "text-white bg-[#161616]" : "text-muted hover:text-white hover:bg-[#161616]"
+                  pathname === "/" ? "text-ink bg-panel2" : "text-muted hover:text-ink hover:bg-panel2"
                 }`}
               >
                 Home
@@ -227,7 +227,7 @@ export default function Navbar() {
               <button
                 onClick={() => setMobileServicesOpen((v) => !v)}
                 className={`flex items-center justify-between text-base font-medium px-4 py-3 rounded transition-colors ${
-                  isActive(pathname, "/services") ? "text-white bg-[#161616]" : "text-muted hover:text-white hover:bg-[#161616]"
+                  isActive(pathname, "/services") ? "text-ink bg-panel2" : "text-muted hover:text-ink hover:bg-panel2"
                 }`}
                 aria-expanded={mobileServicesOpen}
               >
@@ -258,7 +258,7 @@ export default function Navbar() {
                           key={s.slug}
                           href={`/services/${s.slug}`}
                           onClick={() => setMobileOpen(false)}
-                          className="text-sm text-muted hover:text-white px-4 py-2.5 rounded hover:bg-[#161616] transition-colors"
+                          className="text-sm text-muted hover:text-ink px-4 py-2.5 rounded hover:bg-panel2 transition-colors"
                         >
                           {s.shortName}
                         </Link>
@@ -283,7 +283,7 @@ export default function Navbar() {
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
                     className={`text-base font-medium px-4 py-3 rounded transition-colors ${
-                      isActive(pathname, link.href) ? "text-white bg-[#161616]" : "text-muted hover:text-white hover:bg-[#161616]"
+                      isActive(pathname, link.href) ? "text-ink bg-panel2" : "text-muted hover:text-ink hover:bg-panel2"
                     }`}
                   >
                     {link.label}
@@ -292,7 +292,7 @@ export default function Navbar() {
               <a
                 href="https://getbob.thelevel7.ai/login"
                 onClick={() => setMobileOpen(false)}
-                className="mt-3 text-center text-base font-medium text-white px-4 py-3 rounded border border-lineStrong"
+                className="mt-3 text-center text-base font-medium text-ink px-4 py-3 rounded border-2 border-ink"
               >
                 Log In
               </a>
@@ -310,7 +310,7 @@ export default function Navbar() {
 function NavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
   return (
     <Link href={href} className="relative px-4 py-2 text-sm font-medium group">
-      <span className={`transition-colors duration-200 ${active ? "text-white" : "text-muted group-hover:text-white"}`}>
+      <span className={`transition-colors duration-200 ${active ? "text-ink" : "text-muted group-hover:text-ink"}`}>
         {children}
       </span>
       <motion.span

@@ -106,7 +106,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <div className="max-w-3xl mx-auto px-6">
             <Link
               href="/resources"
-              className="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors mb-8"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -121,7 +121,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               {article.title}
             </h1>
             <div className="flex items-center gap-3 text-sm text-muted">
-              <span className="font-medium text-white/85">{article.author}</span>
+              <span className="font-medium text-ink/85">{article.author}</span>
               {article.published_at && <span>·</span>}
               {article.published_at && <span>{formatDate(article.published_at)}</span>}
               <span>·</span>
@@ -203,7 +203,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       {/* ── CTA ── */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="bg-[#0A0A0A] rounded-3xl px-8 py-14 text-center">
-          <h2 className="display text-4xl text-white mb-4">
+          <h2 className="display text-4xl text-ink mb-4">
             Ready to grow without an agency?
           </h2>
           <p className="text-subtle mb-8 max-w-lg mx-auto">

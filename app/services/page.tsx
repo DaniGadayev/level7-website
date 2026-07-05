@@ -52,7 +52,7 @@ export default function ServicesPage() {
                     <ArrowIcon className="w-4 h-4" />
                   </span>
                 </div>
-                <h2 className="font-semibold text-xl text-white mb-2">{s.name}</h2>
+                <h2 className="font-semibold text-xl text-ink mb-2">{s.name}</h2>
                 <p className="text-sm font-medium text-accent/90 mb-3">{s.tagline}</p>
                 <p className="text-sm text-muted leading-relaxed">{s.blurb}</p>
               </Link>

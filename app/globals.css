@@ -1,4 +1,4 @@
-/* Self-hosted Satoshi — used by the light reading pages (resources, legal) */
+/* Self-hosted Satoshi — used by the reading pages (resources, legal) */
 @font-face {
   font-family: "Satoshi";
   src: url("/fonts/Satoshi-Regular.woff2") format("woff2");
@@ -26,21 +26,22 @@
 @tailwind utilities;
 
 /*
- * LEVEL7 v3 — HYPERFRAME.
- * Deep black canvas, towering condensed type, technical mono labels,
- * hairline frames with corner ticks, lime as the only electricity.
+ * LEVEL7 v4 — HYPERFRAMES, light mode.
+ * Paper-white canvas, towering ink type, mono telemetry, hard lime shadows,
+ * and a game layer: everything reacts to scroll and cursor.
  */
 :root {
-  --void: #0A0A0A;
-  --panel: #101010;
-  --panel-2: #161616;
-  --line: #242424;
-  --line-strong: #3A3A3A;
-  --text: #F4F4F0;
-  --muted: #9C9C96;
-  --faint: #62625C;
+  --paper: #FBFBF8;
+  --panel: #FFFFFF;
+  --panel-2: #F3F3EE;
+  --line: #E4E4DD;
+  --line-strong: #0A0A0A;
+  --ink: #0A0A0A;
+  --text: #0A0A0A;
+  --muted: #63635C;
+  --faint: #A9A9A0;
   --lime: #A3FF00;
-  --lime-dim: rgba(163, 255, 0, 0.14);
+  --lime-soft: rgba(163, 255, 0, 0.16);
 }
 
 * {
@@ -54,8 +55,8 @@ html {
 }
 
 body {
-  background: var(--void);
-  color: var(--text);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-body), sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -63,31 +64,36 @@ body {
 
 ::selection {
   background: var(--lime);
-  color: var(--void);
+  color: var(--ink);
 }
 
-/* Keyboard focus */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--lime);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel-2); }
 ::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
 
-/* Display headline — Bebas Neue, towering */
+/* Display headline */
 .display {
   font-family: var(--font-display), sans-serif;
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 0.9;
   text-transform: uppercase;
+}
+
+/* Outlined ghost type for marquee bands */
+.outline-type {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(10, 10, 10, 0.22);
 }
 
 /* Technical mono microcopy */
@@ -98,9 +104,8 @@ textarea:focus-visible {
   text-transform: uppercase;
   color: var(--muted);
 }
-.mono .tick { color: var(--lime); }
 
-/* Section label — mono with lime index */
+/* Section label */
 .label {
   display: inline-flex;
   align-items: baseline;
@@ -114,78 +119,81 @@ textarea:focus-visible {
 }
 .label::before {
   content: "//";
-  color: var(--lime);
+  color: #6a9e0a;
   letter-spacing: 0;
 }
 
-/* Primary CTA — lime slab */
+/* Primary CTA — lime slab with hard ink shadow (game button) */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   background: var(--lime);
-  color: var(--void);
+  color: var(--ink);
   font-weight: 600;
   font-size: 15px;
   padding: 17px 34px;
-  border-radius: 4px;
-  border: 1px solid var(--lime);
+  border-radius: 6px;
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
   text-decoration: none;
   font-family: var(--font-body), sans-serif;
-  box-shadow: 0 0 0 rgba(163, 255, 0, 0);
 }
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 40px rgba(163, 255, 0, 0.35);
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--ink);
 }
 .btn-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 12px rgba(163, 255, 0, 0.3);
+  transform: translate(5px, 5px);
+  box-shadow: 0 0 0 var(--ink);
 }
 
-/* Ghost CTA — hairline slab */
+/* Ghost CTA */
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: transparent;
-  color: var(--text);
+  background: var(--panel);
+  color: var(--ink);
   font-weight: 500;
   font-size: 15px;
   padding: 16px 32px;
-  border-radius: 4px;
-  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  border: 2px solid var(--ink);
   cursor: pointer;
-  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   text-decoration: none;
   font-family: var(--font-body), sans-serif;
 }
 .btn-ghost:hover {
-  border-color: var(--lime);
-  color: var(--lime);
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 4px 4px 0 var(--lime);
+  transform: translate(-1px, -1px);
 }
 
-/* Panel — the framed card */
+/* Panel */
 .panel {
   position: relative;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 6px;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  border-radius: 8px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .panel:hover {
-  border-color: var(--line-strong);
-  background: var(--panel-2);
+  border-color: var(--ink);
 }
 .panel.hot:hover {
-  border-color: var(--lime);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--lime);
+  border-color: var(--ink);
 }
 
-/* Corner ticks — the hyperframe signature. Apply to a relative container. */
+/* Corner ticks */
 .ticks::before,
 .ticks::after,
 .ticks > .tick-b::before,
@@ -194,79 +202,79 @@ textarea:focus-visible {
   position: absolute;
   width: 14px;
   height: 14px;
-  border-color: var(--line-strong);
+  border-color: var(--ink);
   border-style: solid;
   pointer-events: none;
   transition: border-color 0.2s ease;
+  z-index: 10;
 }
-.ticks::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
-.ticks::after { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
-.ticks > .tick-b::before { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
-.ticks > .tick-b::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+.ticks::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+.ticks::after { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+.ticks > .tick-b::before { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+.ticks > .tick-b::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
 .ticks:hover::before,
 .ticks:hover::after,
 .ticks:hover > .tick-b::before,
 .ticks:hover > .tick-b::after {
-  border-color: var(--lime);
+  border-color: #6a9e0a;
 }
 
-/* Hairline divider */
 .divider {
   height: 1px;
   background: var(--line);
   width: 100%;
 }
 
-/* Grid backdrop — faint blueprint lines */
+/* Blueprint grid */
 .grid-bg {
   background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    linear-gradient(rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.05) 1px, transparent 1px);
   background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 85% 65% at 50% 40%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 40%, black 30%, transparent 78%);
 }
 
-/* Lime glow bloom */
+/* Lime bloom */
 .glow {
-  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(163, 255, 0, 0.13), transparent 70%);
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(163, 255, 0, 0.22), transparent 70%);
 }
 
-/* Inputs — dark */
+/* Inputs */
 .input-field {
   width: 100%;
   background: var(--panel);
-  border: 1px solid var(--line-strong);
-  border-radius: 4px;
+  border: 2px solid var(--line);
+  border-radius: 6px;
   padding: 14px 16px;
-  color: var(--text);
+  color: var(--ink);
   font-size: 15px;
   font-family: var(--font-body), sans-serif;
   outline: none;
   transition: border-color 0.2s;
 }
 .input-field::placeholder { color: var(--faint); }
-.input-field:focus { border-color: var(--lime); }
-select.input-field option { background: var(--panel); color: var(--text); }
+.input-field:focus { border-color: var(--ink); }
+select.input-field option { background: var(--panel); color: var(--ink); }
 
-/* Card alias kept for the light reading island (resources) */
+/* Card (reading island cards) */
 .card {
   background: #FFFFFF;
-  border: 1px solid #E8E8E3;
+  border: 1px solid #E4E4DD;
   border-radius: 14px;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .card:hover {
-  border-color: #141414;
+  border-color: #0A0A0A;
   transform: translateY(-2px);
   box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
 }
 
 /* Stat */
 .stat-value {
-  font-size: clamp(40px, 5.5vw, 72px);
+  font-size: clamp(40px, 5.5vw, 76px);
   font-family: var(--font-display), sans-serif;
-  color: var(--text);
+  color: var(--ink);
   line-height: 1;
 }
 .stat-label {
@@ -289,17 +297,18 @@ select.input-field option { background: var(--panel); color: var(--text); }
   animation: marquee 32s linear infinite;
 }
 
-/* Tilted lime chip — the brand motif */
+/* Tilted lime chip */
 .tilt-chip {
   display: inline-block;
   background: var(--lime);
-  color: var(--void);
+  color: var(--ink);
   transform: rotate(-2.5deg);
   padding: 0 0.18em;
-  border-radius: 4px;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
-/* Scanline shimmer on hero rule */
+/* Scanline */
 @keyframes scan {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
@@ -307,7 +316,7 @@ select.input-field option { background: var(--panel); color: var(--text); }
 .scan-rule {
   position: relative;
   overflow: hidden;
-  height: 1px;
+  height: 2px;
   background: var(--line);
 }
 .scan-rule::after {
@@ -321,18 +330,32 @@ select.input-field option { background: var(--panel); color: var(--text); }
   animation: scan 4.5s ease-in-out infinite;
 }
 
+/* Rotating starburst badge */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin-slow { animation: spin-slow 14s linear infinite; }
+
+/* Blinking cursor for decoded text */
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.caret { animation: blink-caret 1s steps(1) infinite; color: #6a9e0a; }
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
   .scan-rule::after { animation: none; }
+  .spin-slow { animation: none; }
   html { scroll-behavior: auto; }
 }
 
-/* Light reading island (resources articles, legal pages) */
+/* Light reading island */
 .reading-island {
   background: #FFFFFF;
   color: #141414;
 }
-
 /* ─────────────────────────────────────────────
    Article prose — rendered Markdown on /resources/[slug]
    Reading column ~68ch, generous line-height.

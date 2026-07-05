@@ -43,7 +43,7 @@ export function LogoStrip({ heading = "Trusted by service businesses worldwide" 
         {clients.map((c) => (
           <span
             key={c}
-            className="font-display text-2xl md:text-3xl tracking-wide text-white/30 hover:text-white/70 transition-colors select-none"
+            className="font-display text-2xl md:text-3xl tracking-wide text-ink/25 hover:text-ink/70 transition-colors select-none"
           >
             {c}
           </span>
@@ -62,11 +62,11 @@ export function TestimonialGrid() {
           <p className="mono mb-6">
             <span className="text-accent">▮</span> {t.stat}
           </p>
-          <p className="text-[17px] leading-relaxed text-white/85 mb-8 flex-1">
+          <p className="text-[17px] leading-relaxed text-ink/85 mb-8 flex-1">
             &ldquo;{t.quote}&rdquo;
           </p>
           <div>
-            <p className="font-semibold text-white">{t.name}</p>
+            <p className="font-semibold text-ink">{t.name}</p>
             <p className="mono mt-1">{t.role}</p>
           </div>
         </Ticks>

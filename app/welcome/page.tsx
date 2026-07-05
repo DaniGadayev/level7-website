@@ -68,7 +68,7 @@ export default function WelcomePage() {
           <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible" className="display text-hero mb-6">
             <span className="tilt-chip">Welcome</span>.
           </motion.h1>
-          <motion.p custom={2} variants={fadeUp} initial="hidden" animate="visible" className="text-xl md:text-2xl text-white font-medium mb-4">
+          <motion.p custom={2} variants={fadeUp} initial="hidden" animate="visible" className="text-xl md:text-2xl text-ink font-medium mb-4">
             We will be in touch very soon.
           </motion.p>
           <motion.p custom={3} variants={fadeUp} initial="hidden" animate="visible" className="text-muted text-lg max-w-xl mx-auto leading-relaxed">
@@ -96,7 +96,7 @@ export default function WelcomePage() {
               results that show up in your revenue, not in a slide deck. When we say yes to a business, it is
               because we believe we can multiply what it puts in.
             </p>
-            <p className="text-white font-medium">
+            <p className="text-ink font-medium">
               The clients we do take on get results beyond anything they were promised before. That is the
               standard you should hold us to.
             </p>
