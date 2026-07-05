@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Bebas_Neue, Poppins, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -50,6 +51,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bebas.variable} ${poppins.variable} ${plexMono.variable}`}>
       <body className="bg-[#FBFBF8] text-[#0A0A0A] antialiased font-body">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-S04HN8RH2F"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">{`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-S04HN8RH2F');
+        `}</Script>
         <Navbar />
         <PageTransition>
           <main>{children}</main>
