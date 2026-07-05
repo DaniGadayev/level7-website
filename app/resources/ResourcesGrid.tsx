@@ -24,7 +24,7 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
   return (
     <>
       {/* ── HERO ── */}
-      <section className="pt-36 pb-16 border-b border-[#E5E5E5]">
+      <section className="pt-36 pb-16 border-b border-border">
         <div className="max-w-7xl mx-auto px-6">
           <motion.p
             initial="hidden"
@@ -40,17 +40,16 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
             animate="visible"
             custom={1}
             variants={fadeUp}
-            className="font-bold font-satoshi text-[#1A1A1A] mb-6"
-            style={{ fontSize: "clamp(3rem,6vw,5rem)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
+            className="display text-hero mb-6"
           >
-            Insights &amp; playbooks.
+            Insights &amp; <span className="tilt-chip">playbooks</span>.
           </motion.h1>
           <motion.p
             initial="hidden"
             animate="visible"
             custom={2}
             variants={fadeUp}
-            className="text-[#6B6B6B] text-xl leading-relaxed max-w-2xl"
+            className="text-muted text-xl leading-relaxed max-w-2xl"
           >
             Practical guides on AI marketing, lead generation, and building a business that
             grows without an agency.
@@ -75,7 +74,7 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
               >
                 <Link href={`/resources/${a.slug}`} className="card block h-full overflow-hidden group">
                   {/* Cover */}
-                  <div className="relative aspect-[16/9] bg-[#F7F7F7] overflow-hidden">
+                  <div className="relative aspect-[16/9] bg-cream overflow-hidden">
                     {a.cover_image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -89,20 +88,20 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
                         <span className="text-5xl font-bold font-satoshi text-[#E5E5E5] select-none">L7</span>
                       </div>
                     )}
-                    <span className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wider bg-accent text-[#1A1A1A] px-2.5 py-1 rounded-full">
+                    <span className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wider bg-accent text-ink px-2.5 py-1 rounded-full">
                       {a.category}
                     </span>
                   </div>
                   {/* Body */}
                   <div className="p-6">
-                    <h2 className="text-lg font-bold font-satoshi text-[#1A1A1A] leading-snug mb-2 line-clamp-2 group-hover:text-[#000] transition-colors">
+                    <h2 className="text-lg font-bold font-satoshi text-ink leading-snug mb-2 line-clamp-2 group-hover:text-[#000] transition-colors">
                       {a.title}
                     </h2>
-                    <p className="text-sm text-[#6B6B6B] leading-relaxed line-clamp-3 mb-4">
+                    <p className="text-sm text-muted leading-relaxed line-clamp-3 mb-4">
                       {a.excerpt}
                     </p>
-                    <div className="flex items-center gap-2 text-xs text-[#767676]">
-                      <span className="font-medium text-[#1A1A1A]">{a.author}</span>
+                    <div className="flex items-center gap-2 text-xs text-muted">
+                      <span className="font-medium text-ink">{a.author}</span>
                       {a.published_at && <span>·</span>}
                       {a.published_at && <span>{formatDate(a.published_at)}</span>}
                       <span>·</span>
@@ -122,11 +121,11 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-[#F7F7F7] border border-[#E5E5E5] flex items-center justify-center mb-6">
+      <div className="w-16 h-16 rounded-2xl bg-cream border border-border flex items-center justify-center mb-6">
         <span className="text-2xl font-bold font-satoshi text-[#E5E5E5]">L7</span>
       </div>
-      <h2 className="text-2xl font-bold font-satoshi text-[#1A1A1A] mb-3">New resources coming soon.</h2>
-      <p className="text-[#6B6B6B] max-w-md">
+      <h2 className="text-2xl font-bold font-satoshi text-ink mb-3">New resources coming soon.</h2>
+      <p className="text-muted max-w-md">
         We&apos;re putting together our best playbooks on AI marketing and growth. Check back shortly.
       </p>
     </div>

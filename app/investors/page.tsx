@@ -110,7 +110,7 @@ export default function InvestorsPage() {
           <motion.h1
             custom={1}
             variants={fadeUp}
-            className="text-5xl md:text-7xl font-bold font-satoshi mb-6 leading-tight"
+            className="display text-hero mb-6"
           >
             Join Us at the<br />
             <span className="text-accent">Ground Floor.</span>
@@ -124,7 +124,7 @@ export default function InvestorsPage() {
       {/* ── INVESTMENT TERMS ── */}
       <Section className="py-24 max-w-7xl mx-auto px-6">
         <motion.p custom={0} variants={fadeUp} className="label mb-4">The Ask</motion.p>
-        <motion.h2 custom={1} variants={fadeUp} className="text-4xl font-bold font-satoshi mb-12">
+        <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-12">
           The investment terms.
         </motion.h2>
 
@@ -160,7 +160,7 @@ export default function InvestorsPage() {
       {/* ── MARKET ── */}
       <Section className="py-24 max-w-7xl mx-auto px-6 bg-[#0D0D0D]">
         <motion.p custom={0} variants={fadeUp} className="label mb-4">Market Opportunity</motion.p>
-        <motion.h2 custom={1} variants={fadeUp} className="text-4xl font-bold font-satoshi mb-12">
+        <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-12">
           A $10B market growing at 12.3% CAGR.
         </motion.h2>
 
@@ -195,7 +195,7 @@ export default function InvestorsPage() {
       {/* ── TRACTION ── */}
       <Section className="py-24 max-w-7xl mx-auto px-6">
         <motion.p custom={0} variants={fadeUp} className="label mb-4">Traction</motion.p>
-        <motion.h2 custom={1} variants={fadeUp} className="text-4xl font-bold font-satoshi mb-12">
+        <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-12">
           This isn&apos;t theory. It&apos;s working.
         </motion.h2>
 
@@ -221,7 +221,7 @@ export default function InvestorsPage() {
       {/* ── USE OF FUNDS ── */}
       <Section className="py-24 max-w-7xl mx-auto px-6 bg-[#0D0D0D]">
         <motion.p custom={0} variants={fadeUp} className="label mb-4">Use of Funds</motion.p>
-        <motion.h2 custom={1} variants={fadeUp} className="text-4xl font-bold font-satoshi mb-12">
+        <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-12">
           Where €300,000 goes.
         </motion.h2>
 
@@ -257,7 +257,7 @@ export default function InvestorsPage() {
       {/* ── MILESTONES ── */}
       <Section className="py-24 max-w-7xl mx-auto px-6">
         <motion.p custom={0} variants={fadeUp} className="label mb-4">Milestones</motion.p>
-        <motion.h2 custom={1} variants={fadeUp} className="text-4xl font-bold font-satoshi mb-12">
+        <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-12">
           The 6-month roadmap.
         </motion.h2>
 
@@ -281,7 +281,7 @@ export default function InvestorsPage() {
       {/* ── COMPETITIVE MOAT ── */}
       <Section className="py-24 max-w-7xl mx-auto px-6 bg-[#0D0D0D]">
         <motion.p custom={0} variants={fadeUp} className="label mb-4">Competitive Moat</motion.p>
-        <motion.h2 custom={1} variants={fadeUp} className="text-4xl font-bold font-satoshi mb-12">
+        <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-12">
           Why LEVEL7 wins.
         </motion.h2>
 
@@ -343,7 +343,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* ── LEGAL DISCLAIMER ── */}
-      <section className="border-t border-[#E5E5E5] bg-[#F7F7F7]">
+      <section className="border-t border-border bg-cream">
         <div className="max-w-3xl mx-auto px-6 py-12">
           <p className="label mb-3">Important notice</p>
           <p className="text-xs leading-relaxed text-[#888]">
@@ -357,7 +357,7 @@ export default function InvestorsPage() {
             applicable law. See our{" "}
             <Link
               href="/terms#forward-looking"
-              className="text-[#1A1A1A] underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+              className="text-ink underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
             >
               Terms of Use
             </Link>

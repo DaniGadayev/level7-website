@@ -9,41 +9,29 @@ import Link from "next/link";
    Envelope opening + message emerging
 ───────────────────────────────────────────── */
 const SVG_CONTACT_HERO = `<style>
-  @keyframes chOpen  { 0%,30%{transform:rotateX(0deg)} 60%,100%{transform:rotateX(-160deg)} }
-  @keyframes chRise  { 0%,40%{transform:translateY(0);opacity:0} 70%,100%{transform:translateY(-40px);opacity:1} }
-  @keyframes chPulse { 0%,100%{opacity:1;r:4} 50%{opacity:0.3;r:6} }
-  @keyframes chDash  { from{stroke-dashoffset:200} to{stroke-dashoffset:0} }
-  .ch-flap   { transform-origin: 140px 118px; animation: chOpen 3s ease-in-out 0.5s infinite; }
-  .ch-letter { animation: chRise 3s ease-out 0.5s infinite; }
-  .ch-d1 { animation: chPulse 1.8s ease-in-out infinite; }
-  .ch-d2 { animation: chPulse 1.8s ease-in-out .7s infinite; }
-  .ch-d3 { animation: chPulse 1.8s ease-in-out 1.4s infinite; }
-  .ch-line { stroke-dasharray:200; animation: chDash 1.2s ease-out 0.3s both; }
+  @keyframes chFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  @keyframes chPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .ch-letter { animation: chFloat 4s ease-in-out infinite; }
+  .ch-d1 { animation: chPulse 2.2s ease-in-out infinite; }
+  .ch-d2 { animation: chPulse 2.2s ease-in-out .8s infinite; }
 </style>
 <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Envelope body -->
-  <rect x="40" y="118" width="200" height="130" rx="6" stroke="#1A1A1A" stroke-width="1.8" fill="white"/>
-  <!-- Bottom fold lines -->
-  <line class="ch-line" x1="40" y1="248" x2="140" y2="185" stroke="#E5E5E5" stroke-width="1" stroke-linecap="round"/>
-  <line class="ch-line" x1="240" y1="248" x2="140" y2="185" stroke="#E5E5E5" stroke-width="1" stroke-linecap="round" style="animation-delay:.15s"/>
-  <!-- Envelope flap -->
-  <g class="ch-flap">
-    <path d="M40,118 L140,178 L240,118 Z" fill="#F7F7F7" stroke="#1A1A1A" stroke-width="1.8" stroke-linejoin="round"/>
-  </g>
-  <!-- Letter emerging -->
+  <ellipse cx="140" cy="252" rx="110" ry="9" fill="#E9E9E3"/>
+  <!-- envelope -->
+  <rect x="44" y="122" width="192" height="122" rx="8" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+  <path d="M44 130 L140 196 L236 130" stroke="#141414" stroke-width="3" stroke-linejoin="round" fill="none"/>
+  <!-- letter peeking out -->
   <g class="ch-letter">
-    <rect x="96" y="60" width="88" height="110" rx="4" fill="white" stroke="#1A1A1A" stroke-width="1.5"/>
-    <line x1="110" y1="84" x2="170" y2="84" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
-    <line x1="110" y1="96" x2="170" y2="96" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
-    <line x1="110" y1="108" x2="155" y2="108" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
-    <!-- Lime accent line -->
-    <rect x="110" y="120" width="60" height="6" rx="2" fill="#A3FF00" opacity="0.85"/>
-    <line x1="110" y1="140" x2="150" y2="140" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>
+    <rect x="96" y="58" width="88" height="80" rx="6" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+    <path d="M110 82 h60 M110 96 h60 M110 110 h44" stroke="#3D3D3D" stroke-width="2" stroke-linecap="round"/>
+    <rect x="110" y="120" width="52" height="8" rx="4" fill="#A3FF00"/>
   </g>
-  <!-- Floating dots -->
-  <circle class="ch-d1" cx="30"  cy="150" r="4" fill="#A3FF00"/>
-  <circle class="ch-d2" cx="252" cy="135" r="3" fill="#A3FF00"/>
-  <circle class="ch-d3" cx="140" cy="32"  r="3" fill="#A3FF00"/>
+  <!-- lime seal -->
+  <circle cx="140" cy="196" r="15" fill="#A3FF00" stroke="#141414" stroke-width="3"/>
+  <path d="M133 196 l5 5 l9 -10" stroke="#141414" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- floating dots -->
+  <circle class="ch-d1" cx="34" cy="150" r="5" fill="#A3FF00"/>
+  <circle class="ch-d2" cx="248" cy="120" r="4" fill="#A3FF00"/>
 </svg>`;
 
 /* ─────────────────────────────────────────────
@@ -126,7 +114,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="pt-36 pb-20 border-b border-[#E5E5E5]">
+      <section className="pt-36 pb-20 border-b border-border">
         <motion.div
           ref={headerRef}
           initial="hidden"
@@ -136,18 +124,14 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <motion.p custom={0} variants={fadeUp} className="label mb-4">
-                Get in Touch
+                Get in touch
               </motion.p>
-              <motion.h1
-                custom={1}
-                variants={fadeUp}
-                className="font-bold font-satoshi text-[#1A1A1A] mb-6"
-                style={{ fontSize: "clamp(3rem,6vw,5rem)", lineHeight: 1.05, letterSpacing: "-0.025em" }}
-              >
-                Let&apos;s talk.
+              <motion.h1 custom={1} variants={fadeUp} className="display text-hero mb-6">
+                Let&apos;s <span className="tilt-chip">talk</span>.
               </motion.h1>
-              <motion.p custom={2} variants={fadeUp} className="text-[#6B6B6B] text-xl leading-relaxed">
-                Whether you&apos;re a potential client, partner, or just curious, we&apos;d love to hear from you.
+              <motion.p custom={2} variants={fadeUp} className="text-muted text-xl leading-relaxed max-w-lg">
+                Tell us about your business and we will come back with a concrete growth plan: which channels,
+                what budget, and the return we would aim for.
               </motion.p>
             </div>
             <motion.div custom={3} variants={fadeUp} className="hidden lg:flex justify-center">
@@ -178,19 +162,19 @@ export default function ContactPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="bg-[#F7F7F7] border border-[#E5E5E5] rounded-3xl p-14 text-center"
+                className="bg-cream border border-border rounded-3xl p-14 text-center"
               >
-                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-[#1A1A1A] text-2xl mx-auto mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-ink text-2xl mx-auto mb-6">
                   ✓
                 </div>
-                <h3 className="text-2xl font-bold font-satoshi text-[#1A1A1A] mb-3">Message sent.</h3>
-                <p className="text-[#6B6B6B]">
+                <h3 className="text-2xl font-bold font-satoshi text-ink mb-3">Message sent.</h3>
+                <p className="text-muted">
                   We&apos;ll get back to you at{" "}
-                  <span className="text-[#1A1A1A] font-medium">{form.email}</span> within 24 hours.
+                  <span className="text-ink font-medium">{form.email}</span> within 24 hours.
                 </p>
               </motion.div>
             ) : (
-              <div className="bg-[#F7F7F7] border border-[#E5E5E5] rounded-3xl p-8">
+              <div className="bg-cream border border-border rounded-3xl p-8">
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
@@ -225,7 +209,7 @@ export default function ContactPage() {
                     <div>
                       <label className="label mb-2 block">
                         Phone{" "}
-                        <span className="normal-case tracking-normal text-[11px] text-[#AAAAAA]">(optional)</span>
+                        <span className="normal-case tracking-normal text-[11px] text-subtle">(optional)</span>
                       </label>
                       <input
                         type="tel"
@@ -290,12 +274,12 @@ export default function ContactPage() {
                       onChange={(e) => setConsent(e.target.checked)}
                       className="mt-0.5 h-4 w-4 shrink-0 accent-[#A3FF00] cursor-pointer"
                     />
-                    <span className="text-xs leading-relaxed text-[#6B6B6B]">
+                    <span className="text-xs leading-relaxed text-muted">
                       I agree that my details may be used to respond to my
                       enquiry, in line with the{" "}
                       <Link
                         href="/privacy"
-                        className="text-[#1A1A1A] underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+                        className="text-ink underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
                       >
                         Privacy Policy
                       </Link>
@@ -338,23 +322,23 @@ export default function ContactPage() {
               <p className="label mb-5">Direct Contact</p>
               <div className="space-y-4">
                 <a href="mailto:dani@thelevel7.ai" className="flex items-center gap-4 group">
-                  <div className="w-10 h-10 rounded-xl border border-[#E5E5E5] bg-[#F7F7F7] flex items-center justify-center text-[#6B6B6B] group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
+                  <div className="w-10 h-10 rounded-xl border border-border bg-cream flex items-center justify-center text-muted group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
                     @
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Email</div>
-                    <div className="text-sm text-[#1A1A1A] group-hover:text-accent transition-colors font-medium">
+                    <div className="text-sm text-ink group-hover:text-accent transition-colors font-medium">
                       dani@thelevel7.ai
                     </div>
                   </div>
                 </a>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl border border-[#E5E5E5] bg-[#F7F7F7] flex items-center justify-center text-[#6B6B6B] text-sm font-bold">
+                  <div className="w-10 h-10 rounded-xl border border-border bg-cream flex items-center justify-center text-muted text-sm font-bold">
                     ↗
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Website</div>
-                    <div className="text-sm text-[#1A1A1A] font-medium">thelevel7.ai</div>
+                    <div className="text-sm text-ink font-medium">thelevel7.ai</div>
                   </div>
                 </div>
               </div>
@@ -363,9 +347,9 @@ export default function ContactPage() {
             {/* Response Time */}
             <div className="card p-6">
               <p className="label mb-3">Response Time</p>
-              <p className="text-sm text-[#6B6B6B] leading-relaxed">
+              <p className="text-sm text-muted leading-relaxed">
                 We respond to all inquiries within{" "}
-                <span className="text-[#1A1A1A] font-semibold">24 hours</span>.
+                <span className="text-ink font-semibold">24 hours</span>.
               </p>
             </div>
 
@@ -381,8 +365,8 @@ export default function ContactPage() {
             {/* Legal */}
             <div className="card p-6">
               <p className="label mb-3">Legal Entity</p>
-              <p className="text-sm text-[#1A1A1A] font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
-              <p className="text-xs text-[#6B6B6B] mt-1">Registered in Cyprus</p>
+              <p className="text-sm text-ink font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
+              <p className="text-xs text-muted mt-1">Registered in Cyprus</p>
             </div>
           </motion.div>
         </div>

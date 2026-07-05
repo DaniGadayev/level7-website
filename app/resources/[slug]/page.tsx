@@ -102,11 +102,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
       {/* ── HERO ── */}
       <article>
-        <header className="pt-36 pb-12 border-b border-[#E5E5E5]">
+        <header className="pt-36 pb-12 border-b border-border">
           <div className="max-w-3xl mx-auto px-6">
             <Link
               href="/resources"
-              className="inline-flex items-center gap-2 text-sm text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors mb-8"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -115,13 +115,13 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             </Link>
             <p className="label mb-4">{article.category}</p>
             <h1
-              className="font-bold font-satoshi text-[#1A1A1A] mb-6"
-              style={{ fontSize: "clamp(2rem,4.5vw,3.25rem)", lineHeight: 1.1, letterSpacing: "-0.025em" }}
+              className="display mb-6"
+              style={{ fontSize: "clamp(2.2rem,5vw,3.6rem)" }}
             >
               {article.title}
             </h1>
-            <div className="flex items-center gap-3 text-sm text-[#6B6B6B]">
-              <span className="font-medium text-[#1A1A1A]">{article.author}</span>
+            <div className="flex items-center gap-3 text-sm text-muted">
+              <span className="font-medium text-ink">{article.author}</span>
               {article.published_at && <span>·</span>}
               {article.published_at && <span>{formatDate(article.published_at)}</span>}
               <span>·</span>
@@ -137,7 +137,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             <img
               src={article.cover_image}
               alt={article.title}
-              className="w-full aspect-[16/9] object-cover rounded-3xl border border-[#E5E5E5]"
+              className="w-full aspect-[16/9] object-cover rounded-3xl border border-border"
             />
           </div>
         )}
@@ -147,11 +147,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
 
           {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-[#E5E5E5]">
+            <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-border">
               {article.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-medium text-[#6B6B6B] bg-[#F7F7F7] border border-[#E5E5E5] px-3 py-1.5 rounded-full"
+                  className="text-xs font-medium text-muted bg-cream border border-border px-3 py-1.5 rounded-full"
                 >
                   {tag}
                 </span>
@@ -163,13 +163,13 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
       {/* ── RELATED ── */}
       {related.length > 0 && (
-        <section className="border-t border-[#E5E5E5] bg-[#F7F7F7]">
+        <section className="border-t border-border bg-cream">
           <div className="max-w-7xl mx-auto px-6 py-16">
             <p className="label mb-8">More in {article.category}</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((r) => (
                 <Link key={r.slug} href={`/resources/${r.slug}`} className="card block h-full overflow-hidden group bg-white">
-                  <div className="relative aspect-[16/9] bg-[#F7F7F7] overflow-hidden">
+                  <div className="relative aspect-[16/9] bg-cream overflow-hidden">
                     {r.cover_image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={r.cover_image} alt={r.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -178,15 +178,15 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                         <span className="text-4xl font-bold font-satoshi text-[#E5E5E5] select-none">L7</span>
                       </div>
                     )}
-                    <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-accent text-[#1A1A1A] px-2 py-0.5 rounded-full">{r.category}</span>
+                    <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-accent text-ink px-2 py-0.5 rounded-full">{r.category}</span>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-base font-bold font-satoshi text-[#1A1A1A] leading-snug mb-2 group-hover:text-black transition-colors line-clamp-2">
+                    <h3 className="text-base font-bold font-satoshi text-ink leading-snug mb-2 group-hover:text-black transition-colors line-clamp-2">
                       {r.title}
                     </h3>
-                    <p className="text-sm text-[#6B6B6B] line-clamp-2 mb-4">{r.excerpt}</p>
-                    <div className="flex items-center gap-2 text-xs text-[#767676]">
-                      <span className="font-medium text-[#1A1A1A]">{r.author}</span>
+                    <p className="text-sm text-muted line-clamp-2 mb-4">{r.excerpt}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted">
+                      <span className="font-medium text-ink">{r.author}</span>
                       {r.published_at && <span>·</span>}
                       {r.published_at && <span>{formatDate(r.published_at)}</span>}
                     </div>
@@ -200,11 +200,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
       {/* ── CTA ── */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="bg-[#1A1A1A] rounded-3xl px-8 py-14 text-center">
-          <h2 className="text-3xl font-bold font-satoshi text-white mb-4" style={{ letterSpacing: "-0.02em" }}>
+        <div className="bg-[#0A0A0A] rounded-3xl px-8 py-14 text-center">
+          <h2 className="display text-4xl text-white mb-4">
             Ready to grow without an agency?
           </h2>
-          <p className="text-[#AAAAAA] mb-8 max-w-lg mx-auto">
+          <p className="text-subtle mb-8 max-w-lg mx-auto">
             LEVEL7 builds and runs your entire marketing system, automatically.
           </p>
           <Link href="/contact" className="btn-primary">
