@@ -89,7 +89,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
+        <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
           {links.map((link) =>
             link.dropdown ? (
               <div
@@ -176,7 +176,7 @@ export default function Navbar() {
         </div>
 
         {/* CTAs */}
-        <div className="hidden md:flex items-center gap-3 shrink-0">
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
           <a
             href="https://getbob.thelevel7.ai/login"
             className="text-sm font-medium text-muted hover:text-ink px-4 py-2.5 rounded border border-line hover:border-ink transition-colors"
@@ -190,7 +190,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-ink p-2 -mr-2"
+          className="lg:hidden text-ink p-2 -mr-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -211,7 +211,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-[#FBFBF8] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
+            className="lg:hidden overflow-hidden bg-[#FBFBF8] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
           >
             <div className="px-6 py-5 flex flex-col gap-1">
               <Link

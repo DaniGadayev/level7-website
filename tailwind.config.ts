@@ -32,7 +32,7 @@ const config: Config = {
         satoshi: ["Satoshi", "var(--font-body)", "sans-serif"],
       },
       fontSize: {
-        hero: ["clamp(3.6rem,10vw,10rem)", { lineHeight: "0.9" }],
+        hero: ["clamp(3.4rem,9vw,10rem)", { lineHeight: "0.9" }],
         section: ["clamp(2.6rem,5.5vw,4.8rem)", { lineHeight: "0.92" }],
       },
     },

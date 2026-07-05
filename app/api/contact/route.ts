@@ -147,5 +147,39 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Save the lead to the admin CRM as well (best-effort: the email is already
+  // out, so a CRM hiccup must never fail the visitor's submission).
+  if (process.env.LEADS_INTERNAL_SECRET) {
+    try {
+      const crm = await fetch(
+        process.env.LEADS_ADMIN_URL || "http://level7-admin:3001/api/leads",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-leads-secret": process.env.LEADS_INTERNAL_SECRET,
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            phone,
+            subject,
+            message,
+            source: "contact-form",
+            ip,
+          }),
+          signal: AbortSignal.timeout(5000),
+        }
+      );
+      if (!crm.ok) {
+        console.error("[contact] CRM save failed", crm.status, await crm.text().catch(() => ""));
+      }
+    } catch (err) {
+      console.error("[contact] CRM save error", err);
+    }
+  } else {
+    console.error("[contact] LEADS_INTERNAL_SECRET not set — lead not saved to CRM.");
+  }
+
   return NextResponse.json({ ok: true });
 }
