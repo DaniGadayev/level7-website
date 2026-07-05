@@ -3,7 +3,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
-import { HeroIllustration, AgencyGlyph, SoftwareGlyph } from "@/components/Illustrations";
+import { differentiators, processSteps } from "@/lib/social-proof";
+import { Ticks, SectionHead, LogoStrip, TestimonialGrid } from "@/components/Hud";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
@@ -30,25 +31,6 @@ const ArrowIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   </svg>
 );
 
-const values = [
-  {
-    title: "Judged by the return",
-    desc: "Every campaign, page and sequence we build answers to one number: how much money it brought back. If we cannot measure it, we do not sell it.",
-  },
-  {
-    title: "Systems over heroics",
-    desc: "Great months should not depend on someone having a great week. We build systems that filter, warm and follow up on every lead, every time.",
-  },
-  {
-    title: "Simplicity and clarity",
-    desc: "You will always know what we are doing, why we are doing it, and what it returned. Reports in plain language, numbers you can check.",
-  },
-  {
-    title: "Built for the long game",
-    desc: "Quick wins are nice. Compounding is better. We build assets that keep working: rankings, audiences, automations and trust.",
-  },
-];
-
 const timeline = [
   {
     year: "The start",
@@ -71,132 +53,126 @@ export default function AboutPage() {
   return (
     <>
       {/* HERO */}
-      <section className="bg-white overflow-hidden">
-        <div className="max-w-4xl mx-auto px-6 pt-32 md:pt-40 text-center">
-          <motion.p custom={0} variants={fadeUp} initial="hidden" animate="visible" className="label justify-center mb-6">
-            Who we are
+      <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden">
+        <div className="absolute inset-0 grid-bg" aria-hidden="true" />
+        <div className="relative max-w-7xl mx-auto px-6">
+          <motion.p custom={0} variants={fadeUp} initial="hidden" animate="visible" className="label mb-6">
+            <span className="text-accent">ABT</span> Who we are
           </motion.p>
-          <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible" className="display text-hero mb-7">
-            Built to make marketing{" "}
-            <span className="tilt-chip">accountable</span>.
+          <motion.h1 custom={1} variants={fadeUp} initial="hidden" animate="visible" className="display text-hero mb-8 max-w-5xl">
+            Built to make marketing <span className="tilt-chip">accountable</span>.
           </motion.h1>
           <motion.p
             custom={2}
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-4 leading-relaxed"
+            className="text-lg md:text-xl text-muted max-w-2xl leading-relaxed"
           >
             LEVEL7 is a growth company for service businesses. We run marketing that has to prove itself in
             your bank account, and we build the software that makes that possible.
           </motion.p>
         </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          aria-hidden="true"
-        >
-          <div className="sm:hidden">
-            <HeroIllustration viewBox="20 120 680 430" />
-          </div>
-          <div className="hidden sm:block">
-            <HeroIllustration />
-          </div>
-        </motion.div>
       </section>
 
-      {/* STORY TIMELINE */}
-      <Section className="py-24 md:py-32 bg-cream">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.p custom={0} variants={fadeUp} className="label mb-5">
-            The story
-          </motion.p>
-          <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-16 max-w-3xl">
-            From agency, to software, to both.
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {timeline.map((t, i) => (
-              <motion.div key={t.title} custom={i + 2} variants={fadeUp} className="card p-8 bg-white">
-                <p className="label mb-4">{t.year}</p>
-                <h3 className="display text-3xl mb-3">{t.title}</h3>
-                <p className="text-muted leading-relaxed text-[15px]">{t.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </Section>
+      <div className="scan-rule" aria-hidden="true" />
 
-      {/* TWO ENGINES */}
+      {/* STORY */}
       <Section className="py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.p custom={0} variants={fadeUp} className="label mb-5">
-            What we do
-          </motion.p>
-          <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-16 max-w-3xl">
-            The agency and the software feed each other.
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <motion.div custom={2} variants={fadeUp} className="card p-8 md:p-10">
-              <AgencyGlyph />
-              <h3 className="display text-3xl md:text-4xl mt-6 mb-3">The growth agency</h3>
-              <p className="text-muted leading-relaxed mb-6">
-                Twelve services under one roof, run by one team that sees the whole picture. Every channel
-                feeds the same lead system: filtered on the way in, warmed after they arrive, measured by
-                what came back.
-              </p>
-              <Link href="/services" className="inline-flex items-center gap-2 font-semibold text-ink underline decoration-accent decoration-[3px] underline-offset-4 hover:decoration-ink transition-colors">
-                See the services
-                <ArrowIcon />
-              </Link>
-            </motion.div>
-            <motion.div custom={3} variants={fadeUp} className="card p-8 md:p-10">
-              <SoftwareGlyph />
-              <h3 className="display text-3xl md:text-4xl mt-6 mb-3">The software we build</h3>
-              <p className="text-muted leading-relaxed mb-6">
-                The tools we wished existed, so we built them. BOB, our AI employee, answers, qualifies and
-                follows up with leads around the clock, trained on the same method our own team runs.
-              </p>
-              <a href="https://getbob.thelevel7.ai/" className="inline-flex items-center gap-2 font-semibold text-ink underline decoration-accent decoration-[3px] underline-offset-4 hover:decoration-ink transition-colors">
-                Meet BOB
-                <ArrowIcon />
-              </a>
-            </motion.div>
+          <motion.div custom={0} variants={fadeUp}>
+            <SectionHead index="01" label="The story" title="From agency, to software, to both." className="mb-14" />
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {timeline.map((t, i) => (
+              <motion.div key={t.title} custom={i + 1} variants={fadeUp}>
+                <Ticks className="panel hot p-8 h-full">
+                  <p className="mono mb-5">
+                    <span className="text-accent">T{i + 1}</span> {t.year}
+                  </p>
+                  <h3 className="display text-3xl mb-3">{t.title}</h3>
+                  <p className="text-muted leading-relaxed text-[15px]">{t.desc}</p>
+                </Ticks>
+              </motion.div>
+            ))}
           </div>
         </div>
       </Section>
 
-      {/* VALUES */}
-      <Section className="py-24 md:py-32 bg-[#0A0A0A] text-white">
+      {/* DIFFERENTIATION */}
+      <Section className="py-24 md:py-32 border-t border-line">
         <div className="max-w-7xl mx-auto px-6">
-          <motion.p custom={0} variants={fadeUp} className="label on-dark mb-5">
-            How we work
-          </motion.p>
-          <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-16 max-w-3xl">
-            The rules we do not break.
-          </motion.h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {values.map((v, i) => (
-              <motion.div
-                key={v.title}
-                custom={i + 2}
-                variants={fadeUp}
-                className="rounded-2xl border-2 border-white/12 p-8 hover:border-accent transition-colors duration-200"
-              >
-                <span className="display text-2xl text-accent">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="font-semibold text-xl text-white mt-3 mb-3">{v.title}</h3>
-                <p className="text-white/55 leading-relaxed text-[15px]">{v.desc}</p>
+          <motion.div custom={0} variants={fadeUp}>
+            <SectionHead
+              index="02"
+              label="The difference"
+              title="Why we succeed where other agencies fail."
+              className="mb-14"
+            />
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {differentiators.map((d, i) => (
+              <motion.div key={d.num} custom={i + 1} variants={fadeUp}>
+                <Ticks className="panel hot p-8 h-full">
+                  <div className="flex items-baseline justify-between mb-6">
+                    <p className="mono">
+                      <span className="text-accent">{d.num}</span>
+                    </p>
+                    <div className="text-right">
+                      <span className="display text-4xl text-accent">{d.stat}</span>
+                      <p className="mono mt-1">{d.statLabel}</p>
+                    </div>
+                  </div>
+                  <h3 className="display text-3xl mb-3">{d.title}</h3>
+                  <p className="text-muted leading-relaxed text-[15px]">{d.desc}</p>
+                </Ticks>
               </motion.div>
             ))}
           </div>
+        </div>
+      </Section>
+
+      {/* PROCESS */}
+      <Section className="py-24 md:py-32 border-t border-line">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div custom={0} variants={fadeUp}>
+            <SectionHead index="03" label="How we work" title="The process, step by step." className="mb-16" />
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {processSteps.map((step, i) => (
+              <motion.div key={step.num} custom={i + 1} variants={fadeUp} className="panel p-7 h-full">
+                <p className="mono mb-6">
+                  <span className="text-accent">{step.num}</span> / 04
+                </p>
+                <h3 className="display text-3xl mb-3">{step.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* PROOF */}
+      <Section className="py-24 md:py-32 border-t border-line">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div custom={0} variants={fadeUp}>
+            <SectionHead index="04" label="Proof" title="Clients keep the receipts." className="mb-14" />
+          </motion.div>
+          <motion.div custom={1} variants={fadeUp}>
+            <TestimonialGrid />
+          </motion.div>
+          <motion.div custom={2} variants={fadeUp} className="mt-20">
+            <LogoStrip />
+          </motion.div>
         </div>
       </Section>
 
       {/* SLOGAN + CTA */}
-      <Section className="py-24 md:py-32 text-center">
-        <div className="max-w-3xl mx-auto px-6">
-          <motion.p custom={0} variants={fadeUp} className="label justify-center mb-6">
-            The slogan says it all
+      <Section className="relative py-24 md:py-36 border-t border-line text-center overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-[380px] glow pointer-events-none" aria-hidden="true" />
+        <div className="relative max-w-3xl mx-auto px-6">
+          <motion.p custom={0} variants={fadeUp} className="mono mb-6">
+            <span className="text-accent">●</span> The slogan says it all
           </motion.p>
           <motion.h2 custom={1} variants={fadeUp} className="display text-section mb-8">
             Build an empire. <span className="tilt-chip">One level</span> at a time.

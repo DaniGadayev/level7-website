@@ -36,7 +36,8 @@ export default function LegalPage({
 
   return (
     <article className="pt-36 pb-24">
-      <div className="max-w-3xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="reading-island rounded-2xl px-6 py-10 sm:px-12 sm:py-14">
         {/* Header */}
         <p className="label mb-5">Legal</p>
         <h1 className="font-satoshi font-bold text-[clamp(2.25rem,5vw,3.5rem)] leading-[1.05] tracking-[-0.03em] text-[#1A1A1A] mb-4">
@@ -164,6 +165,7 @@ export default function LegalPage({
             </div>
           )}
         </div>
+      </div>
       </div>
     </article>
   );

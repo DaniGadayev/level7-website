@@ -1,4 +1,4 @@
-/* Self-hosted Satoshi — used by legacy pages (resources, legal, about) */
+/* Self-hosted Satoshi — used by the light reading pages (resources, legal) */
 @font-face {
   font-family: "Satoshi";
   src: url("/fonts/Satoshi-Regular.woff2") format("woff2");
@@ -25,15 +25,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * LEVEL7 v3 — HYPERFRAME.
+ * Deep black canvas, towering condensed type, technical mono labels,
+ * hairline frames with corner ticks, lime as the only electricity.
+ */
 :root {
-  --ink: #0A0A0A;
-  --paper: #FFFFFF;
-  --cream: #F6F6F2;
+  --void: #0A0A0A;
+  --panel: #101010;
+  --panel-2: #161616;
+  --line: #242424;
+  --line-strong: #3A3A3A;
+  --text: #F4F4F0;
+  --muted: #9C9C96;
+  --faint: #62625C;
   --lime: #A3FF00;
-  --lime-deep: #8FE600;
-  --muted: #5C5C5C;
-  --subtle: #AAAAAA;
-  --line: #E8E8E3;
+  --lime-dim: rgba(163, 255, 0, 0.14);
 }
 
 * {
@@ -47,201 +54,231 @@ html {
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body), "Satoshi", sans-serif;
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body), sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
   background: var(--lime);
-  color: var(--ink);
+  color: var(--void);
 }
 
-/* Keyboard focus — visible ring on every interactive element */
+/* Keyboard focus */
 a:focus-visible,
 button:focus-visible,
-.card:focus-visible,
-.btn-primary:focus-visible,
-.btn-ghost:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--lime);
   outline-offset: 3px;
-  border-radius: 6px;
-}
-.btn-primary:focus-visible,
-.card:focus-visible {
-  outline-color: var(--ink);
-  box-shadow: 0 0 0 5px rgba(163, 255, 0, 0.5);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-track { background: var(--panel); }
 ::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
 
-/* Display headline — Bebas Neue, tight and towering */
+/* Display headline — Bebas Neue, towering */
 .display {
   font-family: var(--font-display), sans-serif;
   font-weight: 400;
   letter-spacing: 0.01em;
-  line-height: 0.92;
+  line-height: 0.9;
   text-transform: uppercase;
 }
 
-/* Primary button — chunky lime pill */
+/* Technical mono microcopy */
+.mono {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mono .tick { color: var(--lime); }
+
+/* Section label — mono with lime index */
+.label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.label::before {
+  content: "//";
+  color: var(--lime);
+  letter-spacing: 0;
+}
+
+/* Primary CTA — lime slab */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   background: var(--lime);
-  color: var(--ink);
+  color: var(--void);
   font-weight: 600;
-  font-size: 16px;
-  padding: 18px 36px;
-  border-radius: 100px;
-  border: 2px solid var(--ink);
-  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 15px;
+  padding: 17px 34px;
+  border-radius: 4px;
+  border: 1px solid var(--lime);
   cursor: pointer;
-  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, background 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
   text-decoration: none;
   font-family: var(--font-body), sans-serif;
+  box-shadow: 0 0 0 rgba(163, 255, 0, 0);
 }
 .btn-primary:hover {
-  background: var(--lime-deep);
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(163, 255, 0, 0.35);
 }
 .btn-primary:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--ink);
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(163, 255, 0, 0.3);
 }
 
-/* On dark surfaces the hard shadow flips to lime */
-.btn-primary.on-dark {
-  border-color: var(--ink);
-  box-shadow: 4px 4px 0 rgba(163, 255, 0, 0.4);
-}
-.btn-primary.on-dark:hover {
-  box-shadow: 2px 2px 0 rgba(163, 255, 0, 0.4);
-}
-.btn-primary.on-dark:active {
-  box-shadow: 0 0 0 rgba(163, 255, 0, 0.4);
-}
-
-/* Ghost button — outlined pill */
+/* Ghost CTA — hairline slab */
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   background: transparent;
-  color: var(--ink);
-  font-weight: 600;
+  color: var(--text);
+  font-weight: 500;
   font-size: 15px;
   padding: 16px 32px;
-  border-radius: 100px;
-  border: 2px solid var(--ink);
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
   cursor: pointer;
-  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
   text-decoration: none;
   font-family: var(--font-body), sans-serif;
 }
 .btn-ghost:hover {
-  background: var(--ink);
-  color: var(--paper);
-  transform: translateY(-2px);
-}
-.btn-ghost:active {
-  transform: translateY(0);
-}
-.btn-ghost.on-dark {
-  color: var(--paper);
-  border-color: rgba(255, 255, 255, 0.35);
-}
-.btn-ghost.on-dark:hover {
-  background: var(--lime);
   border-color: var(--lime);
-  color: var(--ink);
+  color: var(--lime);
 }
 
-/* Section label — small caps kicker with lime tick */
-.label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--muted);
+/* Panel — the framed card */
+.panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-.label::before {
+.panel:hover {
+  border-color: var(--line-strong);
+  background: var(--panel-2);
+}
+.panel.hot:hover {
+  border-color: var(--lime);
+}
+
+/* Corner ticks — the hyperframe signature. Apply to a relative container. */
+.ticks::before,
+.ticks::after,
+.ticks > .tick-b::before,
+.ticks > .tick-b::after {
   content: "";
-  width: 22px;
-  height: 3px;
-  background: var(--lime);
-  border-radius: 2px;
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--line-strong);
+  border-style: solid;
+  pointer-events: none;
+  transition: border-color 0.2s ease;
 }
-.label.on-dark {
-  color: var(--subtle);
+.ticks::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.ticks::after { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.ticks > .tick-b::before { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+.ticks > .tick-b::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+.ticks:hover::before,
+.ticks:hover::after,
+.ticks:hover > .tick-b::before,
+.ticks:hover > .tick-b::after {
+  border-color: var(--lime);
 }
 
-/* Divider */
+/* Hairline divider */
 .divider {
   height: 1px;
   background: var(--line);
   width: 100%;
 }
 
-/* Input */
+/* Grid backdrop — faint blueprint lines */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 75%);
+}
+
+/* Lime glow bloom */
+.glow {
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(163, 255, 0, 0.13), transparent 70%);
+}
+
+/* Inputs — dark */
 .input-field {
   width: 100%;
-  background: #FFFFFF;
-  border: 2px solid var(--line);
-  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
   padding: 14px 16px;
-  color: var(--ink);
+  color: var(--text);
   font-size: 15px;
-  font-family: var(--font-body), "Satoshi", sans-serif;
+  font-family: var(--font-body), sans-serif;
   outline: none;
   transition: border-color 0.2s;
 }
-.input-field::placeholder { color: var(--subtle); }
-.input-field:focus { border-color: var(--ink); }
+.input-field::placeholder { color: var(--faint); }
+.input-field:focus { border-color: var(--lime); }
+select.input-field option { background: var(--panel); color: var(--text); }
 
-/* Card */
+/* Card alias kept for the light reading island (resources) */
 .card {
-  background: var(--paper);
-  border: 2px solid var(--ink);
-  border-radius: 20px;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  background: #FFFFFF;
+  border: 1px solid #E8E8E3;
+  border-radius: 14px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--lime);
+  border-color: #141414;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
 }
 
 /* Stat */
 .stat-value {
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 700;
+  font-size: clamp(40px, 5.5vw, 72px);
   font-family: var(--font-display), sans-serif;
-  color: var(--ink);
+  color: var(--text);
   line-height: 1;
 }
 .stat-label {
-  font-size: 12px;
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 8px;
+  letter-spacing: 0.16em;
+  margin-top: 10px;
 }
 
-/* Marquee strip */
+/* Marquee */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -251,20 +288,51 @@ textarea:focus-visible {
   width: max-content;
   animation: marquee 32s linear infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
-  html { scroll-behavior: auto; }
-}
 
-/* Tilted chip — the brand's tilted-rectangle motif */
+/* Tilted lime chip — the brand motif */
 .tilt-chip {
   display: inline-block;
   background: var(--lime);
-  color: var(--ink);
+  color: var(--void);
   transform: rotate(-2.5deg);
   padding: 0 0.18em;
   border-radius: 4px;
 }
+
+/* Scanline shimmer on hero rule */
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.scan-rule {
+  position: relative;
+  overflow: hidden;
+  height: 1px;
+  background: var(--line);
+}
+.scan-rule::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 25%;
+  background: linear-gradient(90deg, transparent, var(--lime), transparent);
+  animation: scan 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .scan-rule::after { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Light reading island (resources articles, legal pages) */
+.reading-island {
+  background: #FFFFFF;
+  color: #141414;
+}
+
 /* ─────────────────────────────────────────────
    Article prose — rendered Markdown on /resources/[slug]
    Reading column ~68ch, generous line-height.

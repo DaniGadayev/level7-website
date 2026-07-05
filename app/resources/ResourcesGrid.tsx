@@ -24,7 +24,7 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
   return (
     <>
       {/* ── HERO ── */}
-      <section className="pt-36 pb-16 border-b border-border">
+      <section className="pt-36 pb-16 border-b border-line">
         <div className="max-w-7xl mx-auto px-6">
           <motion.p
             initial="hidden"
@@ -72,9 +72,9 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
                 custom={i}
                 variants={fadeUp}
               >
-                <Link href={`/resources/${a.slug}`} className="card block h-full overflow-hidden group">
+                <Link href={`/resources/${a.slug}`} className="panel hot block h-full overflow-hidden group rounded-lg">
                   {/* Cover */}
-                  <div className="relative aspect-[16/9] bg-cream overflow-hidden">
+                  <div className="relative aspect-[16/9] bg-[#161616] overflow-hidden">
                     {a.cover_image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -85,7 +85,7 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-5xl font-bold font-satoshi text-[#E5E5E5] select-none">L7</span>
+                        <span className="text-5xl font-bold font-satoshi text-[#2A2A2A] select-none">L7</span>
                       </div>
                     )}
                     <span className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wider bg-accent text-ink px-2.5 py-1 rounded-full">
@@ -94,14 +94,14 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
                   </div>
                   {/* Body */}
                   <div className="p-6">
-                    <h2 className="text-lg font-bold font-satoshi text-ink leading-snug mb-2 line-clamp-2 group-hover:text-[#000] transition-colors">
+                    <h2 className="text-lg font-bold font-satoshi text-white leading-snug mb-2 line-clamp-2 group-hover:text-accent transition-colors">
                       {a.title}
                     </h2>
                     <p className="text-sm text-muted leading-relaxed line-clamp-3 mb-4">
                       {a.excerpt}
                     </p>
                     <div className="flex items-center gap-2 text-xs text-muted">
-                      <span className="font-medium text-ink">{a.author}</span>
+                      <span className="font-medium text-white/80">{a.author}</span>
                       {a.published_at && <span>·</span>}
                       {a.published_at && <span>{formatDate(a.published_at)}</span>}
                       <span>·</span>
@@ -121,10 +121,10 @@ export default function ResourcesGrid({ articles }: { articles: ArticleCard[] })
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-cream border border-border flex items-center justify-center mb-6">
-        <span className="text-2xl font-bold font-satoshi text-[#E5E5E5]">L7</span>
+      <div className="w-16 h-16 rounded-2xl bg-panel border border-line flex items-center justify-center mb-6">
+        <span className="text-2xl font-bold font-satoshi text-[#2A2A2A]">L7</span>
       </div>
-      <h2 className="text-2xl font-bold font-satoshi text-ink mb-3">New resources coming soon.</h2>
+      <h2 className="text-2xl font-bold font-satoshi text-white mb-3">New resources coming soon.</h2>
       <p className="text-muted max-w-md">
         We&apos;re putting together our best playbooks on AI marketing and growth. Check back shortly.
       </p>

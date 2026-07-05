@@ -6,7 +6,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { services } from "@/lib/services";
 
+const BOB_URL = "https://www.bob.thelevel7.ai/";
+
 const links = [
+  { href: "/", label: "Home" },
   { href: "/services", label: "Services", dropdown: true },
   { href: "/resources", label: "Resources" },
   { href: "/about", label: "About" },
@@ -54,34 +57,39 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 ${
-        scrolled ? "border-b border-[#E8E8E3] shadow-[0_2px_20px_rgba(10,10,10,0.04)]" : ""
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/90 backdrop-blur-md transition-all duration-300 ${
+        scrolled ? "border-b border-line" : ""
       }`}
     >
       {/* Announcement bar */}
-      <a href="https://getbob.thelevel7.ai/" className="group block bg-[#0A0A0A] text-white">
+      <a href={BOB_URL} className="group block bg-accent text-[#0A0A0A]">
         <div className="max-w-3xl mx-auto px-6 py-2 text-center text-[12px] sm:text-[13px] font-medium leading-snug">
-          <span className="align-middle inline-block font-bold uppercase tracking-wider bg-accent text-[#0A0A0A] px-1.5 py-0.5 rounded text-[10px] mr-1.5">
+          <span className="align-middle inline-block font-bold uppercase tracking-wider bg-[#0A0A0A] text-accent px-1.5 py-0.5 rounded text-[10px] mr-1.5">
             New
           </span>
-          <span className="align-middle text-white/85">
-            Meet <strong className="font-bold text-white">BOB</strong>, the AI employee we built for your busywork.
+          <span className="align-middle">
+            Meet <strong className="font-bold">BOB</strong>, the AI employee we built for your busywork.
           </span>{" "}
-          <span className="align-middle font-semibold whitespace-nowrap text-accent underline underline-offset-2 decoration-2 group-hover:no-underline">
+          <span className="align-middle font-semibold whitespace-nowrap underline underline-offset-2 decoration-2 group-hover:no-underline">
             Try it free
           </span>
         </div>
       </a>
 
-      <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-8">
-        {/* Logo */}
-        <Link href="/" className="shrink-0 flex items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="LEVEL7" height={32} className="h-8 w-auto" />
+      <nav className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between gap-8">
+        {/* Logo — lime tilted chip lockup, readable on dark */}
+        <Link href="/" className="shrink-0 flex items-center gap-2.5" aria-label="LEVEL7 home">
+          <span className="relative inline-block w-9 h-7" aria-hidden="true">
+            <span className="absolute inset-0 bg-[#222] rounded-[3px]" style={{ transform: "rotate(-8deg) translate(-2px, 2px)" }} />
+            <span className="absolute inset-0 bg-accent rounded-[3px] flex items-center justify-center" style={{ transform: "rotate(-4deg)" }}>
+              <span className="display text-[#0A0A0A] text-lg leading-none">7</span>
+            </span>
+          </span>
+          <span className="text-white font-semibold tracking-[0.35em] text-sm">LEVEL7</span>
         </Link>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-2 flex-1 justify-center">
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
           {links.map((link) =>
             link.dropdown ? (
               <div
@@ -98,7 +106,7 @@ export default function Navbar() {
                 >
                   <span
                     className={`transition-colors duration-200 ${
-                      isActive(pathname, link.href) || servicesOpen ? "text-ink" : "text-muted group-hover:text-ink"
+                      isActive(pathname, link.href) || servicesOpen ? "text-white" : "text-muted group-hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -130,27 +138,27 @@ export default function Navbar() {
                       transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[680px]"
                     >
-                      <div className="bg-white border-2 border-ink rounded-2xl shadow-[8px_8px_0_rgba(163,255,0,0.9)] p-6">
+                      <div className="bg-[#101010] border border-lineStrong rounded-lg shadow-[0_24px_80px_rgba(0,0,0,0.7)] p-6">
                         <div className="grid grid-cols-3 gap-1">
-                          {services.map((s) => (
+                          {services.map((s, i) => (
                             <Link
                               key={s.slug}
                               href={`/services/${s.slug}`}
-                              className="group/item px-3 py-2.5 rounded-xl hover:bg-cream transition-colors"
+                              className="group/item px-3 py-2.5 rounded-md hover:bg-[#161616] transition-colors"
                             >
-                              <span className="block text-sm font-semibold text-ink group-hover/item:underline decoration-accent decoration-2 underline-offset-2">
+                              <span className="block font-mono text-[10px] tracking-[0.15em] text-faint mb-1">
+                                {String(i + 1).padStart(2, "0")}
+                              </span>
+                              <span className="block text-sm font-semibold text-white group-hover/item:text-accent transition-colors">
                                 {s.shortName}
                               </span>
                               <span className="block text-xs text-muted mt-0.5 leading-snug">{s.tagline}</span>
                             </Link>
                           ))}
                         </div>
-                        <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
-                          <span className="text-xs text-muted">Twelve services. One team. One number that matters.</span>
-                          <Link
-                            href="/services"
-                            className="text-sm font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 hover:decoration-ink"
-                          >
+                        <div className="mt-4 pt-4 border-t border-line flex items-center justify-between">
+                          <span className="mono">11 services / one team / one number</span>
+                          <Link href="/services" className="text-sm font-semibold text-accent hover:underline underline-offset-4">
                             All services
                           </Link>
                         </div>
@@ -167,35 +175,35 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* CTA Buttons */}
+        {/* CTAs */}
         <div className="hidden md:flex items-center gap-3 shrink-0">
           <a
             href="https://getbob.thelevel7.ai/login"
-            className="text-sm font-semibold text-ink px-4 py-2.5 rounded-full border-2 border-border hover:border-ink transition-colors"
+            className="text-sm font-medium text-muted hover:text-white px-4 py-2.5 rounded border border-line hover:border-lineStrong transition-colors"
           >
             Log In
           </a>
-          <Link href="/contact" className="btn-primary text-sm px-5 py-2.5" style={{ boxShadow: "3px 3px 0 #0A0A0A" }}>
-            Get my growth plan
-          </Link>
+          <a href={BOB_URL} className="btn-primary text-sm px-5 py-2.5">
+            START WITH $0
+          </a>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile toggle */}
         <button
-          className="md:hidden text-ink p-2 -mr-2"
+          className="md:hidden text-white p-2 -mr-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
           <div className="w-6 flex flex-col gap-[5px]">
-            <span className={`block h-0.5 bg-ink rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
-            <span className={`block h-0.5 bg-ink rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 bg-ink rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
+            <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
+            <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 bg-white rounded-full transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[7px]" : ""}`} />
           </div>
         </button>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -203,14 +211,23 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-white border-b border-border max-h-[calc(100vh-7rem)] overflow-y-auto"
+            className="md:hidden overflow-hidden bg-[#0A0A0A] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
           >
             <div className="px-6 py-5 flex flex-col gap-1">
+              <Link
+                href="/"
+                onClick={() => setMobileOpen(false)}
+                className={`text-base font-medium px-4 py-3 rounded transition-colors ${
+                  pathname === "/" ? "text-white bg-[#161616]" : "text-muted hover:text-white hover:bg-[#161616]"
+                }`}
+              >
+                Home
+              </Link>
               {/* Services accordion */}
               <button
                 onClick={() => setMobileServicesOpen((v) => !v)}
-                className={`flex items-center justify-between text-base font-medium px-4 py-3 rounded-xl transition-colors ${
-                  isActive(pathname, "/services") ? "text-ink bg-cream" : "text-muted hover:text-ink hover:bg-cream"
+                className={`flex items-center justify-between text-base font-medium px-4 py-3 rounded transition-colors ${
+                  isActive(pathname, "/services") ? "text-white bg-[#161616]" : "text-muted hover:text-white hover:bg-[#161616]"
                 }`}
                 aria-expanded={mobileServicesOpen}
               >
@@ -241,7 +258,7 @@ export default function Navbar() {
                           key={s.slug}
                           href={`/services/${s.slug}`}
                           onClick={() => setMobileOpen(false)}
-                          className="text-sm text-muted hover:text-ink px-4 py-2.5 rounded-lg hover:bg-cream transition-colors"
+                          className="text-sm text-muted hover:text-white px-4 py-2.5 rounded hover:bg-[#161616] transition-colors"
                         >
                           {s.shortName}
                         </Link>
@@ -249,7 +266,7 @@ export default function Navbar() {
                       <Link
                         href="/services"
                         onClick={() => setMobileOpen(false)}
-                        className="text-sm font-semibold text-ink px-4 py-2.5 underline decoration-accent decoration-2 underline-offset-4"
+                        className="text-sm font-semibold text-accent px-4 py-2.5"
                       >
                         All services
                       </Link>
@@ -259,14 +276,14 @@ export default function Navbar() {
               </AnimatePresence>
 
               {links
-                .filter((l) => !l.dropdown)
+                .filter((l) => !l.dropdown && l.href !== "/")
                 .map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-base font-medium px-4 py-3 rounded-xl transition-colors ${
-                      isActive(pathname, link.href) ? "text-ink bg-cream" : "text-muted hover:text-ink hover:bg-cream"
+                    className={`text-base font-medium px-4 py-3 rounded transition-colors ${
+                      isActive(pathname, link.href) ? "text-white bg-[#161616]" : "text-muted hover:text-white hover:bg-[#161616]"
                     }`}
                   >
                     {link.label}
@@ -275,13 +292,13 @@ export default function Navbar() {
               <a
                 href="https://getbob.thelevel7.ai/login"
                 onClick={() => setMobileOpen(false)}
-                className="mt-3 text-center text-base font-semibold text-ink px-4 py-3 rounded-xl border-2 border-border"
+                className="mt-3 text-center text-base font-medium text-white px-4 py-3 rounded border border-lineStrong"
               >
                 Log In
               </a>
-              <Link href="/contact" onClick={() => setMobileOpen(false)} className="btn-primary mt-2 text-center">
-                Get my growth plan
-              </Link>
+              <a href={BOB_URL} onClick={() => setMobileOpen(false)} className="btn-primary mt-2 text-center">
+                START WITH $0
+              </a>
             </div>
           </motion.div>
         )}
@@ -293,7 +310,7 @@ export default function Navbar() {
 function NavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
   return (
     <Link href={href} className="relative px-4 py-2 text-sm font-medium group">
-      <span className={`transition-colors duration-200 ${active ? "text-ink" : "text-muted group-hover:text-ink"}`}>
+      <span className={`transition-colors duration-200 ${active ? "text-white" : "text-muted group-hover:text-white"}`}>
         {children}
       </span>
       <motion.span

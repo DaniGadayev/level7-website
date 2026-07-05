@@ -45,7 +45,7 @@ const traction = [
   { value: "35", label: "Employees" },
   { value: "94%", label: "Client Success Rate" },
   { value: "3x–12x", label: "Average ROI" },
-  { value: "30+", label: "Active Users" },
+  { value: "150+", label: "Businesses growing with us" },
   { value: "10+", label: "Years of Methodology" },
   { value: "26+", label: "Business Niches Served" },
 ];

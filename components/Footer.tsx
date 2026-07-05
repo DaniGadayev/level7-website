@@ -22,7 +22,7 @@ const linkClass =
   "text-sm text-muted hover:text-ink transition-colors text-left py-1.5 block";
 
 export default function Footer() {
-  const { legalName, jurisdiction, registrationNumber, taxId, emails } =
+  const { legalName, jurisdiction, registrationNumber, taxId } =
     LEGAL_ENTITY;
   const idBits = [
     registrationNumber ? `Reg. no. ${registrationNumber}` : "",
@@ -110,15 +110,6 @@ export default function Footer() {
                 </Link>
               ))}
               <CookieSettingsButton className="text-sm text-white/55 hover:text-white transition-colors text-left py-1.5 block" />
-              {Array.from(new Set([emails.general, emails.privacy])).map((addr) => (
-                <a
-                  key={addr}
-                  href={`mailto:${addr}`}
-                  className="text-sm text-white/55 hover:text-white transition-colors py-1.5 block"
-                >
-                  {addr}
-                </a>
-              ))}
             </div>
           </div>
         </div>

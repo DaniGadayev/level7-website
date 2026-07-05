@@ -102,11 +102,11 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
       {/* ── HERO ── */}
       <article>
-        <header className="pt-36 pb-12 border-b border-border">
+        <header className="pt-36 pb-12 border-b border-line">
           <div className="max-w-3xl mx-auto px-6">
             <Link
               href="/resources"
-              className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-sm text-muted hover:text-white transition-colors mb-8"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -121,7 +121,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               {article.title}
             </h1>
             <div className="flex items-center gap-3 text-sm text-muted">
-              <span className="font-medium text-ink">{article.author}</span>
+              <span className="font-medium text-white/85">{article.author}</span>
               {article.published_at && <span>·</span>}
               {article.published_at && <span>{formatDate(article.published_at)}</span>}
               <span>·</span>
@@ -137,27 +137,29 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             <img
               src={article.cover_image}
               alt={article.title}
-              className="w-full aspect-[16/9] object-cover rounded-3xl border border-border"
+              className="w-full aspect-[16/9] object-cover rounded-2xl border border-line"
             />
           </div>
         )}
 
-        {/* ── BODY ── */}
-        <div className="max-w-3xl mx-auto px-6 py-14">
-          <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
+        {/* ── BODY — light reading island ── */}
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+          <div className="reading-island rounded-2xl px-6 py-10 sm:px-12 sm:py-14">
+            <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
 
-          {article.tags && article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-border">
-              {article.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs font-medium text-muted bg-cream border border-border px-3 py-1.5 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+            {article.tags && article.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-[#E8E8E3]">
+                {article.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs font-medium text-[#5C5C5C] bg-[#F6F6F2] border border-[#E8E8E3] px-3 py-1.5 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </article>
 

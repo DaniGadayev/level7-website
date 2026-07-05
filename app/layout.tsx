@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Poppins } from "next/font/google";
+import { Bebas_Neue, Poppins, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -21,11 +21,18 @@ const poppins = Poppins({
   display: "swap",
 });
 
+const plexMono = IBM_Plex_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://thelevel7.ai"),
   title: "LEVEL7: Marketing That Pays for Itself",
   description:
-    "LEVEL7 is a growth company. Full-service digital marketing plus the software we built to run it: filtered leads, automated warming, and returns you can measure.",
+    "LEVEL7 is a growth company for service businesses. Full-service digital marketing plus the software we built to run it: filtered leads, automated warming, and returns you can measure.",
   keywords:
     "digital marketing agency, lead generation, marketing ROI, filtered leads, marketing automation, AI marketing software",
   icons: {
@@ -41,8 +48,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${bebas.variable} ${poppins.variable}`}>
-      <body className="bg-white text-ink antialiased font-body">
+    <html lang="en" className={`${bebas.variable} ${poppins.variable} ${plexMono.variable}`}>
+      <body className="bg-[#0A0A0A] text-[#F4F4F0] antialiased font-body">
         <Navbar />
         <PageTransition>
           <main>{children}</main>

@@ -16,19 +16,19 @@ const SVG_CONTACT_HERO = `<style>
   .ch-d2 { animation: chPulse 2.2s ease-in-out .8s infinite; }
 </style>
 <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <ellipse cx="140" cy="252" rx="110" ry="9" fill="#E9E9E3"/>
+  <ellipse cx="140" cy="252" rx="110" ry="9" fill="#161616"/>
   <!-- envelope -->
-  <rect x="44" y="122" width="192" height="122" rx="8" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
-  <path d="M44 130 L140 196 L236 130" stroke="#141414" stroke-width="3" stroke-linejoin="round" fill="none"/>
+  <rect x="44" y="122" width="192" height="122" rx="8" fill="#101010" stroke="#EDEDE8" stroke-width="3"/>
+  <path d="M44 130 L140 196 L236 130" stroke="#EDEDE8" stroke-width="3" stroke-linejoin="round" fill="none"/>
   <!-- letter peeking out -->
   <g class="ch-letter">
-    <rect x="96" y="58" width="88" height="80" rx="6" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
-    <path d="M110 82 h60 M110 96 h60 M110 110 h44" stroke="#3D3D3D" stroke-width="2" stroke-linecap="round"/>
+    <rect x="96" y="58" width="88" height="80" rx="6" fill="#101010" stroke="#EDEDE8" stroke-width="3"/>
+    <path d="M110 82 h60 M110 96 h60 M110 110 h44" stroke="#9C9C96" stroke-width="2" stroke-linecap="round"/>
     <rect x="110" y="120" width="52" height="8" rx="4" fill="#A3FF00"/>
   </g>
   <!-- lime seal -->
-  <circle cx="140" cy="196" r="15" fill="#A3FF00" stroke="#141414" stroke-width="3"/>
-  <path d="M133 196 l5 5 l9 -10" stroke="#141414" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="140" cy="196" r="15" fill="#A3FF00" stroke="#EDEDE8" stroke-width="3"/>
+  <path d="M133 196 l5 5 l9 -10" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- floating dots -->
   <circle class="ch-d1" cx="34" cy="150" r="5" fill="#A3FF00"/>
   <circle class="ch-d2" cx="248" cy="120" r="4" fill="#A3FF00"/>
@@ -162,19 +162,19 @@ export default function ContactPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="bg-cream border border-border rounded-3xl p-14 text-center"
+                className="panel p-14 text-center"
               >
-                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-ink text-2xl mx-auto mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-white text-2xl mx-auto mb-6">
                   ✓
                 </div>
-                <h3 className="text-2xl font-bold font-satoshi text-ink mb-3">Message sent.</h3>
+                <h3 className="text-2xl font-bold font-satoshi text-white mb-3">Message sent.</h3>
                 <p className="text-muted">
                   We&apos;ll get back to you at{" "}
-                  <span className="text-ink font-medium">{form.email}</span> within 24 hours.
+                  <span className="text-white font-medium">{form.email}</span> within 24 hours.
                 </p>
               </motion.div>
             ) : (
-              <div className="bg-cream border border-border rounded-3xl p-8">
+              <div className="panel p-8">
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
@@ -279,7 +279,7 @@ export default function ContactPage() {
                       enquiry, in line with the{" "}
                       <Link
                         href="/privacy"
-                        className="text-ink underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+                        className="text-white underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
                       >
                         Privacy Policy
                       </Link>
@@ -318,38 +318,38 @@ export default function ContactPage() {
             className="lg:col-span-2 space-y-5"
           >
             {/* Direct Contact */}
-            <div className="card p-6">
+            <div className="panel p-6">
               <p className="label mb-5">Direct Contact</p>
               <div className="space-y-4">
                 <a href="mailto:dani@thelevel7.ai" className="flex items-center gap-4 group">
-                  <div className="w-10 h-10 rounded-xl border border-border bg-cream flex items-center justify-center text-muted group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
+                  <div className="w-10 h-10 rounded-xl border border-line bg-panel2 flex items-center justify-center text-muted group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
                     @
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Email</div>
-                    <div className="text-sm text-ink group-hover:text-accent transition-colors font-medium">
+                    <div className="text-sm text-white group-hover:text-accent transition-colors font-medium">
                       dani@thelevel7.ai
                     </div>
                   </div>
                 </a>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl border border-border bg-cream flex items-center justify-center text-muted text-sm font-bold">
+                  <div className="w-10 h-10 rounded-xl border border-line bg-panel2 flex items-center justify-center text-muted text-sm font-bold">
                     ↗
                   </div>
                   <div>
                     <div className="text-[10px] label mb-0.5">Website</div>
-                    <div className="text-sm text-ink font-medium">thelevel7.ai</div>
+                    <div className="text-sm text-white font-medium">thelevel7.ai</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Response Time */}
-            <div className="card p-6">
+            <div className="panel p-6">
               <p className="label mb-3">Response Time</p>
               <p className="text-sm text-muted leading-relaxed">
                 We respond to all inquiries within{" "}
-                <span className="text-ink font-semibold">24 hours</span>.
+                <span className="text-white font-semibold">24 hours</span>.
               </p>
             </div>
 
@@ -363,9 +363,9 @@ export default function ContactPage() {
             </div>
 
             {/* Legal */}
-            <div className="card p-6">
+            <div className="panel p-6">
               <p className="label mb-3">Legal Entity</p>
-              <p className="text-sm text-ink font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
+              <p className="text-sm text-white font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
               <p className="text-xs text-muted mt-1">Registered in Cyprus</p>
             </div>
           </motion.div>
