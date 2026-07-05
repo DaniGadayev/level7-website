@@ -56,7 +56,7 @@ export default function ServicesPage() {
                   </span>
                 </div>
                 <h2 className="font-semibold text-xl text-ink mb-2">{s.name}</h2>
-                <p className="text-sm font-medium text-accent/90 mb-3">{s.tagline}</p>
+                <p className="text-sm font-semibold text-ink mb-3">{s.tagline}</p>
                 <p className="text-sm text-muted leading-relaxed">{s.blurb}</p>
               </Link>
               </SlideIn>

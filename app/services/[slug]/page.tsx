@@ -48,7 +48,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             <span className="text-accent">{String(index + 1).padStart(2, "0")}</span> of 11
           </p>
           <h1 className="display text-hero mb-8 max-w-4xl">{service.name}</h1>
-          <p className="text-xl md:text-2xl text-accent font-medium max-w-2xl mb-6">{service.tagline}</p>
+          <p className="text-xl md:text-2xl text-ink font-semibold max-w-2xl mb-6 underline decoration-accent decoration-4 underline-offset-8">{service.tagline}</p>
           <p className="text-lg text-muted max-w-2xl leading-relaxed">{service.blurb}</p>
         </div>
       </section>
