@@ -105,16 +105,17 @@ export function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduce = useReducedMotion();
-  const [val, setVal] = useState(0);
+  // Fail-safe: render the real number by default; the count-up is a purely
+  // progressive effect layered on top. If observers or rAF misbehave (seen on
+  // iOS Safari), the worst case is a correct static number.
+  const [val, setVal] = useState(to);
+  const played = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
-    if (reduce) {
-      setVal(to);
-      return;
-    }
+    if (!inView || reduce || played.current) return;
+    played.current = true;
     let raf: number;
     const start = performance.now();
     const tick = (now: number) => {
@@ -122,9 +123,13 @@ export function CountUp({
       const eased = 1 - Math.pow(1 - t, 3);
       setVal(Math.round(to * eased));
       if (t < 1) raf = requestAnimationFrame(tick);
+      else setVal(to);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      setVal(to);
+    };
   }, [inView, to, duration, reduce]);
 
   return (
