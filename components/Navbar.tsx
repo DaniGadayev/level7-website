@@ -31,8 +31,15 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    let last = false;
+    const onScroll = () => {
+      const now = window.scrollY > 20;
+      if (now !== last) {
+        last = now;
+        setScrolled(now);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -57,8 +64,8 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#FBFBF8]/90 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? "border-b border-line" : ""
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#FBFBF8] ${
+        scrolled ? "border-b border-line shadow-[0_1px_0_rgba(10,10,10,0.03)]" : ""
       }`}
     >
       {/* Announcement bar */}

@@ -174,10 +174,9 @@ export function PinnedScene({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
   return (
     <div ref={ref} style={{ height }} className="relative">
-      <div className="sticky top-0 h-screen overflow-hidden">{children(smooth)}</div>
+      <div className="sticky top-0 h-screen overflow-hidden">{children(scrollYProgress)}</div>
     </div>
   );
 }
@@ -210,8 +209,7 @@ export function HorizontalRail({
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 100, damping: 26, mass: 0.4 });
-  const x = useTransform(smooth, [0, 1], ["0%", travel]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", travel]);
 
   if (reduce) {
     return (
@@ -397,14 +395,15 @@ export function Scramble({ text, className = "" }: { text: string; className?: s
 /** Fixed HUD: viewport corner brackets, scroll %, and a live progress bar. */
 export function HudOverlay() {
   const { scrollYProgress } = useScroll();
-  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
-  const [pct, setPct] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => setPct(Math.round(v * 100)));
+  const pctRef = useRef<HTMLSpanElement>(null);
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (pctRef.current) pctRef.current.textContent = String(Math.round(v * 100)).padStart(3, "0") + "%";
+  });
 
   return (
     <div className="pointer-events-none fixed inset-0 z-40 hidden md:block" aria-hidden="true">
       {/* progress bar */}
-      <motion.div style={{ scaleX: smooth }} className="absolute top-0 left-0 right-0 h-[3px] origin-left bg-accent" />
+      <motion.div style={{ scaleX: scrollYProgress }} className="absolute top-0 left-0 right-0 h-[3px] origin-left bg-accent" />
       {/* corner brackets */}
       <div className="absolute bottom-5 left-5 w-6 h-6 border-l-2 border-b-2 border-ink/25" />
       <div className="absolute bottom-5 right-5 w-6 h-6 border-r-2 border-b-2 border-ink/25" />
@@ -412,9 +411,9 @@ export function HudOverlay() {
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4">
         <span className="mono !text-[10px]">LVL7.SYS</span>
         <span className="w-24 h-px bg-ink/15 relative overflow-hidden">
-          <motion.span style={{ scaleX: smooth }} className="absolute inset-0 origin-left bg-accent" />
+          <motion.span style={{ scaleX: scrollYProgress }} className="absolute inset-0 origin-left bg-accent" />
         </span>
-        <span className="mono !text-[10px] tabular-nums">{String(pct).padStart(3, "0")}%</span>
+        <span ref={pctRef} className="mono !text-[10px] tabular-nums">000%</span>
       </div>
     </div>
   );

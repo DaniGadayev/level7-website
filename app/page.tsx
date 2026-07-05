@@ -22,7 +22,6 @@ import {
   HorizontalRail,
   Magnetic,
   Tilt,
-  VelocitySkew,
   MouseStage,
   Scramble,
   HudOverlay,
@@ -132,12 +131,11 @@ function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
 
-  const xLeft = useTransform(smooth, [0, 1], ["0%", "-18%"]);
-  const xRight = useTransform(smooth, [0, 1], ["0%", "18%"]);
-  const fade = useTransform(smooth, [0, 0.75], [1, 0]);
-  const gridScale = useTransform(smooth, [0, 1], [1, 1.3]);
+  const xLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-18%"]);
+  const xRight = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const fade = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const gridScale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
 
   return (
     <section ref={ref} className="relative min-h-[106vh] overflow-hidden">
@@ -433,7 +431,6 @@ export default function HomePage() {
       </section>
 
       {/* CITY BAND */}
-      <VelocitySkew>
         <section className="relative py-20 md:py-28 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <ImageFrame
@@ -499,13 +496,11 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </VelocitySkew>
 
       <MethodScene />
       <ServicesRail />
 
       {/* DIFFERENTIATION */}
-      <VelocitySkew>
         <section className="py-24 md:py-32 border-t border-line">
           <div className="max-w-7xl mx-auto px-6">
             <SlideIn dir={-1}>
@@ -536,7 +531,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-      </VelocitySkew>
 
       {/* PROCESS */}
       <section className="py-24 md:py-32 border-t border-line overflow-hidden bg-panel2">
