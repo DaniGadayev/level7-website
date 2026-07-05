@@ -12,6 +12,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services", dropdown: true },
   { href: "/resources", label: "Resources" },
+  { href: "/vision", label: "Vision" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
