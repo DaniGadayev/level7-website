@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getArticleBySlug, getPublishedSlugs, getRelatedArticles } from "@/lib/articles";
 import { renderMarkdown } from "@/lib/markdown";
+import ShareButtons from "@/components/ShareButtons";
 
 export const revalidate = 60;
 export const dynamicParams = true; // unknown slugs render on demand, then cache
@@ -120,12 +121,15 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             >
               {article.title}
             </h1>
-            <div className="flex items-center gap-3 text-sm text-muted">
-              <span className="font-medium text-ink/85">{article.author}</span>
-              {article.published_at && <span>·</span>}
-              {article.published_at && <span>{formatDate(article.published_at)}</span>}
-              <span>·</span>
-              <span>{article.reading_time} min read</span>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-sm text-muted">
+                <span className="font-medium text-ink/85">{article.author}</span>
+                {article.published_at && <span>·</span>}
+                {article.published_at && <span>{formatDate(article.published_at)}</span>}
+                <span>·</span>
+                <span>{article.reading_time} min read</span>
+              </div>
+              <ShareButtons url={`https://www.thelevel7.ai/resources/${article.slug}`} title={article.title} />
             </div>
           </div>
         </header>
