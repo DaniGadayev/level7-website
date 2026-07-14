@@ -181,6 +181,10 @@ export default async function PreviewPage({
               ))}
             </div>
           )}
+
+          <div className="flex justify-center mt-12 pt-8 border-t border-[#E5E5E5]">
+            <ShareButtons url={`https://thelevel7.ai/resources/preview/${token}`} title={article.title} />
+          </div>
         </div>
       </article>
 

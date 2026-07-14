@@ -163,6 +163,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 ))}
               </div>
             )}
+
+            <div className="flex justify-center mt-12 pt-8 border-t border-[#E8E8E3]">
+              <ShareButtons url={`https://www.thelevel7.ai/resources/${article.slug}`} title={article.title} />
+            </div>
           </div>
         </div>
       </article>
