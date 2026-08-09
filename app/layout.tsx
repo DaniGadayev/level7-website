@@ -33,13 +33,27 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://thelevel7.ai"),
   title: "LEVEL7: Marketing That Pays for Itself",
   description:
-    "LEVEL7 is a growth company for service businesses. Full-service digital marketing plus the software we built to run it: filtered leads, automated warming, and returns you can measure.",
+    "LEVEL7 is a growth company for service businesses: marketing plus the software to run it, filtered leads, automated follow-up, and returns you can measure.",
   keywords:
     "digital marketing agency, lead generation, marketing ROI, filtered leads, marketing automation, AI marketing software",
   icons: {
     icon: "/logo-icon.png",
     shortcut: "/logo-icon.png",
     apple: "/logo-icon.png",
+  },
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "LEVEL7",
+  url: "https://www.thelevel7.ai",
+  logo: "https://www.thelevel7.ai/logo-icon.png",
+  description:
+    "LEVEL7 is a growth company for service businesses: marketing plus the software to run it, including Bob, an AI employee for WhatsApp.",
+  founder: {
+    "@type": "Person",
+    name: "Dani Gadayev",
   },
 };
 
@@ -51,6 +65,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bebas.variable} ${poppins.variable} ${plexMono.variable}`}>
       <body className="bg-[#FBFBF8] text-[#0A0A0A] antialiased font-body">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-S04HN8RH2F"
           strategy="afterInteractive"

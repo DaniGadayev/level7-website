@@ -91,7 +91,7 @@ export default function Footer() {
                 </span>
                 Meet BOB
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/bob-icon.png" alt="" className="h-6 w-6 -my-1 object-contain" />
+                <img src="/bob-icon.png" alt="BOB" className="h-6 w-6 -my-1 object-contain" />
               </a>
             </div>
           </div>

@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Services | LEVEL7",
   description:
     "Eleven digital marketing services under one roof: paid media on every platform, social, SEO and AI search, CRM automation and websites. All measured by one number, your return.",
+  alternates: {
+    canonical: "https://thelevel7.ai/services",
+  },
 };
 
 const ArrowIcon = ({ className = "w-4 h-4" }: { className?: string }) => (

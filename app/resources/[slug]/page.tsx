@@ -68,12 +68,53 @@ function jsonLdScript(obj: unknown): string {
     .replace(/&/g, "\\u0026");
 }
 
+// Extracts the "## Frequently Asked Questions" section (enforced by the
+// generation pipeline) into FAQPage schema. Questions are bold lines
+// (**Question?**) followed by a plain-text answer paragraph, matching the
+// exact shape the pipeline prompt produces, not a generic markdown parse.
+function extractFaqSchema(markdown: string): Record<string, unknown> | null {
+  const match = markdown.match(/^##\s+Frequently Asked Questions\s*$([\s\S]*?)(?:^##\s|^---\s*$|$(?![\s\S]))/im);
+  if (!match) return null;
+  const section = match[1];
+  const qaPairs: { q: string; a: string }[] = [];
+  const lines = section.split("\n");
+  let currentQ: string | null = null;
+  let currentA: string[] = [];
+  const flush = () => {
+    if (currentQ && currentA.length) {
+      qaPairs.push({ q: currentQ, a: currentA.join(" ").trim() });
+    }
+  };
+  for (const line of lines) {
+    const qMatch = line.match(/^\*\*(.+?)\*\*\s*$/);
+    if (qMatch) {
+      flush();
+      currentQ = qMatch[1].trim();
+      currentA = [];
+    } else if (currentQ && line.trim()) {
+      currentA.push(line.trim());
+    }
+  }
+  flush();
+  if (qaPairs.length < 2) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: qaPairs.map((qa) => ({
+      "@type": "Question",
+      name: qa.q,
+      acceptedAnswer: { "@type": "Answer", text: qa.a },
+    })),
+  };
+}
+
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const article = await getArticleBySlug(params.slug);
   if (!article) notFound();
 
   const related = await getRelatedArticles(article.slug, article.category);
   const html = renderMarkdown(article.content);
+  const faqJsonLd = extractFaqSchema(article.content);
 
   // JSON-LD for rich results
   const jsonLd = {
@@ -99,6 +140,12 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
+        />
+      )}
 
       {/* ── HERO ── */}
       <article>
@@ -203,7 +250,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       {/* ── CTA ── */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="bg-[#0A0A0A] rounded-3xl px-8 py-14 text-center">
-          <h2 className="display text-4xl text-ink mb-4">
+          <h2 className="display text-4xl text-paper mb-4">
             Ready to grow without an agency?
           </h2>
           <p className="text-subtle mb-8 max-w-lg mx-auto">

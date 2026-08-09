@@ -1,0 +1,378 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import Link from "next/link";
+import { HudOverlay } from "@/components/Scrolly";
+
+/* ─────────────────────────────────────────────
+   Contact Hero SVG — 280×280
+   Envelope opening + message emerging
+───────────────────────────────────────────── */
+const SVG_CONTACT_HERO = `<style>
+  @keyframes chFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  @keyframes chPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .ch-letter { animation: chFloat 4s ease-in-out infinite; }
+  .ch-d1 { animation: chPulse 2.2s ease-in-out infinite; }
+  .ch-d2 { animation: chPulse 2.2s ease-in-out .8s infinite; }
+</style>
+<svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="140" cy="252" rx="110" ry="9" fill="#161616"/>
+  <!-- envelope -->
+  <rect x="44" y="122" width="192" height="122" rx="8" fill="#101010" stroke="#EDEDE8" stroke-width="3"/>
+  <path d="M44 130 L140 196 L236 130" stroke="#EDEDE8" stroke-width="3" stroke-linejoin="round" fill="none"/>
+  <!-- letter peeking out -->
+  <g class="ch-letter">
+    <rect x="96" y="58" width="88" height="80" rx="6" fill="#101010" stroke="#EDEDE8" stroke-width="3"/>
+    <path d="M110 82 h60 M110 96 h60 M110 110 h44" stroke="#9C9C96" stroke-width="2" stroke-linecap="round"/>
+    <rect x="110" y="120" width="52" height="8" rx="4" fill="#A3FF00"/>
+  </g>
+  <!-- lime seal -->
+  <circle cx="140" cy="196" r="15" fill="#A3FF00" stroke="#EDEDE8" stroke-width="3"/>
+  <path d="M133 196 l5 5 l9 -10" stroke="#0A0A0A" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- floating dots -->
+  <circle class="ch-d1" cx="34" cy="150" r="5" fill="#A3FF00"/>
+  <circle class="ch-d2" cx="248" cy="120" r="4" fill="#A3FF00"/>
+</svg>`;
+
+/* ─────────────────────────────────────────────
+   Contact Icon SVG — 120×120
+   Chat bubble with typing dots
+───────────────────────────────────────────── */
+const SVG_CONTACT_ICON = `<style>
+  @keyframes ciDot { 0%,60%,100%{transform:translateY(0);opacity:.3} 30%{transform:translateY(-5px);opacity:1} }
+  @keyframes ciBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+  .ci-bubble { animation: ciBounce 2.5s ease-in-out infinite; transform-origin: 60px 55px; }
+  .ci-t1 { animation: ciDot 1.2s ease-in-out infinite; }
+  .ci-t2 { animation: ciDot 1.2s ease-in-out .2s infinite; }
+  .ci-t3 { animation: ciDot 1.2s ease-in-out .4s infinite; }
+</style>
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g class="ci-bubble">
+    <path d="M15,20 Q15,10 25,10 L95,10 Q105,10 105,20 L105,70 Q105,80 95,80 L45,80 L28,98 L32,80 L25,80 Q15,80 15,70 Z"
+          fill="white" stroke="#1A1A1A" stroke-width="1.8" stroke-linejoin="round"/>
+    <!-- Typing dots -->
+    <circle class="ci-t1" cx="44" cy="45" r="5" fill="#A3FF00"/>
+    <circle class="ci-t2" cx="60" cy="45" r="5" fill="#A3FF00"/>
+    <circle class="ci-t3" cx="76" cy="45" r="5" fill="#A3FF00"/>
+  </g>
+</svg>`;
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+export default function ContactContent() {
+  const headerRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true });
+
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [consent, setConsent] = useState(false);
+  const [company, setCompany] = useState(""); // honeypot — must stay empty
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!consent) {
+      setErrorMsg("Please agree to the Privacy Policy to continue.");
+      return;
+    }
+    setSending(true);
+    setErrorMsg(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, consent, company }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error ? err.message : "Something went wrong"
+      );
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <>
+      <HudOverlay />
+      {/* ── HERO ── */}
+      <section className="pt-36 pb-20 border-b border-border">
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerInView ? "visible" : "hidden"}
+          className="max-w-7xl mx-auto px-6"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <motion.p custom={0} variants={fadeUp} className="label mb-4">
+                Get in touch
+              </motion.p>
+              <motion.h1 custom={1} variants={fadeUp} className="display text-hero mb-6">
+                Let&apos;s <span className="tilt-chip">talk</span>.
+              </motion.h1>
+              <motion.p custom={2} variants={fadeUp} className="text-muted text-xl leading-relaxed max-w-lg">
+                Tell us about your business and we will come back with a concrete growth plan: which channels,
+                what budget, and the return we would aim for.
+              </motion.p>
+            </div>
+            <motion.div custom={3} variants={fadeUp} className="hidden lg:flex justify-center">
+              <div
+                id="illustration-contact-hero"
+                style={{ width: 280, height: 280 }}
+                dangerouslySetInnerHTML={{ __html: SVG_CONTACT_HERO }}
+              />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── FORM + INFO ── */}
+      <section className="py-20 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-3"
+          >
+            {submitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                className="panel p-14 text-center"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-ink text-2xl mx-auto mb-6">
+                  ✓
+                </div>
+                <h3 className="text-2xl font-bold font-satoshi text-ink mb-3">Message sent.</h3>
+                <p className="text-muted">
+                  We&apos;ll get back to you at{" "}
+                  <span className="text-ink font-medium">{form.email}</span> within 24 hours.
+                </p>
+              </motion.div>
+            ) : (
+              <div className="panel p-8">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="label mb-2 block">
+                        Name <span className="text-accent">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        className="input-field"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                    <div>
+                      <label className="label mb-2 block">
+                        Email <span className="text-accent">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        className="input-field"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label className="label mb-2 block">
+                        Phone{" "}
+                        <span className="normal-case tracking-normal text-[11px] text-subtle">(optional)</span>
+                      </label>
+                      <input
+                        type="tel"
+                        value={form.phone}
+                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                        className="input-field"
+                        placeholder="+1 (000) 000-0000"
+                      />
+                    </div>
+                    <div>
+                      <label className="label mb-2 block">
+                        Subject <span className="text-accent">*</span>
+                      </label>
+                      <select
+                        required
+                        value={form.subject}
+                        onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                        className="input-field appearance-none cursor-pointer"
+                      >
+                        <option value="">Select subject...</option>
+                        <option value="general">General Inquiry</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="partner">Join as Certified Partner</option>
+                        <option value="press">Press</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="label mb-2 block">
+                      Message <span className="text-accent">*</span>
+                    </label>
+                    <textarea
+                      required
+                      rows={6}
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      className="input-field resize-none"
+                      placeholder="Tell us about your business and what you're looking to achieve..."
+                    />
+                  </div>
+
+                  {/* Honeypot — hidden from humans, bots tend to fill it */}
+                  <div className="hidden" aria-hidden="true">
+                    <label>
+                      Company
+                      <input
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={company}
+                        onChange={(e) => setCompany(e.target.value)}
+                      />
+                    </label>
+                  </div>
+
+                  <label className="flex items-start gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={consent}
+                      onChange={(e) => setConsent(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#A3FF00] cursor-pointer"
+                    />
+                    <span className="text-xs leading-relaxed text-muted">
+                      I agree that my details may be used to respond to my
+                      enquiry, in line with the{" "}
+                      <Link
+                        href="/privacy"
+                        className="text-ink underline decoration-accent decoration-2 underline-offset-2 hover:text-accent transition-colors"
+                      >
+                        Privacy Policy
+                      </Link>
+                      . <span className="text-accent">*</span>
+                    </span>
+                  </label>
+
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="btn-primary w-full py-4 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {sending ? "Sending..." : "Send Message"}
+                    {!sending && (
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    )}
+                  </button>
+                  {errorMsg && (
+                    <p className="text-sm text-red-600 mt-2" role="alert">
+                      {errorMsg}
+                    </p>
+                  )}
+                </form>
+              </div>
+            )}
+          </motion.div>
+
+          {/* Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-2 space-y-5"
+          >
+            {/* Direct Contact */}
+            <div className="panel p-6">
+              <p className="label mb-5">Direct Contact</p>
+              <div className="space-y-4">
+                <a href="mailto:dani@thelevel7.ai" className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 rounded-xl border border-line bg-panel2 flex items-center justify-center text-muted group-hover:border-accent group-hover:text-accent transition-colors text-sm font-bold">
+                    @
+                  </div>
+                  <div>
+                    <div className="text-[10px] label mb-0.5">Email</div>
+                    <div className="text-sm text-ink group-hover:text-accent transition-colors font-medium">
+                      dani@thelevel7.ai
+                    </div>
+                  </div>
+                </a>
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl border border-line bg-panel2 flex items-center justify-center text-muted text-sm font-bold">
+                    ↗
+                  </div>
+                  <div>
+                    <div className="text-[10px] label mb-0.5">Website</div>
+                    <div className="text-sm text-ink font-medium">thelevel7.ai</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Response Time */}
+            <div className="panel p-6">
+              <p className="label mb-3">Response Time</p>
+              <p className="text-sm text-muted leading-relaxed">
+                We respond to all inquiries within{" "}
+                <span className="text-ink font-semibold">24 hours</span>.
+              </p>
+            </div>
+
+            {/* Lottie */}
+            <div className="flex justify-center py-4">
+              <div
+                id="illustration-contact-icon"
+                style={{ width: 120, height: 120 }}
+                dangerouslySetInnerHTML={{ __html: SVG_CONTACT_ICON }}
+              />
+            </div>
+
+            {/* Legal */}
+            <div className="panel p-6">
+              <p className="label mb-3">Legal Entity</p>
+              <p className="text-sm text-ink font-medium">D.T LEVEL 7 TECHNOLOGY LIMITED</p>
+              <p className="text-xs text-muted mt-1">Registered in Cyprus</p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </>
+  );
+}

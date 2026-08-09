@@ -14,6 +14,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return {
     title: `${service.name} | LEVEL7`,
     description: service.blurb,
+    alternates: {
+      canonical: `https://thelevel7.ai/services/${service.slug}`,
+    },
   };
 }
 

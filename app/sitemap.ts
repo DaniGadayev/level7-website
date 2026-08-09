@@ -19,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/resources`, changeFrequency: "daily", priority: 0.8 },
     { url: `${BASE}/about`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/contact`, changeFrequency: "yearly", priority: 0.5 },
+    { url: `${BASE}/welcome`, changeFrequency: "yearly", priority: 0.4 },
   ];
 
   // Throws on DB error → /sitemap.xml returns 500 and crawlers keep the last good copy,
