@@ -4,6 +4,7 @@ import Link from "next/link";
 import { verifyPreviewToken } from "@/lib/preview-token";
 import { getArticleByIdAny, getRelatedArticles } from "@/lib/articles";
 import { renderMarkdown } from "@/lib/markdown";
+import ShareButtons from "@/components/ShareButtons";
 
 // Never cache preview pages — always fetch fresh draft content.
 export const dynamic = "force-dynamic";
@@ -137,12 +138,17 @@ export default async function PreviewPage({
             >
               {article.title}
             </h1>
-            <div className="flex items-center gap-3 text-sm text-[#6B6B6B]">
-              <span className="font-medium text-[#1A1A1A]">{article.author}</span>
-              {article.published_at && <span>·</span>}
-              {article.published_at && <span>{formatDate(article.published_at)}</span>}
-              <span>·</span>
-              <span>{article.reading_time} min read</span>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-sm text-[#6B6B6B]">
+                <span className="font-medium text-[#1A1A1A]">{article.author}</span>
+                {article.published_at && <span>·</span>}
+                {article.published_at && <span>{formatDate(article.published_at)}</span>}
+                <span>·</span>
+                <span>{article.reading_time} min read</span>
+              </div>
+              {/* Shares the PREVIEW link itself (not the future live URL, which doesn't
+                  exist yet for a draft) — useful for exactly the review/approve-over-WhatsApp workflow. */}
+              <ShareButtons url={`https://thelevel7.ai/resources/preview/${token}`} title={article.title} />
             </div>
           </div>
         </header>
@@ -175,6 +181,10 @@ export default async function PreviewPage({
               ))}
             </div>
           )}
+
+          <div className="flex justify-center mt-12 pt-8 border-t border-[#E5E5E5]">
+            <ShareButtons url={`https://thelevel7.ai/resources/preview/${token}`} title={article.title} />
+          </div>
         </div>
       </article>
 

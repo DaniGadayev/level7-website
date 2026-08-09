@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getArticleBySlug, getPublishedSlugs, getRelatedArticles } from "@/lib/articles";
 import { renderMarkdown } from "@/lib/markdown";
+import ShareButtons from "@/components/ShareButtons";
 
 export const revalidate = 60;
 export const dynamicParams = true; // unknown slugs render on demand, then cache
@@ -48,7 +49,7 @@ function formatDate(iso: string | null): string {
   if (!iso) return "";
   const d = new Date(iso);
   if (isNaN(d.getTime())) return "";
-  return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  return d.toLocaleDateString("en-US", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" });
 }
 
 // pg returns timestamptz as a Date; normalize to ISO 8601 for OG/JSON-LD crawlers.
@@ -167,12 +168,15 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             >
               {article.title}
             </h1>
-            <div className="flex items-center gap-3 text-sm text-muted">
-              <span className="font-medium text-ink/85">{article.author}</span>
-              {article.published_at && <span>·</span>}
-              {article.published_at && <span>{formatDate(article.published_at)}</span>}
-              <span>·</span>
-              <span>{article.reading_time} min read</span>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-sm text-muted">
+                <span className="font-medium text-ink/85">{article.author}</span>
+                {article.published_at && <span>·</span>}
+                {article.published_at && <span>{formatDate(article.published_at)}</span>}
+                <span>·</span>
+                <span>{article.reading_time} min read</span>
+              </div>
+              <ShareButtons url={`https://www.thelevel7.ai/resources/${article.slug}`} title={article.title} />
             </div>
           </div>
         </header>
@@ -206,6 +210,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 ))}
               </div>
             )}
+
+            <div className="flex justify-center mt-12 pt-8 border-t border-[#E8E8E3]">
+              <ShareButtons url={`https://www.thelevel7.ai/resources/${article.slug}`} title={article.title} />
+            </div>
           </div>
         </div>
       </article>

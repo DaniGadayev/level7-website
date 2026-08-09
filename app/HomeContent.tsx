@@ -22,7 +22,6 @@ import {
   HorizontalRail,
   Magnetic,
   Tilt,
-  VelocitySkew,
   MouseStage,
   Scramble,
   HudOverlay,
@@ -75,13 +74,17 @@ const method = [
   },
 ];
 
+/*
+ * Floating chips live inside the headline block, anchored to the two zones
+ * that stay empty at every width: right of line 1 (left-aligned) and left of
+ * line 2 (right-aligned). Both the type and the zones scale with the
+ * viewport, so nothing can drift into text.
+ */
 const heroChips = [
-  { label: "GOOGLE ADS", x: "9%", y: "13%", depth: 40, rot: -6 },
-  { label: "FILTERED LEADS", x: "78%", y: "20%", depth: 60, rot: 4 },
-  { label: "3X-12X ROAS", x: "84%", y: "62%", depth: 30, rot: -3 },
-  { label: "AFTER-LEAD", x: "66%", y: "80%", depth: 55, rot: 5 },
-  { label: "AI SEARCH", x: "64%", y: "8%", depth: 45, rot: -4 },
-  { label: "24/7", x: "26%", y: "10%", depth: 70, rot: 6 },
+  { label: "FILTERED LEADS", pos: "right-[2%] top-[2%]", depth: 55, rot: 4 },
+  { label: "3X-12X ROAS", pos: "right-[26%] top-[4%]", depth: 35, rot: -3 },
+  { label: "AFTER-LEAD", pos: "left-[2%] bottom-[4%]", depth: 55, rot: 5 },
+  { label: "24/7", pos: "left-[22%] bottom-[2%]", depth: 70, rot: 6 },
 ];
 
 /* hook-safe cursor-parallax pieces (hooks must live at component top level) */
@@ -90,8 +93,8 @@ function ChipFloat({ c, mx, my }: { c: (typeof heroChips)[number]; mx: any; my: 
   const y = useTransform(my, (v: number) => v * -c.depth);
   return (
     <motion.span
-      style={{ left: c.x, top: c.y, rotate: c.rot, x, y }}
-      className="absolute hidden lg:inline-block font-mono text-[11px] tracking-[0.14em] bg-white border-2 border-ink rounded px-3 py-1.5 shadow-[3px_3px_0_#0A0A0A] select-none"
+      style={{ rotate: c.rot, x, y }}
+      className={`absolute ${c.pos} hidden lg:inline-block font-mono text-[11px] tracking-[0.14em] bg-white border-2 border-ink rounded px-3 py-1.5 shadow-[3px_3px_0_#0A0A0A] select-none`}
       aria-hidden="true"
     >
       <span className="text-accent mr-1.5">▮</span>
@@ -132,12 +135,11 @@ function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 });
 
-  const xLeft = useTransform(smooth, [0, 1], ["0%", "-18%"]);
-  const xRight = useTransform(smooth, [0, 1], ["0%", "18%"]);
-  const fade = useTransform(smooth, [0, 0.75], [1, 0]);
-  const gridScale = useTransform(smooth, [0, 1], [1, 1.3]);
+  const xLeft = useTransform(scrollYProgress, [0, 1], ["0%", "-18%"]);
+  const xRight = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const fade = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const gridScale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
 
   return (
     <section ref={ref} className="relative min-h-[106vh] overflow-hidden">
@@ -151,11 +153,8 @@ function Hero() {
               <GlowFloat mx={mx} my={my} />
             )}
 
-            {/* floating service chips, each on its own depth plane */}
-            {!reduce && heroChips.map((c) => <ChipFloat key={c.label} c={c} mx={mx} my={my} />)}
-
             {/* rotating starburst badge */}
-            <div className="absolute right-[8%] top-[30%] hidden xl:block" aria-hidden="true">
+            <div className="absolute right-[5%] top-[30%] hidden 2xl:block" aria-hidden="true">
               <div className="relative w-28 h-28 spin-slow">
                 <svg viewBox="0 0 112 112" className="w-full h-full">
                   <path
@@ -188,25 +187,28 @@ function Hero() {
                 </p>
               </div>
 
-              <h1 className="contents">
-                {reduce ? (
-                  <>
-                    <div className="display text-hero whitespace-nowrap">Marketing that</div>
-                    <div className="display text-hero text-right whitespace-nowrap">
-                      <span className="tilt-chip">pays</span> for itself.
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <HeadlineShear scrollX={xLeft} mx={mx} factor={-14} className="display text-hero whitespace-nowrap">
-                      Marketing that
-                    </HeadlineShear>
-                    <HeadlineShear scrollX={xRight} mx={mx} factor={14} className="display text-hero text-right whitespace-nowrap">
-                      <span className="tilt-chip">pays</span> for itself.
-                    </HeadlineShear>
-                  </>
-                )}
-              </h1>
+              <div className="relative">
+                {!reduce && heroChips.map((c) => <ChipFloat key={c.label} c={c} mx={mx} my={my} />)}
+                <h1 className="contents">
+                  {reduce ? (
+                    <>
+                      <div className="display text-hero whitespace-nowrap">Marketing that</div>
+                      <div className="display text-hero text-right whitespace-nowrap">
+                        <span className="tilt-chip">pays</span> for itself.
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <HeadlineShear scrollX={xLeft} mx={mx} factor={-14} className="display text-hero whitespace-nowrap">
+                        Marketing that
+                      </HeadlineShear>
+                      <HeadlineShear scrollX={xRight} mx={mx} factor={14} className="display text-hero text-right whitespace-nowrap">
+                        <span className="tilt-chip">pays</span> for itself.
+                      </HeadlineShear>
+                    </>
+                  )}
+                </h1>
+              </div>
 
               <div className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
                 <p className="text-lg text-muted leading-relaxed max-w-xl">
@@ -435,7 +437,6 @@ export default function HomeContent() {
       </section>
 
       {/* CITY BAND */}
-      <VelocitySkew>
         <section className="relative py-20 md:py-28 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <ImageFrame
@@ -501,13 +502,11 @@ export default function HomeContent() {
             </div>
           </div>
         </section>
-      </VelocitySkew>
 
       <MethodScene />
       <ServicesRail />
 
       {/* DIFFERENTIATION */}
-      <VelocitySkew>
         <section className="py-24 md:py-32 border-t border-line">
           <div className="max-w-7xl mx-auto px-6">
             <SlideIn dir={-1}>
@@ -538,7 +537,6 @@ export default function HomeContent() {
             </div>
           </div>
         </section>
-      </VelocitySkew>
 
       {/* PROCESS */}
       <section className="py-24 md:py-32 border-t border-line overflow-hidden bg-panel2">

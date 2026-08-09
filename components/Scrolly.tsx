@@ -105,16 +105,17 @@ export function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduce = useReducedMotion();
-  const [val, setVal] = useState(0);
+  // Fail-safe: render the real number by default; the count-up is a purely
+  // progressive effect layered on top. If observers or rAF misbehave (seen on
+  // iOS Safari), the worst case is a correct static number.
+  const [val, setVal] = useState(to);
+  const played = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
-    if (reduce) {
-      setVal(to);
-      return;
-    }
+    if (!inView || reduce || played.current) return;
+    played.current = true;
     let raf: number;
     const start = performance.now();
     const tick = (now: number) => {
@@ -122,9 +123,13 @@ export function CountUp({
       const eased = 1 - Math.pow(1 - t, 3);
       setVal(Math.round(to * eased));
       if (t < 1) raf = requestAnimationFrame(tick);
+      else setVal(to);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      setVal(to);
+    };
   }, [inView, to, duration, reduce]);
 
   return (
@@ -174,10 +179,9 @@ export function PinnedScene({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
   return (
     <div ref={ref} style={{ height }} className="relative">
-      <div className="sticky top-0 h-screen overflow-hidden">{children(smooth)}</div>
+      <div className="sticky top-0 h-screen overflow-hidden">{children(scrollYProgress)}</div>
     </div>
   );
 }
@@ -210,8 +214,7 @@ export function HorizontalRail({
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const smooth = useSpring(scrollYProgress, { stiffness: 100, damping: 26, mass: 0.4 });
-  const x = useTransform(smooth, [0, 1], ["0%", travel]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", travel]);
 
   if (reduce) {
     return (
@@ -397,25 +400,9 @@ export function Scramble({ text, className = "" }: { text: string; className?: s
 /** Fixed HUD: viewport corner brackets, scroll %, and a live progress bar. */
 export function HudOverlay() {
   const { scrollYProgress } = useScroll();
-  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
-  const [pct, setPct] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => setPct(Math.round(v * 100)));
-
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 hidden md:block" aria-hidden="true">
-      {/* progress bar */}
-      <motion.div style={{ scaleX: smooth }} className="absolute top-0 left-0 right-0 h-[3px] origin-left bg-accent" />
-      {/* corner brackets */}
-      <div className="absolute bottom-5 left-5 w-6 h-6 border-l-2 border-b-2 border-ink/25" />
-      <div className="absolute bottom-5 right-5 w-6 h-6 border-r-2 border-b-2 border-ink/25" />
-      {/* telemetry readout */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4">
-        <span className="mono !text-[10px]">LVL7.SYS</span>
-        <span className="w-24 h-px bg-ink/15 relative overflow-hidden">
-          <motion.span style={{ scaleX: smooth }} className="absolute inset-0 origin-left bg-accent" />
-        </span>
-        <span className="mono !text-[10px] tabular-nums">{String(pct).padStart(3, "0")}%</span>
-      </div>
+    <div className="pointer-events-none fixed inset-0 z-40" aria-hidden="true">
+      <motion.div style={{ scaleX: scrollYProgress }} className="absolute top-0 left-0 right-0 h-[3px] origin-left bg-accent" />
     </div>
   );
 }

@@ -12,6 +12,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services", dropdown: true },
   { href: "/resources", label: "Resources" },
+  { href: "/vision", label: "Vision" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -31,8 +32,15 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
+    let last = false;
+    const onScroll = () => {
+      const now = window.scrollY > 20;
+      if (now !== last) {
+        last = now;
+        setScrolled(now);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -57,8 +65,8 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 left-0 right-0 z-50 bg-[#FBFBF8]/90 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? "border-b border-line" : ""
+      className={`fixed top-0 left-0 right-0 z-50 bg-[#FBFBF8] ${
+        scrolled ? "border-b border-line shadow-[0_1px_0_rgba(10,10,10,0.03)]" : ""
       }`}
     >
       {/* Announcement bar */}
@@ -89,7 +97,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
+        <div className="hidden lg:flex items-center gap-1 flex-1 justify-center">
           {links.map((link) =>
             link.dropdown ? (
               <div
@@ -176,7 +184,7 @@ export default function Navbar() {
         </div>
 
         {/* CTAs */}
-        <div className="hidden md:flex items-center gap-3 shrink-0">
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
           <a
             href="https://getbob.thelevel7.ai/login"
             className="text-sm font-medium text-muted hover:text-ink px-4 py-2.5 rounded border border-line hover:border-ink transition-colors"
@@ -190,7 +198,7 @@ export default function Navbar() {
 
         {/* Mobile toggle */}
         <button
-          className="md:hidden text-ink p-2 -mr-2"
+          className="lg:hidden text-ink p-2 -mr-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
@@ -211,7 +219,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-[#FBFBF8] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
+            className="lg:hidden overflow-hidden bg-[#FBFBF8] border-b border-line max-h-[calc(100vh-7rem)] overflow-y-auto"
           >
             <div className="px-6 py-5 flex flex-col gap-1">
               <Link
