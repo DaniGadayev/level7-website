@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { Ticks } from "@/components/Hud";
 import { HudOverlay } from "@/components/Scrolly";
 
 export type Posting = {
@@ -10,6 +11,8 @@ export type Posting = {
   slug: string;
   title: string;
   description: string;
+  employment_type: string | null;
+  location_type: string | null;
 };
 
 const fadeUp = {
@@ -141,13 +144,23 @@ function ApplyForm({ posting }: { posting: Posting }) {
           <label className="label mb-2 block">
             Resume <span className="text-accent">*</span>
           </label>
-          <input
-            type="file"
-            required
-            accept=".pdf,.doc,.docx"
-            onChange={(e) => setResume(e.target.files?.[0] ?? null)}
-            className="input-field cursor-pointer file:mr-3 file:border-0 file:bg-accent file:text-ink file:font-semibold file:text-xs file:px-3 file:py-1.5 file:rounded-md file:cursor-pointer"
-          />
+          <label className="block cursor-pointer">
+            <input
+              type="file"
+              required
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => setResume(e.target.files?.[0] ?? null)}
+              className="peer sr-only"
+            />
+            <span className="input-field flex items-center justify-between gap-3 border-dashed transition-colors hover:border-ink peer-focus-visible:border-ink">
+              <span className={`truncate ${resume ? "text-ink font-medium" : "text-faint"}`}>
+                {resume ? resume.name : "Attach your resume"}
+              </span>
+              <span className="shrink-0 text-xs font-semibold bg-accent text-ink px-3 py-1.5 rounded-md">
+                {resume ? "Replace" : "Browse"}
+              </span>
+            </span>
+          </label>
           <p className="text-[11px] text-faint mt-1.5">PDF, DOC or DOCX. 5MB max.</p>
         </div>
       </div>
@@ -235,34 +248,49 @@ function PostingCard({ posting, index }: { posting: Posting; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, delay: index * 0.08 }}
-      className="panel hot p-8 md:p-10"
     >
-      <p className="mono mb-5">
-        <span className="text-accent">{String(index + 1).padStart(2, "0")}</span> Open position
-      </p>
-      <h2 className="display text-3xl md:text-4xl mb-5">{posting.title}</h2>
-      <div className="space-y-4 max-w-3xl">
-        {paragraphs.map((p, i) => (
-          <p key={i} className="text-muted leading-relaxed text-[15px] whitespace-pre-wrap">
-            {p}
-          </p>
-        ))}
-      </div>
+      <Ticks className="panel hot p-8 md:p-10">
+        <p className="mono mb-5">
+          <span className="text-accent">{String(index + 1).padStart(2, "0")}</span> Open position
+        </p>
+        <h2 className="display text-3xl md:text-4xl mb-5">{posting.title}</h2>
+        {(posting.employment_type || posting.location_type) && (
+          <div className="flex flex-wrap gap-2 -mt-2 mb-6">
+            {posting.employment_type && (
+              <span className="text-[11px] font-bold uppercase tracking-wider bg-accent text-ink px-2.5 py-1 rounded-full">
+                {posting.employment_type}
+              </span>
+            )}
+            {posting.location_type && (
+              <span className="text-[11px] font-bold uppercase tracking-wider text-muted bg-panel2 border border-line px-2.5 py-1 rounded-full">
+                {posting.location_type}
+              </span>
+            )}
+          </div>
+        )}
+        <div className="space-y-4 max-w-3xl">
+          {paragraphs.map((p, i) => (
+            <p key={i} className="text-muted leading-relaxed text-[15px] whitespace-pre-wrap">
+              {p}
+            </p>
+          ))}
+        </div>
 
-      {!applyOpen ? (
-        <button
-          type="button"
-          onClick={() => setApplyOpen(true)}
-          className="btn-primary mt-8"
-        >
-          Apply for this role
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </button>
-      ) : (
-        <ApplyForm posting={posting} />
-      )}
+        {!applyOpen ? (
+          <button
+            type="button"
+            onClick={() => setApplyOpen(true)}
+            className="btn-primary mt-8"
+          >
+            Apply for this role
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        ) : (
+          <ApplyForm posting={posting} />
+        )}
+      </Ticks>
     </motion.article>
   );
 }
@@ -276,7 +304,7 @@ export default function CareersContent({ postings }: { postings: Posting[] }) {
       <HudOverlay />
 
       {/* ── HERO ── */}
-      <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden border-b border-line">
+      <section className="relative pt-36 pb-16 md:pt-44 md:pb-20 overflow-hidden">
         <div className="absolute inset-0 grid-bg" aria-hidden="true" />
         <motion.div
           ref={headerRef}
@@ -302,8 +330,10 @@ export default function CareersContent({ postings }: { postings: Posting[] }) {
         </motion.div>
       </section>
 
+      <div className="scan-rule" aria-hidden="true" />
+
       {/* ── OPEN POSITIONS ── */}
-      <section className="py-20 md:py-28">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           {postings.length === 0 ? (
             <motion.div
