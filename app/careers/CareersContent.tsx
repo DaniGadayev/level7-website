@@ -323,9 +323,8 @@ export default function CareersContent({ postings }: { postings: Posting[] }) {
             variants={fadeUp}
             className="text-lg md:text-xl text-muted max-w-2xl leading-relaxed"
           >
-            LEVEL7 builds marketing that proves itself and the software behind it,
-            including Bob, our AI employee for small businesses. Small team, real
-            production systems, no busywork.
+            LEVEL7 builds marketing that proves itself and the software behind it.
+            Small team, real production systems, no busywork.
           </motion.p>
         </motion.div>
       </section>

@@ -50,7 +50,7 @@ const organizationJsonLd = {
   url: "https://www.thelevel7.ai",
   logo: "https://www.thelevel7.ai/logo-icon.png",
   description:
-    "LEVEL7 is a growth company for service businesses: marketing plus the software to run it, including Bob, an AI employee for WhatsApp.",
+    "LEVEL7 is a growth company for service businesses: accountable marketing that generates, filters and warms up leads, measured by the return it brings back.",
   founder: {
     "@type": "Person",
     name: "Dani Gadayev",

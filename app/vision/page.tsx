@@ -14,8 +14,6 @@ import { floors } from "@/lib/floors";
 import { HudOverlay, Magnetic, Scramble } from "@/components/Scrolly";
 import { Ticks } from "@/components/Hud";
 
-const BOB_URL = "https://www.bob.thelevel7.ai/";
-
 const ArrowIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -144,7 +142,7 @@ export default function VisionPage() {
       {/* THE RIDE */}
       <div ref={rideRef} className="relative">
         {/* elevator display: sticky, mobile-first */}
-        <div className="sticky top-[82svh] lg:top-[118px] z-30 pointer-events-none" aria-hidden="true">
+        <div className="sticky top-[82svh] lg:top-[84px] z-30 pointer-events-none" aria-hidden="true">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-end">
             <div className="bg-ink text-white rounded-md px-3 py-2 flex items-center gap-3 shadow-[3px_3px_0_#A3FF00]">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
@@ -186,19 +184,19 @@ export default function VisionPage() {
             The ride starts in the <span className="tilt-chip">lobby</span>. It is free.
           </h2>
           <p className="text-muted text-lg mb-12 max-w-xl mx-auto leading-relaxed">
-            Fifteen questions, and you will know exactly where your business stands, what is keeping it there,
+            One free call, and you will know exactly where your business stands, what is keeping it there,
             and which floor to press next. No commitment, no pitch.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Magnetic>
-              <a href={BOB_URL} className="btn-primary text-lg px-12 py-5">
-                START WITH $0
+              <Link href="/contact" className="btn-primary text-lg px-12 py-5">
+                BOOK A FREE CALL
                 <ArrowIcon className="w-5 h-5" />
-              </a>
+              </Link>
             </Magnetic>
             <Magnetic strength={0.25}>
-              <Link href="/contact" className="btn-ghost text-lg px-10 py-5">
-                Talk to us first
+              <Link href="/services" className="btn-ghost text-lg px-10 py-5">
+                Explore our services
               </Link>
             </Magnetic>
           </div>

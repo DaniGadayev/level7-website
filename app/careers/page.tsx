@@ -4,7 +4,7 @@ import CareersContent, { type Posting } from "./CareersContent";
 export const metadata: Metadata = {
   title: "Careers | LEVEL7",
   description:
-    "Open roles at LEVEL7. Join the team behind accountable marketing and Bob, our AI employee for small businesses.",
+    "Open roles at LEVEL7. Join the team behind accountable marketing and the software that runs it.",
   alternates: {
     canonical: "https://thelevel7.ai/careers",
   },

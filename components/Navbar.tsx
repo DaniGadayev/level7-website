@@ -6,8 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { services } from "@/lib/services";
 
-const BOB_URL = "https://www.bob.thelevel7.ai/";
-
 const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services", dropdown: true },
@@ -69,21 +67,6 @@ export default function Navbar() {
         scrolled ? "border-b border-line shadow-[0_1px_0_rgba(10,10,10,0.03)]" : ""
       }`}
     >
-      {/* Announcement bar */}
-      <a href={BOB_URL} className="group block bg-accent text-[#0A0A0A]">
-        <div className="max-w-3xl mx-auto px-6 py-2 text-center text-[12px] sm:text-[13px] font-medium leading-snug">
-          <span className="align-middle inline-block font-bold uppercase tracking-wider bg-[#0A0A0A] text-accent px-1.5 py-0.5 rounded text-[10px] mr-1.5">
-            New
-          </span>
-          <span className="align-middle">
-            Meet <strong className="font-bold">BOB</strong>, the AI employee we built for your busywork.
-          </span>{" "}
-          <span className="align-middle font-semibold whitespace-nowrap underline underline-offset-2 decoration-2 group-hover:no-underline">
-            Try it free
-          </span>
-        </div>
-      </a>
-
       <nav className="max-w-7xl mx-auto px-6 h-[72px] flex items-center justify-between gap-8">
         {/* Logo — lime tilted chip lockup, readable on dark */}
         <Link href="/" className="shrink-0 flex items-center gap-2.5" aria-label="LEVEL7 home">
@@ -185,15 +168,9 @@ export default function Navbar() {
 
         {/* CTAs */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <a
-            href="https://getbob.thelevel7.ai/login"
-            className="text-sm font-medium text-muted hover:text-ink px-4 py-2.5 rounded border border-line hover:border-ink transition-colors"
-          >
-            Log In
-          </a>
-          <a href={BOB_URL} className="btn-primary text-sm px-5 py-2.5">
-            START WITH $0
-          </a>
+          <Link href="/contact" className="btn-primary text-sm px-5 py-2.5">
+            BOOK A FREE CALL
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -297,16 +274,9 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 ))}
-              <a
-                href="https://getbob.thelevel7.ai/login"
-                onClick={() => setMobileOpen(false)}
-                className="mt-3 text-center text-base font-medium text-ink px-4 py-3 rounded border-2 border-ink"
-              >
-                Log In
-              </a>
-              <a href={BOB_URL} onClick={() => setMobileOpen(false)} className="btn-primary mt-2 text-center">
-                START WITH $0
-              </a>
+              <Link href="/contact" onClick={() => setMobileOpen(false)} className="btn-primary mt-3 text-center">
+                BOOK A FREE CALL
+              </Link>
             </div>
           </motion.div>
         )}

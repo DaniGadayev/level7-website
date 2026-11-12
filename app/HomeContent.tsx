@@ -28,8 +28,6 @@ import {
   TextBand,
 } from "@/components/Scrolly";
 
-const BOB_URL = "https://www.bob.thelevel7.ai/";
-
 const ArrowIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -163,7 +161,7 @@ function Hero() {
                     fill="none"
                   />
                   <text className="font-mono" fontSize="10.5" letterSpacing="2.5" fill="#0A0A0A">
-                    <textPath href="#circ">START WITH $0 • START WITH $0 • START WITH $0 •</textPath>
+                    <textPath href="#circ">FREE STRATEGY CALL • FREE STRATEGY CALL •</textPath>
                   </text>
                 </svg>
                 <span className="absolute inset-0 flex items-center justify-center">
@@ -218,10 +216,10 @@ function Hero() {
                 </p>
                 <div className="flex flex-wrap gap-4 md:justify-end">
                   <Magnetic>
-                    <a href={BOB_URL} className="btn-primary">
-                      START WITH $0
+                    <Link href="/contact" className="btn-primary">
+                      BOOK A FREE CALL
                       <ArrowIcon />
-                    </a>
+                    </Link>
                   </Magnetic>
                   <Magnetic strength={0.25}>
                     <Link href="/services" className="btn-ghost">
@@ -488,14 +486,14 @@ export default function HomeContent() {
                     </p>
                     <h3 className="display text-4xl mb-4">The tools behind it</h3>
                     <p className="text-muted leading-relaxed mb-8">
-                      The same systems that run our campaigns are products in their own right. BOB, our AI
-                      employee, answers, qualifies and follows up with your leads around the clock, exactly
-                      the way our own team does it.
+                      We build our own systems for lead filtering, follow-up and reporting, so every campaign
+                      runs on tools we control. Leads get answered, qualified and followed up around the clock,
+                      and every result is measured.
                     </p>
-                    <a href={BOB_URL} className="inline-flex items-center gap-2 font-semibold text-ink underline decoration-accent decoration-[3px] underline-offset-4">
-                      Meet BOB
+                    <Link href="/about" className="inline-flex items-center gap-2 font-semibold text-ink underline decoration-accent decoration-[3px] underline-offset-4">
+                      How we work
                       <ArrowIcon />
-                    </a>
+                    </Link>
                   </Ticks>
                 </Tilt>
               </SlideIn>
@@ -609,14 +607,14 @@ export default function HomeContent() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Magnetic>
-              <a href={BOB_URL} className="btn-primary text-lg px-12 py-5">
-                START WITH $0
+              <Link href="/contact" className="btn-primary text-lg px-12 py-5">
+                BOOK A FREE CALL
                 <ArrowIcon className="w-5 h-5" />
-              </a>
+              </Link>
             </Magnetic>
             <Magnetic strength={0.25}>
-              <Link href="/contact" className="btn-ghost text-lg px-10 py-5">
-                Get my growth plan
+              <Link href="/services" className="btn-ghost text-lg px-10 py-5">
+                Explore our services
               </Link>
             </Magnetic>
           </div>

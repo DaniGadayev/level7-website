@@ -188,7 +188,7 @@ export default function PrivacyPage() {
       title={doc.title}
       updated={doc.updated}
       version={doc.version}
-      intro="This policy explains what personal data we collect through the LEVEL7 website, why we collect it, who we share it with, how long we keep it, and the rights you have under the GDPR. It covers this website only. The BOB product has its own privacy documentation."
+      intro="This policy explains what personal data we collect through the LEVEL7 website, why we collect it, who we share it with, how long we keep it, and the rights you have under the GDPR. It covers this website only."
       sections={sections}
       related={relatedLinks("privacy")}
     />

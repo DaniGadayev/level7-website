@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 
 // Single shared pool across hot-reloads / serverless invocations.
-// max:5 prevents pool exhaustion under burst traffic (the DB is shared with the BOB app).
+// max:5 prevents pool exhaustion under burst traffic (the DB is shared with other apps).
 declare global {
   // eslint-disable-next-line no-var
   var _l7Pool: Pool | undefined;

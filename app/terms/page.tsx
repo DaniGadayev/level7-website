@@ -39,7 +39,6 @@ const sections: LegalSection[] = [
     h: "1. Acceptance of these terms",
     p: [
       `These Terms of Use (“Terms”) govern your access to and use of the LEVEL7 website at www.thelevel7.ai (the “Site”), operated by ${legalName}. By accessing or using the Site, you agree to these Terms. If you do not agree, please do not use the Site.`,
-      "These Terms apply to the website itself. Use of the BOB product is governed by its own separate terms.",
     ],
   },
   {

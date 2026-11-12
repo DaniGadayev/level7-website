@@ -4,9 +4,7 @@
  * consent notice and the cookie banner read entity/contact/version data from
  * here so nothing can drift.
  *
- * NOTE: this is the marketing *website's* legal layer. The BOB product
- * (getbob.thelevel7.ai) has its own, product-specific suite — keep the entity
- * details consistent with it, but these documents are scoped to the website.
+ * NOTE: these documents are scoped to the marketing website only.
  *
  * Versions are date strings (YYYY-MM-DD). Bump a document's `version` when its
  * substance changes; bump COOKIE_POLICY_VERSION when the cookie/consent terms
